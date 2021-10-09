@@ -9,10 +9,6 @@ jobs:
           name: Show node version
           command: node --version
 
-      - run:
-          name: CD into project directory
-          command: cd heroku-expense-tracker
-
       - restore_cache:
           keys:
             # Find a cache corresponding to this specific package-lock.json checksum
