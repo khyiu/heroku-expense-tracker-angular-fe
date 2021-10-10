@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: set environment variable to locale Chrome binary
-          command: CHROME_BIN=/usr/bin/google-chrome
+          command: export CHROME_BIN=/usr/bin/google-chrome
 
       - run:
           name: Testing
