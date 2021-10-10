@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-        - image: cimg/node:14.18.0
+      - image: cimg/node:14.18.0
     steps:
       - checkout
       - run:
@@ -28,6 +28,6 @@ jobs:
           paths:
             - node_modules
 
-    - run:
+      - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
