@@ -1,11 +1,15 @@
 version: 2.1
 
+orbs:
+  browser-tools: circleci/browser-tools@1.2.3
+
 jobs:
   build:
     docker:
       - image: cimg/node:14.18.0
     steps:
       - checkout
+
       - run:
           name: Show node version
           command: node --version
@@ -27,6 +31,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+
+      - browser-tools/install-browser-tools
 
       - run:
           name: Testing
