@@ -34,18 +34,6 @@ jobs:
 
       - browser-tools/install-browser-tools
 
-#      - run:
-#          name: Locate chrome executable
-#          command: whereis google-chrome
-#
-#      - run:
-#          name: set environment variable to locale Chrome binary
-#          command: export CHROME_BIN=/usr/bin/google-chrome
-#
-#      - run:
-#          name: Echo CHROME_BIN environment variable
-#          command: echo ${CHROME_BIN}
-
       - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI

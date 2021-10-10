@@ -23,7 +23,7 @@ describe('AppComponent', () => {
   it(`should have as title 'heroku-expense-tracker'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('heroku-expense-trackerxxx');
+    expect(app.title).toEqual('heroku-expense-tracker');
   });
 
   it('should render title', () => {
