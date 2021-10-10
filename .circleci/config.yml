@@ -29,8 +29,6 @@ jobs:
           paths:
             - node_modules
 
-      - browser-tools/install-browser-tools
-
       - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
