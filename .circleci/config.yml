@@ -37,3 +37,7 @@ jobs:
       - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
+
+      - run:
+          name: Building distribution
+          command: npm run build -- --aot=true --configuration=production --progress=true
