@@ -39,11 +39,21 @@ jobs:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
 
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
       - run:
           name: Building distribution
           command: npm run build -- --aot=true --configuration=production --progress=true
+      - heroku/deploy-via-git
 
 workflows:
+  angular_build:
+    jobs:
+      - build
+
   heroku_deploy:
     jobs:
-      - heroku/deploy-via-git
+      - deploy
