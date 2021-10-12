@@ -43,17 +43,7 @@ jobs:
           name: Building distribution
           command: npm run build -- --aot=true --configuration=production --progress=true
 
-  deploy:
-    executor: heroku/default
-    steps:
-      - heroku/install
-      - run:
-          command: >
-            echo "The command above installs Heroku, the command below deploys.
-            What you do inbetween is up to you!"
-      - heroku/deploy-via-git
-
 workflows:
   heroku_deploy:
     jobs:
-      - deploy
+      - heroku/deploy-via-git
