@@ -47,4 +47,13 @@ jobs:
     executor: heroku/default
     steps:
       - heroku/install
+      - run:
+          command: >
+            echo "The command above installs Heroku, the command below deploys.
+            What you do inbetween is up to you!"
       - heroku/deploy-via-git
+
+workflows:
+  heroku_deploy:
+    jobs:
+      - deploy
