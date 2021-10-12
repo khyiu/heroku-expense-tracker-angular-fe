@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.2.3
+  heroku: circleci/heroku@1.2.6
 
 jobs:
   build:
@@ -41,3 +42,9 @@ jobs:
       - run:
           name: Building distribution
           command: npm run build -- --aot=true --configuration=production --progress=true
+
+  deploy:
+    executor: heroku/default
+    steps:
+      - heroku/install
+      - heroku/deploy-via-git
