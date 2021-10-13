@@ -47,6 +47,6 @@ jobs:
           name: Echoing envrironment variables
           command: echo ${HEROKU_API_KEY}
       - heroku/deploy-via-git:
-          api-key: ${HEROKU_API_KEY}
+          api-key: '${HEROKU_API_KEY}'
           app-name: heroku-expense-tracker-fe
           branch: main
