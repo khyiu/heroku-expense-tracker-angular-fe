@@ -39,10 +39,6 @@ jobs:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
 
-  deploy:
-    executor: heroku/default
-    steps:
-      - checkout
       - heroku/install
       - run:
           name: Building distribution
