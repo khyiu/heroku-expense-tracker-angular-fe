@@ -25,3 +25,34 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+#Journey log
+
+## 1. CI using CircleCI
+At the root of the project, create a folder named `.circleci`.  
+Inside this folder, create a `config.yml` file. This configuration specifies the steps that must be executed on CircleCI when
+changes are pushed to the `main` branch.
+
+## 2. CD: Deploy app on Heroku from CircleCI
+1. Create an app on Heroku 
+2. At the root of the project, create a file named ´server.js`.  
+This file defines a NodeJS app that will start an Express JS server to serve the content from the distribution folder of the Angular app.      
+   ``` Javascript
+    const express = require('express');
+    const app = express();
+    
+    app.use(express.static('./dist/heroku-expense-tracker'));
+    app.listen(process.env.PORT || 8080);
+
+    ```
+3. Add `ExpressJS` to the NPM dependencies  
+   ``` Json
+    "dependencies": {
+       "express": "^4.17.1",
+     },
+   ```
+   As our Node JS app starts an ExpressJS server, this dependency is necessary
+
+4. The actual deployment to Heroku is done using the `circleci/heroku` orb. By importing this orb in our CircleCI config, we'll get 
+access to the `heroku/deploy-via-git` job. We only need to specify the Heroku API key, the application name on Heroku server and the
+branch to deploy.

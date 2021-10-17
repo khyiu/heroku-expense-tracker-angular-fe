@@ -11,10 +11,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Show node version
-          command: node --version
-
       - restore_cache:
           keys:
             # Find a cache corresponding to this specific package-lock.json checksum
