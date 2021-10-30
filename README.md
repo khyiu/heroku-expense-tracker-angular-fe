@@ -56,3 +56,24 @@ This file defines a NodeJS app that will start an Express JS server to serve the
 4. The actual deployment to Heroku is done using the `circleci/heroku` orb. By importing this orb in our CircleCI config, we'll get 
 access to the `heroku/deploy-via-git` job. We only need to specify the Heroku API key, the application name on Heroku server and the
 branch to deploy.
+
+## 3. Components library
+The components I'll be using for this project is [PrimeNG](https://www.primefaces.org/primeng/showcase/#/).
+Although this library might not have the best look and feel when compared to some other components libraries, I've chosen it because it 
+is also available for VueJS. This will help to make a fair comparison between VueJS and Angular in a future project.
+
+Installation:
+```bash
+npm install --save primeng
+```
+
+## 4. Layout and theming
+1. Icons library from PrimeNG:  
+   ```bash
+   npm install --save primeicons 
+   ```
+2. Grid/Flexbox/... library:
+   ```bash
+   npm install --save primeflex
+   ```
+3. Import the theming, layout and icons scss resources by adding the following lines in `styles.scss`
