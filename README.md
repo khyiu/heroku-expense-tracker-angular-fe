@@ -95,3 +95,16 @@ Add Angular ESLint schematics by running the following command:
    $ ng add @angular-eslint/schematics
    ```
    This will install the necessary NPM dependencies and create the default `.eslintrc.json` file.
+
+## 6. Layout: replacing Primeflex with Angular FlexLayout
+Angular FlexLayout seems easier and more intuitive to use. So, let's replace Primeflex...
+
+1. Uninstall Primeflex by running this command:
+   ```bash
+   $ npm uninstall primeflex
+   ```
+2. Remove stylesheet import: in the `styles.scss` file, remove the following statement:
+   ```scss
+   @import 'primeflex/primeflex.scss';
+   ```
+3. Install and import Angular FlexLayout by following the instructions indicated in the [Angular FlexLayout project documentation](https://github.com/angular/flex-layout)   
