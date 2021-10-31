@@ -32,6 +32,10 @@ jobs:
       - browser-tools/install-browser-tools
 
       - run:
+          name: Linting
+          command: npm run lint
+
+      - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
 
