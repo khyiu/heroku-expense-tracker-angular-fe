@@ -64,16 +64,34 @@ is also available for VueJS. This will help to make a fair comparison between Vu
 
 Installation:
 ```bash
-npm install --save primeng
+$ npm install --save primeng
 ```
 
 ## 4. Layout and theming
 1. Icons library from PrimeNG:  
    ```bash
-   npm install --save primeicons 
+   $ npm install --save primeicons 
    ```
 2. Grid/Flexbox/... library:
    ```bash
-   npm install --save primeflex
+   $ npm install --save primeflex
    ```
-3. Import the theming, layout and icons scss resources by adding the following lines in `styles.scss`
+3. Import the theming, layout and icons scss resources by adding the following lines in `styles.scss  
+   ```scss
+   @import "primeicons/primeicons.css";
+   @import "primeng/resources/primeng.min.css";
+   @import "primeng/resources/themes/vela-orange/theme.css";
+   @import 'primeflex/primeflex.scss';
+   ```
+   
+## 5. Linting
+Since TSLint has been deprecated in favor of ESLint, I'll be using the latter. 
+I've also chosen the shared configuration from Google. For more details: [Google ESLint](https://github.com/google/eslint-config-google)
+
+Installation and configuration:
+
+Add Angular ESLint schematics by running the following command:
+   ```bash
+   $ ng add @angular-eslint/schematics
+   ```
+   This will install the necessary NPM dependencies and create the default `.eslintrc.json` file.

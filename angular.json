@@ -15,7 +15,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "het",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -103,9 +103,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "heroku-expense-tracker"
+  "defaultProject": "heroku-expense-tracker",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
