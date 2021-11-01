@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  selector: 'het-root',
+  template: `
+    <het-sidebar-navigation-menu></het-sidebar-navigation-menu>
+    <router-outlet></router-outlet>
+  `,
 })
 export class AppComponent {
-  title = 'heroku-expense-tracker';
+
 }
