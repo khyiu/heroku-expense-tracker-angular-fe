@@ -3,3 +3,15 @@
 @import "primeicons/primeicons.css";
 @import "primeng/resources/primeng.min.css";
 @import "primeng/resources/themes/vela-orange/theme.css";
+
+html, body {
+  height: 100%;
+  border-color:  var(--surface-a);
+}
+
+body {
+  margin: 0;
+  background-color: var(--surface-a);
+  font-family: var(--font-family);
+  color: var(--text-color);
+}

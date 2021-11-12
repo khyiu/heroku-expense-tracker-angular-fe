@@ -4,8 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {SidebarMenuModule} from "./sidebar-menu/sidebar-menu.module";
-import {FlexLayoutModule} from "@angular/flex-layout";
+import {MenuModule} from "./sidebar-menu/menu.module";
 
 @NgModule({
   declarations: [
@@ -15,11 +14,10 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
-    SidebarMenuModule
+    MenuModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }
