@@ -108,3 +108,47 @@ Angular FlexLayout seems easier and more intuitive to use. So, let's replace Pri
    @import 'primeflex/primeflex.scss';
    ```
 3. Install and import Angular FlexLayout by following the instructions indicated in the [Angular FlexLayout project documentation](https://github.com/angular/flex-layout)   
+
+## 7. Integrate a Keycloak adapter
+In order to integrate Keycloak in my front-end app, I figured I'll give the `keycloak-angular` NPM library a shot.  
+The library and its setup instructions can be found [here](https://www.npmjs.com/package/keycloak-angular#installation)
+
+Here are the steps I went through:
+1. Add the npm dependency to the project  
+   ```bash
+   $ npm install keycloak-angular keycloak-js
+   ```
+   
+2. Initialize Keycloak during bootstrapping of the Angular app.  
+   In `app.module.ts`, define a function that receives an instance of `KeycloakService`, and returns itself, a function that will be invoked when Angular injects the `APP_INITIALIZER` token:  
+   ```typescript
+   const initializeKeycloak = (keycloak: KeycloakService): Function => {
+    return () =>
+        keycloak.init({
+            config: { 
+                url: 'https://lemur-4.cloud-iam.com/auth', 
+                realm: 'kuritsu', clientId: 'expense-tracker', 
+            }, 
+            initOptions: {
+                onLoad: 'login-required', 
+            }, 
+        });
+    };
+   ```
+   The `onLoad` properties set to `login-required` will redirect the user to the Keycloak login page if he's not logged in
+   at application initialization.  
+   Then, add the following provider to have this function executed during application initilization:
+   ```typescript
+   {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    }
+   ```
+3. In Keycloak admin console, define which URLs can be used as redirection target, after the user successfully logged in:  
+  
+   ![Keycloak config](./doc/Keycloak%20redirect%20URLs%20+%20CORS.png)
+
+   By setting `Web origins` to "+", CORS is enabled for all valid redirect URLs.  
+   Without this bit of configuration, when the user is logged in, redirection will fail with an HTTP 401 status code.

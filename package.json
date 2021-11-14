@@ -23,6 +23,8 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "express": "^4.17.1",
+    "keycloak-angular": "^8.4.0",
+    "keycloak-js": "^15.0.2",
     "prettier": "^2.4.1",
     "primeicons": "^4.1.0",
     "primeng": "^12.2.1",
