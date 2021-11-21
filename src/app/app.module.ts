@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuModule } from './sidebar-menu/menu.module';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { SharedModule } from './shared/shared.module';
 
 const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
@@ -28,6 +29,7 @@ const initializeKeycloak = (keycloak: KeycloakService): Function => {
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
+    SharedModule,
     MenuModule,
   ],
   providers: [
