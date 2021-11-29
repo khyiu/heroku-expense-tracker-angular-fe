@@ -152,3 +152,17 @@ Here are the steps I went through:
 
    By setting `Web origins` to "+", CORS is enabled for all valid redirect URLs.  
    Without this bit of configuration, when the user is logged in, redirection will fail with an HTTP 401 status code.
+
+
+
+
+## 8. Generate client from Openapi definition
+
+1. Install "openapi-generator-cli"
+   ```bash
+   $ npm install @openapitools/openapi-generator-cli --dev
+   ```
+2. Generate client code
+   ```bash
+   $ openapi-generator-cli generate -i https://raw.githubusercontent.com/khyiu/heroku-expense-tracker-api/master/src/main/resources/heroku-expense-tracker-api.yaml -g typescript-angular -o src/app/generated-sources/expense-api --additional-properties=ngVersion=12.2.0,supportsES6=true,npmVersion=8.1.0,withInterfaces=true
+   ```
