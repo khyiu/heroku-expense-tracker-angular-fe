@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { ExpensesService } from '../generated-sources/expense-api';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'het-dashboard',
@@ -20,13 +22,9 @@ import { Observable, of } from 'rxjs';
           <div class="p-d-flex p-ai-center p-jc-between">
             <h5 class="p-m-0">Manage expenses</h5>
             <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input
-              pInputText
-              type="text"
-              placeholder="Search..."
-            />
-          </span>
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" placeholder="Search..." />
+            </span>
           </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -79,5 +77,13 @@ import { Observable, of } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  expenses$: Observable<any[]> = of([{date: new Date(), amount: 1.52}]);
+  expenses$: Observable<any[]> = of([{ date: new Date(), amount: 1.52 }]);
+
+  constructor(private readonly expensesApiService: ExpensesService) {
+    // todo kyiu: cleanup after test on Heroku
+    this.expensesApiService
+      .getExpenses(10, 1, 'DESC', 'DATE')
+      .pipe(tap((values) => console.log(values)))
+      .subscribe();
+  }
 }
