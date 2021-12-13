@@ -29,6 +29,7 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/entity": "^13.0.2",
     "@ngrx/store": "^13.0.2",
+    "@ngrx/store-devtools": "^13.0.2",
     "@openapitools/openapi-generator-cli": "^2.4.18",
     "express": "^4.17.1",
     "keycloak-angular": "^8.4.0",
