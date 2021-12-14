@@ -8,6 +8,9 @@ import { MenuModule } from './sidebar-menu/menu.module';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { ExpenseNgRxModule } from './store/expense/expense.module';
 
 const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
@@ -33,6 +36,11 @@ const initializeKeycloak = (keycloak: KeycloakService): Function => {
     BrowserAnimationsModule,
     SharedModule,
     MenuModule,
+    ExpenseNgRxModule.forRoot(environment.apiBasePath),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     {

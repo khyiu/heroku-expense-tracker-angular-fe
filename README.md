@@ -166,3 +166,58 @@ Here are the steps I went through:
    ```bash
    $ openapi-generator-cli generate -i https://raw.githubusercontent.com/khyiu/heroku-expense-tracker-api/master/src/main/resources/heroku-expense-tracker-api.yaml -g typescript-angular -o src/app/generated-sources/expense-api --additional-properties=ngVersion=12.2.0,supportsES6=true,npmVersion=8.1.0,withInterfaces=true
    ```
+
+## 9. Integrate NgRx
+1. Dependencies to add:
+
+   ```bash
+   # NgRx
+   $ npm install @ngrx/store --save
+   # Add support of EntityAdapter
+   $ npm install @ngrx/entity --save
+   # Add support of Effects
+   $ npm install @ngrx/effects --save
+   ```
+
+2. Install NgRx Store DevTool so that we can inspect stores using Chrome/Firefox NgRx DevTool extension
+
+   ``` bash
+   $ ng add @ngrx/store-devtools
+   ```
+   
+   This command will also update the AppModule by adding the following bit of configuration in the `imports` list, to enable store inspection:
+ 
+   ``` typescript
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+   ```
+3. Implement actions, reducers, effects, ... as needed
+4. Define an Angular module to bootstrap the current feature store as follows:
+
+   ```typescript
+   @NgModule({
+    imports: [
+      StoreModule.forRoot({ [Features.EXPENSE]: expenseReducer }),
+      EffectsModule.forRoot([ExpenseEffects]),
+    ],
+    providers: [ExpenseFacade],
+   })
+   export class ExpenseNgRxModule {
+     constructor(@Optional() @SkipSelf() selfModule?: ExpenseNgRxModule) {
+       if (selfModule) {
+         throw new Error('ExpenseNgRxModule is already loaded. Import it once only!');
+       }
+     }
+
+     static forRoot(basePath: string): ModuleWithProviders<ExpenseNgRxModule> {
+       return {
+         ngModule: ExpenseNgRxModule,
+         providers: [{ provide: BASE_PATH, useValue: basePath }],
+       };
+     }
+   }
+   ```
+
+5. Import this module from `AppModule`

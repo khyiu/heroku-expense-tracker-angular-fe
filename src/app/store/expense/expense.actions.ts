@@ -12,11 +12,9 @@ export const fetchExpensePage = createAction(
 export const ExpensePageFetched = createAction(
   '[Expense] Page fetched',
   props<{
-    totalNumberOfItems: number,
+    totalNumberOfItems: number;
     items: ExpenseResponse[];
   }>()
 );
 
-export const ExpenseError = createAction(
-  '[Expense] Error'
-)
+export const ExpenseError = createAction('[Expense] Error');

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ExpensesService } from '../generated-sources/expense-api';
-import { tap } from 'rxjs/operators';
+import { ExpenseFacade } from '../store/expense/expense.facade';
 
 @Component({
   selector: 'het-dashboard',
@@ -77,13 +77,13 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  expenses$: Observable<any[]> = of([{ date: new Date(), amount: 1.52 }]);
+  // todo kyiu: replace with state selector
+  expenses$: Observable<any[]> = of([]);
 
-  constructor(private readonly expensesApiService: ExpensesService) {
-    // todo kyiu: cleanup after test on Heroku
-    this.expensesApiService
-      .getExpenses(10, 1, 'DESC', 'DATE')
-      .pipe(tap((values) => console.log(values)))
-      .subscribe();
+  constructor(
+    private readonly expensesApiService: ExpensesService,
+    private readonly expenseFacade: ExpenseFacade
+  ) {
+    this.expenseFacade.loadExpensePage();
   }
 }
