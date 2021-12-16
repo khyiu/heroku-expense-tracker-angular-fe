@@ -30,6 +30,8 @@
     "@ngrx/entity": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@ngrx/store-devtools": "^13.0.2",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@openapitools/openapi-generator-cli": "^2.4.18",
     "express": "^4.17.1",
     "keycloak-angular": "^8.4.0",

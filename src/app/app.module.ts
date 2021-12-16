@@ -7,10 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuModule } from './sidebar-menu/menu.module';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ExpenseNgRxModule } from './store/expense/expense.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
@@ -26,6 +28,11 @@ const initializeKeycloak = (keycloak: KeycloakService): Function => {
     });
 };
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -37,6 +44,14 @@ const initializeKeycloak = (keycloak: KeycloakService): Function => {
     SharedModule,
     MenuModule,
     ExpenseNgRxModule.forRoot(environment.apiBasePath),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

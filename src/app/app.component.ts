@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'het-root',
@@ -11,4 +12,8 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private readonly translateService: TranslateService) {
+    translateService.use('fr');
+  }
+}
