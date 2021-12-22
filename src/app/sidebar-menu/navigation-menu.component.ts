@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <nav>
       <div fxLayout="row" fxLayoutAlign="space-around">
-        <a [routerLink]="'dashboard'">
+        <a [routerLink]="'dashboard'" tabindex="0">
           <p-image
             src="/assets/logo-monochrome-white.svg"
             alt="Expense Tracker logo"
@@ -28,8 +28,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         </a>
       </div>
       <p-divider></p-divider>
-      <!--      todo: kyiu add a language switcher-->
-      <div>{{ 'welcome' | translate }}</div>
+      <het-language-switcher></het-language-switcher>
     </nav>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

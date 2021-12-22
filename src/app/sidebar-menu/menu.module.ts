@@ -4,10 +4,20 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
+import { LanguageSwitcherComponent } from './language-switcher.component';
+import {ButtonModule} from 'primeng/button';
+import {RippleModule} from 'primeng/ripple';
 
 @NgModule({
-  declarations: [NavigationMenuComponent],
-  imports: [RouterModule, SharedModule, ImageModule, DividerModule],
+  declarations: [NavigationMenuComponent, LanguageSwitcherComponent],
+  imports: [
+    RouterModule,
+    SharedModule,
+    ImageModule,
+    DividerModule,
+    ButtonModule,
+    RippleModule,
+  ],
   exports: [NavigationMenuComponent],
 })
 export class MenuModule {}
