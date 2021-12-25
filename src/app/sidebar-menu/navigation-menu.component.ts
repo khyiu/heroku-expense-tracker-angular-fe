@@ -14,6 +14,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         height: 100%;
         border-right: solid 1px #304562;
       }
+
+      #logoff-container {
+        width: 220px;
+        position: fixed;
+        bottom: 1rem;
+      }
     `,
   ],
   template: `
@@ -30,8 +36,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       <p-divider></p-divider>
       <het-language-switcher></het-language-switcher>
       <het-routes-menu></het-routes-menu>
-      <div fxLayout="row" fxLayoutAlign="center">
-        <het-logoff></het-logoff>
+      <div id="logoff-container">
+        <div fxLayout="row" fxLayoutAlign="center">
+          <het-logoff></het-logoff>
+        </div>
       </div>
     </nav>
   `,
