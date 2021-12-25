@@ -29,6 +29,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </div>
       <p-divider></p-divider>
       <het-language-switcher></het-language-switcher>
+      <het-routes-menu></het-routes-menu>
       <div fxLayout="row" fxLayoutAlign="center">
         <het-logoff></het-logoff>
       </div>

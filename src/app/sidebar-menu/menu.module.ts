@@ -8,12 +8,14 @@ import { LanguageSwitcherComponent } from './language-switcher.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { LogoffComponent } from './logoff.component';
+import {RoutesMenuComponent} from './routes-menu.component';
 
 @NgModule({
   declarations: [
     NavigationMenuComponent,
     LanguageSwitcherComponent,
     LogoffComponent,
+    RoutesMenuComponent
   ],
   imports: [
     RouterModule,
