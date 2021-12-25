@@ -21,6 +21,27 @@ type AppLanguage = 'EN' | 'FR' | 'NL';
       </div>
     </div>
   `,
+  styles: [
+    `
+      .p-button {
+        &:focus {
+          box-shadow: 0 0 0 1px white;
+        }
+
+        &.p-button-text {
+          color: white;
+        }
+
+        &:active.p-button-text {
+          color: white;
+        }
+
+        &:hover.p-button-text {
+          color: white;
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageSwitcherComponent implements OnInit {
