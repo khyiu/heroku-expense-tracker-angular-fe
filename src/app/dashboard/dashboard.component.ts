@@ -1,84 +1,81 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { ExpensesService } from '../generated-sources/expense-api';
+import { Observable } from 'rxjs';
+import {
+  ExpenseResponse,
+  ExpensesService,
+} from '../generated-sources/expense-api';
 import { ExpenseFacade } from '../store/expense/expense.facade';
+import { DATE_FORMAT } from '../shared/shared.constants';
 
 @Component({
   selector: 'het-dashboard',
   template: `
     <ng-container *ngIf="expenses$ | async as expenses">
-      <p-table
-        #dt
-        [value]="expenses"
-        [rows]="10"
-        [paginator]="true"
-        [globalFilterFields]="['date', 'amount']"
-        [rowHover]="true"
-        dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-      >
-        <ng-template pTemplate="caption">
-          <div class="p-d-flex p-ai-center p-jc-between">
-            <h5 class="p-m-0">Manage expenses</h5>
-            <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" placeholder="Search..." />
-            </span>
-          </div>
-        </ng-template>
+      <p-table [value]="expenses">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 3rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="date">
-              Name
-              <p-sortIcon field="date"></p-sortIcon>
-            </th>
-            <th pSortableColumn="amount">
-              Price
-              <p-sortIcon field="amount"></p-sortIcon>
-            </th>
-            <th></th>
+            <th>{{ 'Date' | translate }}</th>
+            <th>{{ 'Amount' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-expense>
           <tr>
             <td>
-              <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+              {{ expense.date | date: dateFormat }}
             </td>
-            <td>2021-01-01</td>
-            <td>{{ '20' | currency: 'EUR' }}</td>
-            <td>
-              <button
-                pButton
-                pRipple
-                icon="pi pi-pencil"
-                class="p-button-rounded p-button-success p-mr-2"
-              ></button>
-              <button
-                pButton
-                pRipple
-                icon="pi pi-trash"
-                class="p-button-rounded p-button-warning"
-              ></button>
+            <td
+              [ngClass]="{
+                income: expense.amount > 0,
+                outcome: expense.amount < 0
+              }"
+            >
+              {{ expense.amount | euroAmount }}
             </td>
           </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-          <div class="p-d-flex p-ai-center p-jc-between">
-            In total there are 100 expenses.
-          </div>
         </ng-template>
       </p-table>
     </ng-container>
   `,
+  styles: [
+    `
+      :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+      }
+
+      .layout-news-active :host ::ng-deep .p-datatable tr > th {
+        top: 0;
+      }
+
+      @media screen and (max-width: 64em) {
+        :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+          top: 0;
+        }
+
+        .layout-news-active :host ::ng-deep .p-datatable tr > th {
+          top: 0;
+        }
+      }
+    `,
+
+    `
+      .income {
+        color: #32cd32;
+      }
+
+      .outcome {
+        color: #dc143c;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  // todo kyiu: replace with state selector
-  expenses$: Observable<any[]> = of([]);
+  readonly dateFormat = DATE_FORMAT;
+
+  expenses$: Observable<ExpenseResponse[]> =
+    this.expenseFacade.currentExpensePage$;
 
   constructor(
     private readonly expensesApiService: ExpensesService,
