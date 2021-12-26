@@ -20,7 +20,7 @@ export interface State extends EntityState<ExpenseResponse> {
   totalNumberOfItems: number | null;
 }
 
-const expenseResponseEntityAdapter: EntityAdapter<ExpenseResponse> =
+export const expenseResponseEntityAdapter: EntityAdapter<ExpenseResponse> =
   createEntityAdapter<ExpenseResponse>();
 
 export const initialState: State = expenseResponseEntityAdapter.getInitialState(
