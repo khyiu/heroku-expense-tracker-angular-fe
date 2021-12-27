@@ -1,6 +1,10 @@
 {
+  "Actions": "Acties",
   "Amount": "Bedrag",
   "Dashboard": "Dashboard",
   "Date": "Datum",
-  "Logout": "Afmelden"
+  "Description": "Beschrijving",
+  "Logout": "Afmelden",
+  "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
+  "Tags": "Tags"
 }

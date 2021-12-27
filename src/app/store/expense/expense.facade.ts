@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { State } from './expense.reducers';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions from './expense.actions';
-import {selectCurrentExpensePage} from './expense.selectors';
+import {
+  selectCurrentExpensePage,
+  selectPendingRequest,
+} from './expense.selectors';
 
 @Injectable()
 export class ExpenseFacade {
   currentExpensePage$ = this.store$.select(selectCurrentExpensePage);
+  loadingExpense$ = this.store$.select(selectPendingRequest);
 
   constructor(private readonly store$: Store<State>) {}
 

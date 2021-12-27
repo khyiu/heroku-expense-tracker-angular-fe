@@ -8,3 +8,8 @@ export const selectCurrentExpensePage = createSelector(
   selectFeature,
   expenseResponseEntityAdapter.getSelectors().selectAll
 );
+
+export const selectPendingRequest = createSelector(
+  selectFeature,
+  (state) => state.pendingRequest
+);

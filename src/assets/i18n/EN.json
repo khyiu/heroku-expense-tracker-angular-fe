@@ -1,6 +1,10 @@
 {
+  "Actions": "Actions",
   "Amount": "Amount",
   "Dashboard": "Dashboard",
   "Date": "Date",
-  "Logout": "Log out"
+  "Description": "Description",
+  "Logout": "Log out",
+  "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
+  "Tags": "Tags"
 }

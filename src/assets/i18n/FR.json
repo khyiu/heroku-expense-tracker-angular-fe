@@ -1,6 +1,10 @@
 {
+  "Actions": "Actions",
   "Amount": "Montant",
   "Dashboard": "Tableau de bord",
   "Date": "Date",
-  "Logout": "Se déconnecter"
+  "Description": "Description",
+  "Logout": "Se déconnecter",
+  "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
+  "Tags": "Tags"
 }

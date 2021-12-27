@@ -10,12 +10,25 @@ import { DATE_FORMAT } from '../shared/shared.constants';
 @Component({
   selector: 'het-dashboard',
   template: `
-    <ng-container *ngIf="expenses$ | async as expenses">
-      <p-table [value]="expenses">
+    <p-panel [showHeader]="false">
+      <p-table
+        [value]="(expenses$ | async) || []"
+        [rowHover]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="paginatorPageSizes"
+        [loading]="(loading$ | async) || false"
+        [paginator]="true"
+        (rowsChange)="changePageSize($event)"
+        currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th>{{ 'Date' | translate }}</th>
             <th>{{ 'Amount' | translate }}</th>
+            <th>{{ 'Description' | translate }}</th>
+            <th>{{ 'Tags' | translate }}</th>
+            <th>{{ 'Actions' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-expense>
@@ -31,34 +44,24 @@ import { DATE_FORMAT } from '../shared/shared.constants';
             >
               {{ expense.amount | euroAmount }}
             </td>
+            <td>
+              {{ expense.description }}
+            </td>
+            <td>
+              <div fxLayout="row" fxLayoutGap="1em">
+                <p-tag
+                  *ngFor="let tag of expense.tags"
+                  [value]="tag"
+                  severity="info"
+                ></p-tag>
+              </div>
+            </td>
           </tr>
         </ng-template>
       </p-table>
-    </ng-container>
+    </p-panel>
   `,
   styles: [
-    `
-      :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-      }
-
-      .layout-news-active :host ::ng-deep .p-datatable tr > th {
-        top: 0;
-      }
-
-      @media screen and (max-width: 64em) {
-        :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-          top: 0;
-        }
-
-        .layout-news-active :host ::ng-deep .p-datatable tr > th {
-          top: 0;
-        }
-      }
-    `,
-
     `
       .income {
         color: #32cd32;
@@ -73,14 +76,22 @@ import { DATE_FORMAT } from '../shared/shared.constants';
 })
 export class DashboardComponent {
   readonly dateFormat = DATE_FORMAT;
+  readonly paginatorPageSizes = [10, 15, 25];
 
   expenses$: Observable<ExpenseResponse[]> =
     this.expenseFacade.currentExpensePage$;
+
+  loading$: Observable<boolean> = this.expenseFacade.loadingExpense$;
 
   constructor(
     private readonly expensesApiService: ExpensesService,
     private readonly expenseFacade: ExpenseFacade
   ) {
     this.expenseFacade.loadExpensePage();
+  }
+
+  changePageSize(pageSize: number): void {
+    // todo kyiu: handle pageSize selection
+    console.log(pageSize);
   }
 }
