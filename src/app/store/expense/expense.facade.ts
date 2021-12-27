@@ -14,6 +14,7 @@ export class ExpenseFacade {
 
   constructor(private readonly store$: Store<State>) {}
 
+  // todo kyiu: replace hardcoded params
   loadExpensePage(): void {
     this.store$.dispatch(
       ExpenseActions.fetchExpensePage({
