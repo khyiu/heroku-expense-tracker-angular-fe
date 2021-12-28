@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PATHS } from './routing.constants';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: PATHS.DASHBOARD,
     pathMatch: 'full',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
-  }
+    redirectTo: PATHS.DASHBOARD,
+  },
 ];
 
 @NgModule({

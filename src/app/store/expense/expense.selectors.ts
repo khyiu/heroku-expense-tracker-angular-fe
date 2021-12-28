@@ -13,3 +13,8 @@ export const selectPendingRequest = createSelector(
   selectFeature,
   (state) => state.pendingRequest
 );
+
+export const selectTotalNumberOfExpenses = createSelector(
+  selectFeature,
+  (state) => state.totalNumberOfItems
+)

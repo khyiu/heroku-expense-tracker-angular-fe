@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   ExpenseResponse,
@@ -6,21 +6,33 @@ import {
 } from '../generated-sources/expense-api';
 import { ExpenseFacade } from '../store/expense/expense.facade';
 import { DATE_FORMAT } from '../shared/shared.constants';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import {
+  ExpenseQuery,
+  SortAttribute,
+  SortDirection,
+} from '../store/expense/expense.reducers';
+import { DASHBOARD_PARAMS } from '../routing.constants';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'het-dashboard',
   template: `
     <p-panel [showHeader]="false">
       <p-table
+        [lazy]="true"
         [value]="(expenses$ | async) || []"
         [rowHover]="true"
-        [rows]="10"
+        [paginator]="true"
+        [loading]="(loading$ | async) || false"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="paginatorPageSizes"
-        [loading]="(loading$ | async) || false"
-        [paginator]="true"
-        (rowsChange)="changePageSize($event)"
+        (onLazyLoad)="loadExpensePage($event)"
+        [(first)]="currentPageFirstItemIdx"
+        [(rows)]="pageSize"
+        [totalRecords]="(totalNumberOfExpenses$ | async) || 0"
         currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
+        styleClass="p-datatable-striped"
       >
         <ng-template pTemplate="header">
           <tr>
@@ -74,24 +86,126 @@ import { DATE_FORMAT } from '../shared/shared.constants';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   readonly dateFormat = DATE_FORMAT;
   readonly paginatorPageSizes = [10, 15, 25];
+  readonly defaultExpenseQuery: ExpenseQuery = {
+    pageSize: this.paginatorPageSizes[0],
+    pageNumber: 1,
+    sortDirection: 'DESC',
+    sortBy: 'DATE',
+  } as const;
 
+  totalNumberOfExpenses$: Observable<number | null> =
+    this.expenseFacade.totalNumberOfExpenses$;
   expenses$: Observable<ExpenseResponse[]> =
     this.expenseFacade.currentExpensePage$;
-
   loading$: Observable<boolean> = this.expenseFacade.loadingExpense$;
+
+  currentPageFirstItemIdx = 0
+  pageSize = this.paginatorPageSizes[0];
 
   constructor(
     private readonly expensesApiService: ExpensesService,
-    private readonly expenseFacade: ExpenseFacade
-  ) {
-    this.expenseFacade.loadExpensePage();
+    private readonly expenseFacade: ExpenseFacade,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const expenseQuery = this.extractExpenseQueryFromRoute();
+    this.initPaginatorInfo(expenseQuery);
   }
 
-  changePageSize(pageSize: number): void {
-    // todo kyiu: handle pageSize selection
-    console.log(pageSize);
+  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
+    this.pageSize = expenseQuery.pageSize;
+    this.currentPageFirstItemIdx = (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
+  }
+
+  loadExpensePage(event: LazyLoadEvent): void {
+    console.log('>>> ', event);
+
+    const expenseQuery = this.convertLazyLoadEventToExpenseQuery(event);
+    this.expenseFacade.loadExpensePage(expenseQuery);
+
+    this.router.navigate(['.'], {
+      queryParams: {
+        pageNumber: event.first! / event.rows! + 1,
+        pageSize: event.rows,
+        sortDirection: event.sortField! === '0' ? 'ASC' : 'DESC',
+        sortBy: 'DATE',
+      } as ExpenseQuery,
+    });
+  }
+
+  private extractExpenseQueryFromRoute(): ExpenseQuery {
+    const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
+    return {
+      pageSize: this.extractPageSizeParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.pageSize
+      ),
+      pageNumber: this.extractPageNumberParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.pageNumber
+      ),
+
+      sortDirection: this.extractSortDirectionParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.sortDirection
+      ),
+
+      sortBy: this.extractSortAttributeParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.sortBy
+      ),
+    };
+  }
+
+  private extractPageSizeParamFromRoute(
+    paramMap: ParamMap,
+    defaultPageSize: number
+  ): number {
+    const pageSize = paramMap.get(DASHBOARD_PARAMS.PAGE_SIZE);
+    return pageSize && parseInt(pageSize, 10) ? +pageSize : defaultPageSize;
+  }
+
+  private extractPageNumberParamFromRoute(
+    paramMap: ParamMap,
+    defaultPageNumber: number
+  ): number {
+    const pageNumber = paramMap.get(DASHBOARD_PARAMS.PAGE_NUMBER);
+    return pageNumber && parseInt(pageNumber, 10)
+      ? +pageNumber
+      : defaultPageNumber;
+  }
+
+  private extractSortDirectionParamFromRoute(
+    paramMap: ParamMap,
+    defaultSortDirection: SortDirection
+  ): SortDirection {
+    const sortDirection = paramMap.get(DASHBOARD_PARAMS.SORT_DIRECTION);
+    return sortDirection === 'ASC' || sortDirection === 'DESC'
+      ? sortDirection
+      : defaultSortDirection;
+  }
+
+  private extractSortAttributeParamFromRoute(
+    paramMap: ParamMap,
+    defaultSortAttribute: SortAttribute
+  ): SortAttribute {
+    const sortAttribute = paramMap.get(DASHBOARD_PARAMS.SORT_BY);
+    return sortAttribute === 'DATE' || sortAttribute === 'AMOUNT'
+      ? sortAttribute
+      : defaultSortAttribute;
+  }
+
+  private convertLazyLoadEventToExpenseQuery(event: LazyLoadEvent): ExpenseQuery {
+    return {
+      pageSize: event.rows!,
+      pageNumber: (event.first! / event.rows!) + 1,
+      sortBy: 'AMOUNT',
+      sortDirection: 'DESC'
+    };
   }
 }

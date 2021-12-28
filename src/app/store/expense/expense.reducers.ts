@@ -3,11 +3,14 @@ import { createReducer, on } from '@ngrx/store';
 import { ExpenseResponse } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
 
+export type SortDirection = 'ASC' | 'DESC';
+export type SortAttribute = 'DATE' | 'AMOUNT';
+
 export interface ExpenseQuery {
   pageSize: number;
   pageNumber: number;
-  sortDirection: 'ASC' | 'DESC';
-  sortBy: 'DATE' | 'AMOUNT';
+  sortDirection: SortDirection;
+  sortBy: SortAttribute;
   tagFilters?: Array<string>;
   descriptionFilter?: string;
   paidWithCreditCardFilter?: boolean;
