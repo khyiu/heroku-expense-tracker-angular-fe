@@ -2,6 +2,8 @@
 README.md
 api.module.ts
 api/api.ts
+api/balance.service.ts
+api/balance.serviceInterface.ts
 api/expense.service.ts
 api/expense.serviceInterface.ts
 api/expenses.service.ts
