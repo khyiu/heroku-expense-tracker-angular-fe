@@ -12,7 +12,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "lint": "ng lint",
-    "generate-expense-api-client": "openapi-generator-cli generate -i https://raw.githubusercontent.com/khyiu/heroku-expense-tracker-api/master/src/main/resources/heroku-expense-tracker-api.yaml -g typescript-angular -o src/app/generated-sources/expense-api --additional-properties=ngVersion=12.2.0,supportsES6=true,npmVersion=8.1.0,withInterfaces=true"
+    "generate-expense-api-client": "openapi-generator-cli generate -i https://raw.githubusercontent.com/khyiu/heroku-expense-tracker-api/master/src/main/resources/heroku-expense-tracker-api.yaml -g typescript-angular -o src/app/generated-sources/expense-api --additional-properties=ngVersion=13.0.1,supportsES6=true,npmVersion=8.1.0,withInterfaces=true"
   },
   "private": true,
   "dependencies": {
