@@ -3,7 +3,9 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
-  "plugins": ["unused-imports"],
+  "plugins": [
+    "unused-imports"
+  ],
   "overrides": [
     {
       "files": [
@@ -47,9 +49,15 @@
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",
-          { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
         ],
-        "no-warning-comments": "error"
+        "no-warning-comments": "error",
+        "no-console": "error"
       }
     },
     {
