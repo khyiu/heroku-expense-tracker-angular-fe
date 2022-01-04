@@ -14,6 +14,7 @@ import {
 } from '../store/expense/expense.reducers';
 import { DASHBOARD_PARAMS } from '../routing.constants';
 import { LazyLoadEvent } from 'primeng/api';
+import {BalanceFacade} from '../store/balance/balance.facade';
 
 @Component({
   selector: 'het-dashboard',
@@ -108,6 +109,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private readonly expensesApiService: ExpensesService,
     private readonly expenseFacade: ExpenseFacade,
+    private readonly balanceFacade: BalanceFacade,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router
   ) {}
@@ -115,6 +117,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     const expenseQuery = this.extractExpenseQueryFromRoute();
     this.initPaginatorInfo(expenseQuery);
+
+    this.balanceFacade.loadBalance();
   }
 
   private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
@@ -123,8 +127,6 @@ export class DashboardComponent implements OnInit {
   }
 
   loadExpensePage(event: LazyLoadEvent): void {
-    console.log('>>> ', event);
-
     const expenseQuery = this.convertLazyLoadEventToExpenseQuery(event);
     this.expenseFacade.loadExpensePage(expenseQuery);
 
