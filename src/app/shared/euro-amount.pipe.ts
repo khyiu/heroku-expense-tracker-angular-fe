@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   pure: true,
 })
 export class EuroAmountPipe implements PipeTransform {
-  transform(value: number): string | null {
+  transform(value: number | null): string | null {
     if (value === null || value === undefined) {
       return null;
     } else {

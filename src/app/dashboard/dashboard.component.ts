@@ -14,11 +14,12 @@ import {
 } from '../store/expense/expense.reducers';
 import { DASHBOARD_PARAMS } from '../routing.constants';
 import { LazyLoadEvent } from 'primeng/api';
-import {BalanceFacade} from '../store/balance/balance.facade';
+import { BalanceFacade } from '../store/balance/balance.facade';
 
 @Component({
   selector: 'het-dashboard',
   template: `
+    <h2>Balance : {{ balance$ | async | euroAmount }}</h2>
     <p-panel [showHeader]="false">
       <p-table
         [lazy]="true"
@@ -76,6 +77,10 @@ import {BalanceFacade} from '../store/balance/balance.facade';
   `,
   styles: [
     `
+      h2 {
+        border: solid 1px
+      }
+
       .income {
         color: #32cd32;
       }
@@ -103,7 +108,9 @@ export class DashboardComponent implements OnInit {
     this.expenseFacade.currentExpensePage$;
   loading$: Observable<boolean> = this.expenseFacade.loadingExpense$;
 
-  currentPageFirstItemIdx = 0
+  balance$: Observable<number | null> = this.balanceFacade.balance$;
+
+  currentPageFirstItemIdx = 0;
   pageSize = this.paginatorPageSizes[0];
 
   constructor(
@@ -121,11 +128,6 @@ export class DashboardComponent implements OnInit {
     this.balanceFacade.loadBalance();
   }
 
-  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
-    this.pageSize = expenseQuery.pageSize;
-    this.currentPageFirstItemIdx = (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
-  }
-
   loadExpensePage(event: LazyLoadEvent): void {
     const expenseQuery = this.convertLazyLoadEventToExpenseQuery(event);
     this.expenseFacade.loadExpensePage(expenseQuery);
@@ -138,6 +140,12 @@ export class DashboardComponent implements OnInit {
         sortBy: 'DATE',
       } as ExpenseQuery,
     });
+  }
+
+  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
+    this.pageSize = expenseQuery.pageSize;
+    this.currentPageFirstItemIdx =
+      (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
   }
 
   private extractExpenseQueryFromRoute(): ExpenseQuery {
@@ -202,12 +210,14 @@ export class DashboardComponent implements OnInit {
       : defaultSortAttribute;
   }
 
-  private convertLazyLoadEventToExpenseQuery(event: LazyLoadEvent): ExpenseQuery {
+  private convertLazyLoadEventToExpenseQuery(
+    event: LazyLoadEvent
+  ): ExpenseQuery {
     return {
       pageSize: event.rows!,
-      pageNumber: (event.first! / event.rows!) + 1,
+      pageNumber: event.first! / event.rows! + 1,
       sortBy: 'AMOUNT',
-      sortDirection: 'DESC'
+      sortDirection: 'DESC',
     };
   }
 }
