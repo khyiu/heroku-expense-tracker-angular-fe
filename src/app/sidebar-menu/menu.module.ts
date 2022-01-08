@@ -7,16 +7,9 @@ import { DividerModule } from 'primeng/divider';
 import { LanguageSwitcherComponent } from './language-switcher.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { LogoffComponent } from './logoff.component';
-import {RoutesMenuComponent} from './routes-menu.component';
 
 @NgModule({
-  declarations: [
-    NavigationMenuComponent,
-    LanguageSwitcherComponent,
-    LogoffComponent,
-    RoutesMenuComponent
-  ],
+  declarations: [NavigationMenuComponent, LanguageSwitcherComponent],
   imports: [
     RouterModule,
     SharedModule,

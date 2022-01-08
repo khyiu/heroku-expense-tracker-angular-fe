@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'het-navigation-menu',
@@ -15,10 +17,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         border-right: solid 1px #304562;
       }
 
-      #logoff-container {
-        width: 220px;
-        position: fixed;
-        bottom: 1rem;
+      a {
+        color: white;
+        text-decoration: none;
+        margin-left: 1rem;
+      }
+
+      .activeLink {
+        font-weight: bold;
       }
     `,
   ],
@@ -34,15 +40,31 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         </a>
       </div>
       <p-divider></p-divider>
-      <het-language-switcher></het-language-switcher>
-      <het-routes-menu></het-routes-menu>
-      <div id="logoff-container">
-        <div fxLayout="row" fxLayoutAlign="center">
-          <het-logoff></het-logoff>
+      <div fxLayout="column" fxLayoutGap="1rem">
+        <het-language-switcher></het-language-switcher>
+        <div fxLayout="column">
+          <a routerLink="/dashboard" routerLinkActive="activeLink">
+            <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="0.5em">
+              <i class="pi pi-list"></i
+              ><span>{{ 'Dashboard' | translate }}</span>
+            </div>
+          </a>
         </div>
+        <a routerLink="logout" (click)="logout()">
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="0.5em">
+            <i class="pi pi-power-off"></i
+            ><span>{{ 'Logout' | translate }}</span>
+          </div>
+        </a>
       </div>
     </nav>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationMenuComponent {}
+export class NavigationMenuComponent {
+  constructor(private readonly keycloakService: KeycloakService) {}
+
+  public logout(): void {
+    this.keycloakService.logout(environment.logoutRedirectUrl);
+  }
+}
