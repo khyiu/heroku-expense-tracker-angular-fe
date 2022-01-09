@@ -12,7 +12,6 @@ import { KeycloakService } from 'keycloak-angular';
 
       nav {
         padding-top: 1rem;
-        width: 220px;
         height: 100%;
         border-right: solid 1px #304562;
       }
