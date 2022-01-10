@@ -5,7 +5,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { SharedModule } from '../shared/shared.module';
 import { TagModule } from 'primeng/tag';
-import { PanelModule } from 'primeng/panel';
 import { environment } from '../../environments/environment';
 import { BalanceNgRxModule } from '../store/balance/balance.module';
 
@@ -17,7 +16,6 @@ import { BalanceNgRxModule } from '../store/balance/balance.module';
     ButtonModule,
     SharedModule,
     TagModule,
-    PanelModule,
     BalanceNgRxModule.forRoot(environment.apiBasePath),
   ],
 })

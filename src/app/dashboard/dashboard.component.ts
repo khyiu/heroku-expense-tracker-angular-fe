@@ -19,9 +19,11 @@ import { BalanceFacade } from '../store/balance/balance.facade';
 @Component({
   selector: 'het-dashboard',
   template: `
-    <h2>Balance : {{ balance$ | async | euroAmount }}</h2>
-    <p-panel [showHeader]="false">
+    <div id="container" fxFlex="100">
+      <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
       <p-table
+        [responsive]="true"
+        [responsiveLayout]="'stack'"
         [lazy]="true"
         [value]="(expenses$ | async) || []"
         [rowHover]="true"
@@ -73,12 +75,13 @@ import { BalanceFacade } from '../store/balance/balance.facade';
           </tr>
         </ng-template>
       </p-table>
-    </p-panel>
+    </div>
   `,
   styles: [
     `
-      h2 {
-        border: solid 1px
+      #container {
+        padding-left: 2rem;
+        padding-right: 2rem;
       }
 
       .income {
