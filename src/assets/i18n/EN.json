@@ -1,5 +1,6 @@
 {
   "Actions": "Actions",
+  "AddExpense": "Add expense",
   "Amount": "Amount",
   "Balance": "Balance",
   "Dashboard": "Dashboard",
@@ -7,5 +8,6 @@
   "Description": "Description",
   "Logout": "Log out",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
-  "Tags": "Tags"
+  "Tags": "Tags",
+  "NewExpense": "New expense"
 }

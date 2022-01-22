@@ -7,9 +7,18 @@ import { SharedModule } from '../shared/shared.module';
 import { TagModule } from 'primeng/tag';
 import { environment } from '../../environments/environment';
 import { BalanceNgRxModule } from '../store/balance/balance.module';
+import { RippleModule } from 'primeng/ripple';
+import { DashboardToolbarComponent } from './dashboard-toolbar.component';
+import {ExpenseModalFormComponent} from './expense-modal-form.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    DashboardToolbarComponent,
+    ExpenseModalFormComponent,
+  ],
   imports: [
     DashboardRoutingModule,
     TableModule,
@@ -17,6 +26,9 @@ import { BalanceNgRxModule } from '../store/balance/balance.module';
     SharedModule,
     TagModule,
     BalanceNgRxModule.forRoot(environment.apiBasePath),
+    RippleModule,
+    ReactiveFormsModule,
+    CalendarModule,
   ],
 })
 export class DashboardModule {}

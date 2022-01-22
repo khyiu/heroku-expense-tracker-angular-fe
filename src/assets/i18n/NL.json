@@ -7,5 +7,7 @@
   "Description": "Beschrijving",
   "Logout": "Afmelden",
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
-  "Tags": "Tags"
+  "Tags": "Tags",
+  "AddExpense": "Kost toevoegen",
+  "NewExpense": "Nieuwe kost"
 }

@@ -21,6 +21,7 @@ import { BalanceFacade } from '../store/balance/balance.facade';
   template: `
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
+      <het-dashboard-toolbar></het-dashboard-toolbar>
       <p-table
         [responsive]="true"
         [responsiveLayout]="'stack'"
