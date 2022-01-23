@@ -7,7 +7,65 @@
   "Date": "Date",
   "Description": "Description",
   "Logout": "Log out",
+  "NewExpense": "New expense",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
   "Tags": "Tags",
-  "NewExpense": "New expense"
+  "primeng": {
+    "dateFormat": "mm/dd/yy",
+    "dayNames": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "dayNamesMin": [
+      "Su",
+      "Mo",
+      "Tu",
+      "We",
+      "Th",
+      "Fr",
+      "Sa"
+    ],
+    "dayNamesShort": [
+      "Zon",
+      "Maa",
+      "Din",
+      "Woe",
+      "Don",
+      "Vri",
+      "Zat"
+    ],
+    "monthNames": [
+      "January",
+      "February",
+      "March",
+      "Arpil",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ]
+  }
 }
