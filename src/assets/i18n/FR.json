@@ -6,6 +6,9 @@
   "Dashboard": "Tableau de bord",
   "Date": "Date",
   "Description": "Description",
+  "Errors": {
+    "required": "Ce champ est obligatoire"
+  },
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",

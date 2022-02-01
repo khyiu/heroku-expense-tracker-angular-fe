@@ -6,6 +6,9 @@
   "Dashboard": "Dashboard",
   "Date": "Date",
   "Description": "Description",
+  "Errors": {
+    "required": "This field is mandatory"
+  },
   "Logout": "Log out",
   "NewExpense": "New expense",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",

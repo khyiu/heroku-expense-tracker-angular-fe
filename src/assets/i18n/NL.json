@@ -6,6 +6,9 @@
   "Dashboard": "Dashboard",
   "Date": "Datum",
   "Description": "Beschrijving",
+  "Errors": {
+    "required": "Dit veld is verplicht"
+  },
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe kost",
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",

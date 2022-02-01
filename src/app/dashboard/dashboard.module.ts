@@ -9,9 +9,10 @@ import { environment } from '../../environments/environment';
 import { BalanceNgRxModule } from '../store/balance/balance.module';
 import { RippleModule } from 'primeng/ripple';
 import { DashboardToolbarComponent } from './dashboard-toolbar.component';
-import {ExpenseModalFormComponent} from './expense-modal-form.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {CalendarModule} from 'primeng/calendar';
+import { ExpenseModalFormComponent } from './expense-modal-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {CalendarModule} from 'primeng/calendar';
     RippleModule,
     ReactiveFormsModule,
     CalendarModule,
+    InputNumberModule,
   ],
 })
 export class DashboardModule {}
