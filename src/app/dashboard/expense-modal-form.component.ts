@@ -64,8 +64,7 @@ import { Observable, of } from 'rxjs';
             [formControl]="tagsControl"
             [multiple]="true"
             [ngClass]="{
-              'ng-invalid ng-dirty':
-                tagsControl.touched && tagsControl.invalid
+              'ng-invalid ng-dirty': tagsControl.touched && tagsControl.invalid
             }"
           >
           </p-autoComplete>
@@ -74,6 +73,26 @@ import { Observable, of } from 'rxjs';
           <het-form-field-error
             fxFlexOffset="20"
             [errors]="tagsControl.errors"
+          ></het-form-field-error>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+          <label for="tags">{{
+            'Description' | translate
+          }}</label>
+          <textarea
+            [formControl]="descriptionControl"
+            [rows]="5"
+            [cols]="30"
+            pInputTextarea
+            [autoResize]="true"
+            [maxlength]="1024"
+          ></textarea>
+        </div>
+        <div fxLayout="row" *ngIf="descriptionControl.touched && descriptionControl.invalid">
+          <het-form-field-error
+            fxFlexOffset="20"
+            [errors]="descriptionControl.errors"
           ></het-form-field-error>
         </div>
       </div>
@@ -90,9 +109,12 @@ export class ExpenseModalFormComponent {
   dateControl = new FormControl(this.currentDate, Validators.required);
   amountControl = new FormControl(null, Validators.pattern(this.amountPattern));
   tagsControl = new FormControl(null, Validators.required);
+  descriptionControl = new FormControl(null, Validators.maxLength(1024));
   expenseForm = new FormGroup({
     date: this.dateControl,
     amount: this.amountControl,
+    tags: this.tagsControl,
+    description: this.descriptionControl,
   });
 
   previouslyUsedTags: Observable<string[]> = of([]);
@@ -106,7 +128,10 @@ export class ExpenseModalFormComponent {
       .subscribe((res) => this.config.setTranslation(res));
   }
 
-  fetchPreviouslyUsedTags(event: { originalEvent: unknown, query: string }): void {
+  fetchPreviouslyUsedTags(event: {
+    originalEvent: unknown;
+    query: string;
+  }): void {
     this.previouslyUsedTags = of([event.query]);
   }
 }

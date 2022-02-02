@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     CalendarModule,
     InputNumberModule,
     AutoCompleteModule,
+    InputTextareaModule,
   ],
 })
 export class DashboardModule {}
