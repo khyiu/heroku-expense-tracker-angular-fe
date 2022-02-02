@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'het-expense-form',
@@ -24,7 +25,10 @@ import { TranslateService } from '@ngx-translate/core';
           ></p-calendar>
         </div>
         <div fxLayout="row" *ngIf="dateControl.touched && dateControl.invalid">
-          <het-form-field-error fxFlexOffset="20" [errors]="dateControl.errors"></het-form-field-error>
+          <het-form-field-error
+            fxFlexOffset="20"
+            [errors]="dateControl.errors"
+          ></het-form-field-error>
         </div>
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
           <label for="expenseAmount">{{
@@ -43,8 +47,34 @@ import { TranslateService } from '@ngx-translate/core';
             }"
           ></p-inputNumber>
         </div>
-        <div fxLayout="row" *ngIf="amountControl.touched && amountControl.invalid">
-          <het-form-field-error fxFlexOffset="20" [errors]="amountControl.errors"></het-form-field-error>
+        <div
+          fxLayout="row"
+          *ngIf="amountControl.touched && amountControl.invalid"
+        >
+          <het-form-field-error
+            fxFlexOffset="20"
+            [errors]="amountControl.errors"
+          ></het-form-field-error>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+          <label for="tags">{{ 'Tags' | translate | requiredIndicator }}</label>
+          <p-autoComplete
+            [suggestions]="previouslyUsedTags | async"
+            (completeMethod)="fetchPreviouslyUsedTags($event)"
+            [formControl]="tagsControl"
+            [multiple]="true"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                tagsControl.touched && tagsControl.invalid
+            }"
+          >
+          </p-autoComplete>
+        </div>
+        <div fxLayout="row" *ngIf="tagsControl.touched && tagsControl.invalid">
+          <het-form-field-error
+            fxFlexOffset="20"
+            [errors]="tagsControl.errors"
+          ></het-form-field-error>
         </div>
       </div>
     </form>
@@ -65,6 +95,8 @@ export class ExpenseModalFormComponent {
     amount: this.amountControl,
   });
 
+  previouslyUsedTags: Observable<string[]> = of([]);
+
   constructor(
     private config: PrimeNGConfig,
     private readonly translateService: TranslateService
@@ -72,5 +104,9 @@ export class ExpenseModalFormComponent {
     this.translateService
       .get('primeng')
       .subscribe((res) => this.config.setTranslation(res));
+  }
+
+  fetchPreviouslyUsedTags(event: { originalEvent: unknown, query: string }): void {
+    this.previouslyUsedTags = of([event.query]);
   }
 }

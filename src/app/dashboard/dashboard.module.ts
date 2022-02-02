@@ -13,6 +13,7 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
     ReactiveFormsModule,
     CalendarModule,
     InputNumberModule,
+    AutoCompleteModule,
   ],
 })
 export class DashboardModule {}
