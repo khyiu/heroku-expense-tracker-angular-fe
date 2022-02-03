@@ -3,6 +3,7 @@
   "AddExpense": "Kost toevoegen",
   "Amount": "Bedrag",
   "Balance": "Saldo",
+  "CreditCardStatementIssued": "Kredietkaart uittreksel opgemaakt",
   "Dashboard": "Dashboard",
   "Date": "Datum",
   "Description": "Beschrijving",
@@ -12,6 +13,7 @@
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe kost",
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
+  "PaidWithCreditCard": "Betaald met kredietkaart",
   "Tags": "Tags",
   "primeng": {
     "dateFormat": "mm/dd/yy",

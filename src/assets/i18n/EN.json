@@ -3,6 +3,7 @@
   "AddExpense": "Add expense",
   "Amount": "Amount",
   "Balance": "Balance",
+  "CreditCardStatementIssued": "Credit card statement issued",
   "Dashboard": "Dashboard",
   "Date": "Date",
   "Description": "Description",
@@ -12,6 +13,7 @@
   "Logout": "Log out",
   "NewExpense": "New expense",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
+  "PaidWithCreditCard": "Paid with credit card",
   "Tags": "Tags",
   "primeng": {
     "dateFormat": "mm/dd/yy",

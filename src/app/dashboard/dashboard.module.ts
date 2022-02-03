@@ -15,6 +15,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     InputNumberModule,
     AutoCompleteModule,
     InputTextareaModule,
+    CheckboxModule,
   ],
 })
 export class DashboardModule {}

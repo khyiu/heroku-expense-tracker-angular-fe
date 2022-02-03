@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, take, tap } from 'rxjs';
 
 @Component({
   selector: 'het-expense-form',
@@ -77,9 +77,7 @@ import { Observable, of } from 'rxjs';
         </div>
 
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="tags">{{
-            'Description' | translate
-          }}</label>
+          <label for="tags">{{ 'Description' | translate }}</label>
           <textarea
             [formControl]="descriptionControl"
             [rows]="5"
@@ -89,11 +87,36 @@ import { Observable, of } from 'rxjs';
             [maxlength]="1024"
           ></textarea>
         </div>
-        <div fxLayout="row" *ngIf="descriptionControl.touched && descriptionControl.invalid">
+        <div
+          fxLayout="row"
+          *ngIf="descriptionControl.touched && descriptionControl.invalid"
+        >
           <het-form-field-error
             fxFlexOffset="20"
             [errors]="descriptionControl.errors"
           ></het-form-field-error>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+          <div>
+            <label for="creditCard">{{
+              'PaidWithCreditCard' | translate
+            }}</label>
+            <p-checkbox
+              [formControl]="creditCardControl"
+              [binary]="true"
+              inputId="creditCard"
+            ></p-checkbox>
+          </div>
+          <div>
+            <label for="creditCardStatement">{{
+              'CreditCardStatementIssued' | translate
+            }}</label>
+            <p-checkbox
+              [formControl]="creditCardStatementControl"
+              [binary]="true"
+              inputId="creditCardStatement"
+            ></p-checkbox>
+          </div>
         </div>
       </div>
     </form>
@@ -110,11 +133,15 @@ export class ExpenseModalFormComponent {
   amountControl = new FormControl(null, Validators.pattern(this.amountPattern));
   tagsControl = new FormControl(null, Validators.required);
   descriptionControl = new FormControl(null, Validators.maxLength(1024));
+  creditCardControl = new FormControl();
+  creditCardStatementControl = new FormControl();
   expenseForm = new FormGroup({
     date: this.dateControl,
     amount: this.amountControl,
     tags: this.tagsControl,
     description: this.descriptionControl,
+    creditCard: this.creditCardControl,
+    creditCardStatement: this.creditCardStatementControl,
   });
 
   previouslyUsedTags: Observable<string[]> = of([]);
@@ -123,9 +150,17 @@ export class ExpenseModalFormComponent {
     private config: PrimeNGConfig,
     private readonly translateService: TranslateService
   ) {
+    this.initCalendarLanguage();
+  }
+
+  private initCalendarLanguage(): void {
     this.translateService
       .get('primeng')
-      .subscribe((res) => this.config.setTranslation(res));
+      .pipe(
+        take(1),
+        tap((res) => this.config.setTranslation(res))
+      )
+      .subscribe();
   }
 
   fetchPreviouslyUsedTags(event: {

@@ -3,6 +3,7 @@
   "AddExpense": "Ajouter dépense",
   "Amount": "Montant",
   "Balance": "Solde",
+  "CreditCardStatementIssued": "Relevé carte de crédit émis",
   "Dashboard": "Tableau de bord",
   "Date": "Date",
   "Description": "Description",
@@ -12,6 +13,7 @@
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
+  "PaidWithCreditCard": "Payé par carte de crédit",
   "Tags": "Tags",
   "primeng": {
     "dateFormat": "mm/dd/yy",
