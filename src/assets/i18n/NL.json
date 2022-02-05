@@ -14,6 +14,7 @@
   "NewExpense": "Nieuwe kost",
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
   "PaidWithCreditCard": "Betaald met kredietkaart",
+  "Save": "Opslaan",
   "Tags": "Tags",
   "primeng": {
     "dateFormat": "mm/dd/yy",

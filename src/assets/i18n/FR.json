@@ -14,6 +14,7 @@
   "NewExpense": "Nouvelle dépense",
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
   "PaidWithCreditCard": "Payé par carte de crédit",
+  "Save": "Sauver",
   "Tags": "Tags",
   "primeng": {
     "dateFormat": "mm/dd/yy",

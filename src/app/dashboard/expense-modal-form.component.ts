@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of, take, tap } from 'rxjs';
+import { filter, Observable, of, take, tap } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'het-expense-form',
   template: `
@@ -119,6 +121,17 @@ import { Observable, of, take, tap } from 'rxjs';
           </div>
         </div>
       </div>
+      <div fxLayout="row">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="{{ 'Save' | translate }}"
+          class="p-button-outlined"
+          icon="pi pi-plus"
+          (click)="save()"
+        ></button>
+      </div>
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -151,6 +164,7 @@ export class ExpenseModalFormComponent {
     private readonly translateService: TranslateService
   ) {
     this.initCalendarLanguage();
+    this.initCreditCardControlSubscriptions();
   }
 
   private initCalendarLanguage(): void {
@@ -163,10 +177,39 @@ export class ExpenseModalFormComponent {
       .subscribe();
   }
 
+  private initCreditCardControlSubscriptions(): void {
+    this.creditCardControl.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        filter((value) => !value),
+        tap(() =>
+          this.creditCardStatementControl.setValue(false, { emitEvent: false })
+        )
+      )
+      .subscribe();
+
+    this.creditCardStatementControl.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        filter((value) => !!value),
+        tap(() => this.creditCardControl.setValue(true, { emitEvent: false }))
+      )
+      .subscribe();
+  }
+
   fetchPreviouslyUsedTags(event: {
     originalEvent: unknown;
     query: string;
   }): void {
     this.previouslyUsedTags = of([event.query]);
+  }
+
+  save(): void {
+    // todo kyiu: implement
+    if (this.expenseForm.valid) {
+      console.log('>>> save expense', this.expenseForm.value);
+    } else {
+      this.expenseForm.markAllAsTouched();
+    }
   }
 }
