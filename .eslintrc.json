@@ -49,22 +49,7 @@
           }
         ],
         "no-warning-comments": "error",
-        "no-console": "error",
-        "rxjs/no-unsafe-takeuntil": [
-          "error",
-          {
-            "alias": ["untilDestroyed"]
-          }
-        ],
-        "rxjs-angular/prefer-takeuntil": [
-          "error",
-          {
-            "alias": ["untilDestroyed"],
-            "checkComplete": true,
-            "checkDecorators": ["Component"],
-            "checkDestroy": true
-          }
-        ]
+        "no-console": "error"
       }
     },
     {
