@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
     this.expenseFacade.totalNumberOfExpenses$;
   expenses$: Observable<ExpenseResponse[]> =
     this.expenseFacade.currentExpensePage$;
-  loading$: Observable<boolean> = this.expenseFacade.loadingExpense$;
+  loading$: Observable<boolean> = this.expenseFacade.pendingReadRequest$;
 
   balance$: Observable<number | null> = this.balanceFacade.balance$;
 

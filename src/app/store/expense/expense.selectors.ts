@@ -9,12 +9,12 @@ export const selectCurrentExpensePage = createSelector(
   expenseResponseEntityAdapter.getSelectors().selectAll
 );
 
-export const selectPendingRequest = createSelector(
+export const selectPendingReadRequest = createSelector(
   selectFeature,
-  (state) => state.pendingRequest
+  (state) => state.pendingReadRequest
 );
 
 export const selectTotalNumberOfExpenses = createSelector(
   selectFeature,
   (state) => state.totalNumberOfItems
-)
+);

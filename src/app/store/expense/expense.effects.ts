@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ExpensesService } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Injectable()
 export class ExpenseEffects {
@@ -23,7 +24,7 @@ export class ExpenseEffects {
           )
           .pipe(
             map((response) =>
-              ExpenseActions.ExpensePageFetched({
+              ExpenseActions.expensePageFetched({
                 totalNumberOfItems: response.totalNumberOfItems,
                 items: response.items,
               })
@@ -34,8 +35,42 @@ export class ExpenseEffects {
     )
   );
 
+  createExpense$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.createExpense),
+      mergeMap((action: ReturnType<typeof ExpenseActions.createExpense>) =>
+        this.expensesService.registerExpense(action.expenseRequest).pipe(
+          map((response) =>
+            ExpenseActions.expenseCreated({
+              expenseResponse: response,
+              dialogRef: action.dialogRef,
+            })
+          ),
+          catchError(() => of(ExpenseActions.ExpenseError()))
+        )
+      )
+    )
+  );
+
+  expenseCreated$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ExpenseActions.expenseCreated),
+        tap(() =>
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Data saved',
+            detail: 'The expense has been created',
+          })
+        ),
+        tap((action) => action.dialogRef.close())
+      ),
+    { dispatch: false }
+  );
+
   constructor(
-    private actions$: Actions,
-    private expensesService: ExpensesService
+    private readonly actions$: Actions,
+    private readonly expensesService: ExpensesService,
+    private readonly messageService: MessageService
   ) {}
 }

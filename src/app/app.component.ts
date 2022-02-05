@@ -14,6 +14,7 @@ import { Component } from '@angular/core';
     `,
   ],
   template: `
+    <p-toast position="top-right"></p-toast>
     <div fxLayout="column" fxFlexFill>
       <div fxFlex="100" fxLayout="row">
         <div id="menuContainer">

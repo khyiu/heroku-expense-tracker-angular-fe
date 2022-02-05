@@ -18,7 +18,8 @@ export interface ExpenseQuery {
 }
 
 export interface State extends EntityState<ExpenseResponse> {
-  pendingRequest: boolean;
+  pendingReadRequest: boolean;
+  pendingWriteRequest: boolean;
   query: ExpenseQuery | null;
   totalNumberOfItems: number | null;
 }
@@ -28,7 +29,8 @@ export const expenseResponseEntityAdapter: EntityAdapter<ExpenseResponse> =
 
 export const initialState: State = expenseResponseEntityAdapter.getInitialState(
   {
-    pendingRequest: false,
+    pendingReadRequest: false,
+    pendingWriteRequest: false,
     query: null,
     totalNumberOfItems: null,
     entities: expenseResponseEntityAdapter.getInitialState(),
@@ -39,14 +41,22 @@ export const expenseReducer = createReducer(
   initialState,
   on(ExpenseActions.fetchExpensePage, (state, action) => ({
     ...state,
-    pendingRequest: true,
+    pendingReadRequest: true,
     query: action.query,
   })),
-  on(ExpenseActions.ExpensePageFetched, (state, action) =>
+  on(ExpenseActions.expensePageFetched, (state, action) =>
     expenseResponseEntityAdapter.setAll(action.items, {
       ...state,
-      pendingRequest: false,
+      pendingReadRequest: false,
       totalNumberOfItems: action.totalNumberOfItems,
     })
-  )
+  ),
+  on(ExpenseActions.createExpense, (state) => ({
+    ...state,
+    pendingWriteRequest: true,
+  })),
+  on(ExpenseActions.expenseCreated, (state) => ({
+    ...state,
+    pendingWriteRequest: false,
+  }))
 );

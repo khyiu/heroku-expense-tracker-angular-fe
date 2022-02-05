@@ -13,6 +13,8 @@ import { environment } from '../environments/environment';
 import { ExpenseNgRxModule } from './store/expense/expense.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
@@ -49,12 +51,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
-      }
+      },
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
+    ToastModule,
   ],
   providers: [
     {
@@ -63,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
       deps: [KeycloakService],
     },
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

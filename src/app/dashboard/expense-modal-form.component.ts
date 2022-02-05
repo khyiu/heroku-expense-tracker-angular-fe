@@ -4,6 +4,9 @@ import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, Observable, of, take, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ExpenseFacade } from '../store/expense/expense.facade';
+import { ExpenseRequest } from '../generated-sources/expense-api';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @UntilDestroy()
 @Component({
@@ -160,8 +163,10 @@ export class ExpenseModalFormComponent {
   previouslyUsedTags: Observable<string[]> = of([]);
 
   constructor(
-    private config: PrimeNGConfig,
-    private readonly translateService: TranslateService
+    private readonly config: PrimeNGConfig,
+    private readonly translateService: TranslateService,
+    private readonly expenseFacade: ExpenseFacade,
+    private readonly dialogRef: DynamicDialogRef
   ) {
     this.initCalendarLanguage();
     this.initCreditCardControlSubscriptions();
@@ -205,11 +210,22 @@ export class ExpenseModalFormComponent {
   }
 
   save(): void {
-    // todo kyiu: implement
     if (this.expenseForm.valid) {
-      console.log('>>> save expense', this.expenseForm.value);
+      const expenseRequest = this.extractForm();
+      this.expenseFacade.createExpense(expenseRequest, this.dialogRef);
     } else {
       this.expenseForm.markAllAsTouched();
     }
+  }
+
+  private extractForm(): ExpenseRequest {
+    return {
+      date: (<Date>this.dateControl.value).toISOString().substr(0, 10),
+      amount: this.amountControl.value,
+      tags: this.tagsControl.value,
+      description: this.descriptionControl.value,
+      paidWithCreditCard: this.creditCardControl.value,
+      creditCardStatementIssued: this.creditCardStatementControl.value,
+    };
   }
 }

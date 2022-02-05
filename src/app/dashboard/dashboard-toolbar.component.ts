@@ -38,18 +38,6 @@ export class DashboardToolbarComponent implements OnDestroy {
       header: this.translateService.instant('NewExpense'),
       width: '90%',
       height: '90%',
-      // contentStyle: { 'max-height': '500px', overflow: 'auto' },
-      // baseZIndex: 10000,
     });
-
-    /*    this.ref.onClose.subscribe((product: Product) => {
-      if (product) {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Product Selected',
-          detail: product.name,
-        });
-      }
-    });*/
   }
 }
