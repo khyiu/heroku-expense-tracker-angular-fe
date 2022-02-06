@@ -13,134 +13,142 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   selector: 'het-expense-form',
   template: `
     <form [formGroup]="expenseForm" autocomplete="off">
-      <div fxLayout="column" fxLayoutGap="1rem">
-        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="expenseDate" [fxFlex]="labelWidth">{{
-            'Date' | translate | requiredIndicator
-          }}</label>
-          <p-calendar
-            inputId="expenseDate"
-            [formControl]="dateControl"
-            [dateFormat]="dateFormat"
-            [defaultDate]="currentDate"
-            [showIcon]="true"
-            [firstDayOfWeek]="1"
-            [required]="true"
-            appendTo="body"
-          ></p-calendar>
-        </div>
-        <div fxLayout="row" *ngIf="dateControl.touched && dateControl.invalid">
-          <het-form-field-error
-            fxFlexOffset="20"
-            [errors]="dateControl.errors"
-          ></het-form-field-error>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="expenseAmount" [fxFlex]="labelWidth">{{
-            'Amount' | translate | requiredIndicator
-          }}</label>
-          <p-inputNumber
-            [formControl]="amountControl"
-            [required]="true"
-            mode="currency"
-            inputId="expenseAmount"
-            currency="EUR"
-            locale="fr-BE"
-            [ngClass]="{
-              'ng-invalid ng-dirty':
-                amountControl.touched && amountControl.invalid
-            }"
-          ></p-inputNumber>
-        </div>
-        <div
-          fxLayout="row"
-          *ngIf="amountControl.touched && amountControl.invalid"
-        >
-          <het-form-field-error
-            fxFlexOffset="20"
-            [errors]="amountControl.errors"
-          ></het-form-field-error>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="tags" [fxFlex]="labelWidth">{{
-            'Tags' | translate | requiredIndicator
-          }}</label>
-          <div fxFlex="80" class="p-fluid">
-            <p-autoComplete
-              [formControl]="tagsControl"
-              [multiple]="true"
-              [suggestions]="previouslyUsedTags | async"
+      <div fxLayout="column" fxLayoutGap="1.5rem">
+        <div fxLayout="column" fxLayoutGap="1rem">
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+            <label for="expenseDate" [fxFlex]="labelWidth">{{
+              'Date' | translate | requiredIndicator
+            }}</label>
+            <p-calendar
+              inputId="expenseDate"
+              [formControl]="dateControl"
+              [dateFormat]="dateFormat"
+              [defaultDate]="currentDate"
+              [showIcon]="true"
+              [firstDayOfWeek]="1"
+              [required]="true"
+              appendTo="body"
+            ></p-calendar>
+          </div>
+          <div
+            fxLayout="row"
+            *ngIf="dateControl.touched && dateControl.invalid"
+          >
+            <het-form-field-error
+              fxFlexOffset="23"
+              [errors]="dateControl.errors"
+            ></het-form-field-error>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+            <label for="expenseAmount" [fxFlex]="labelWidth">{{
+              'Amount' | translate | requiredIndicator
+            }}</label>
+            <p-inputNumber
+              [formControl]="amountControl"
+              [required]="true"
+              mode="currency"
+              inputId="expenseAmount"
+              currency="EUR"
+              locale="fr-BE"
               [ngClass]="{
                 'ng-invalid ng-dirty':
-                  tagsControl.touched && tagsControl.invalid
+                  amountControl.touched && amountControl.invalid
               }"
-              (completeMethod)="fetchPreviouslyUsedTags($event)"
-            >
-            </p-autoComplete>
+            ></p-inputNumber>
           </div>
-        </div>
-        <div fxLayout="row" *ngIf="tagsControl.touched && tagsControl.invalid">
-          <het-form-field-error
-            fxFlexOffset="20"
-            [errors]="tagsControl.errors"
-          ></het-form-field-error>
-        </div>
+          <div
+            fxLayout="row"
+            *ngIf="amountControl.touched && amountControl.invalid"
+          >
+            <het-form-field-error
+              fxFlexOffset="23"
+              [errors]="amountControl.errors"
+            ></het-form-field-error>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+            <label for="tags" [fxFlex]="labelWidth">{{
+              'Tags' | translate | requiredIndicator
+            }}</label>
+            <div fxFlex="80" class="p-fluid">
+              <p-autoComplete
+                [formControl]="tagsControl"
+                [multiple]="true"
+                [suggestions]="previouslyUsedTags | async"
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    tagsControl.touched && tagsControl.invalid
+                }"
+                (completeMethod)="fetchPreviouslyUsedTags($event)"
+              >
+              </p-autoComplete>
+            </div>
+          </div>
+          <div
+            fxLayout="row"
+            *ngIf="tagsControl.touched && tagsControl.invalid"
+          >
+            <het-form-field-error
+              fxFlexOffset="23"
+              [errors]="tagsControl.errors"
+            ></het-form-field-error>
+          </div>
 
-        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="tags" [fxFlex]="labelWidth">{{
-            'Description' | translate
-          }}</label>
-          <textarea
-            pInputTextarea
-            fxFlex="80"
-            [formControl]="descriptionControl"
-            [autoResize]="true"
-            [maxlength]="1024"
-            [rows]="5"
-          ></textarea>
-        </div>
-        <div
-          fxLayout="row"
-          *ngIf="descriptionControl.touched && descriptionControl.invalid"
-        >
-          <het-form-field-error
-            fxFlexOffset="20"
-            [errors]="descriptionControl.errors"
-          ></het-form-field-error>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <div fxLayout="row" fxLayoutGap="1rem">
-            <label for="creditCard">{{
-              'PaidWithCreditCard' | translate
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+            <label for="tags" [fxFlex]="labelWidth">{{
+              'Description' | translate
             }}</label>
-            <p-checkbox
-              [formControl]="creditCardControl"
-              [binary]="true"
-              inputId="creditCard"
-            ></p-checkbox>
+            <textarea
+              pInputTextarea
+              fxFlex="80"
+              [formControl]="descriptionControl"
+              [autoResize]="true"
+              [maxlength]="1024"
+              [rows]="5"
+            ></textarea>
           </div>
-          <div fxLayout="row" fxLayoutGap="1rem">
-            <label for="creditCardStatement">{{
-              'CreditCardStatementIssued' | translate
-            }}</label>
-            <p-checkbox
-              [formControl]="creditCardStatementControl"
-              [binary]="true"
-              inputId="creditCardStatement"
-            ></p-checkbox>
+          <div
+            fxLayout="row"
+            *ngIf="descriptionControl.touched && descriptionControl.invalid"
+          >
+            <het-form-field-error
+              fxFlexOffset="23"
+              [errors]="descriptionControl.errors"
+            ></het-form-field-error>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
+            <div fxLayout="row" fxLayoutGap="1rem">
+              <label for="creditCard">{{
+                'PaidWithCreditCard' | translate
+              }}</label>
+              <p-checkbox
+                [formControl]="creditCardControl"
+                [binary]="true"
+                inputId="creditCard"
+              ></p-checkbox>
+            </div>
+            <div fxLayout="row" fxLayoutGap="1rem">
+              <label for="creditCardStatement">{{
+                'CreditCardStatementIssued' | translate
+              }}</label>
+              <p-checkbox
+                [formControl]="creditCardStatementControl"
+                [binary]="true"
+                inputId="creditCardStatement"
+              ></p-checkbox>
+            </div>
           </div>
         </div>
-      </div>
-      <div fxLayout="row">
-        <button
-          pButton
-          pRipple
-          type="button"
-          label="{{ 'Save' | translate }}"
-          class="p-button-outlined"
-          icon="pi pi-plus"
-          (click)="save()"
-        ></button>
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="{{ 'Save' | translate }}"
+            class="p-button-outlined"
+            icon="pi pi-plus"
+            (click)="save()"
+          ></button>
+        </div>
       </div>
     </form>
   `,
