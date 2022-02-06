@@ -109,7 +109,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
           ></het-form-field-error>
         </div>
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <div>
+          <div fxLayout="row" fxLayoutGap="1rem">
             <label for="creditCard">{{
               'PaidWithCreditCard' | translate
             }}</label>
@@ -119,7 +119,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
               inputId="creditCard"
             ></p-checkbox>
           </div>
-          <div>
+          <div fxLayout="row" fxLayoutGap="1rem">
             <label for="creditCardStatement">{{
               'CreditCardStatementIssued' | translate
             }}</label>
