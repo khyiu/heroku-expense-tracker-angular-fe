@@ -91,12 +91,12 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
             'Description' | translate
           }}</label>
           <textarea
-            [formControl]="descriptionControl"
-            [rows]="5"
-            [cols]="30"
             pInputTextarea
+            fxFlex="80"
+            [formControl]="descriptionControl"
             [autoResize]="true"
             [maxlength]="1024"
+            [rows]="5"
           ></textarea>
         </div>
         <div
