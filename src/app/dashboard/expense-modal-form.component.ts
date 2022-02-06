@@ -15,7 +15,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
     <form [formGroup]="expenseForm" autocomplete="off">
       <div fxLayout="column" fxLayoutGap="1rem">
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="expenseDate">{{
+          <label for="expenseDate" [fxFlex]="labelWidth">{{
             'Date' | translate | requiredIndicator
           }}</label>
           <p-calendar
@@ -36,7 +36,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
           ></het-form-field-error>
         </div>
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="expenseAmount">{{
+          <label for="expenseAmount" [fxFlex]="labelWidth">{{
             'Amount' | translate | requiredIndicator
           }}</label>
           <p-inputNumber
@@ -62,17 +62,22 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
           ></het-form-field-error>
         </div>
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="tags">{{ 'Tags' | translate | requiredIndicator }}</label>
-          <p-autoComplete
-            [suggestions]="previouslyUsedTags | async"
-            (completeMethod)="fetchPreviouslyUsedTags($event)"
-            [formControl]="tagsControl"
-            [multiple]="true"
-            [ngClass]="{
-              'ng-invalid ng-dirty': tagsControl.touched && tagsControl.invalid
-            }"
-          >
-          </p-autoComplete>
+          <label for="tags" [fxFlex]="labelWidth">{{
+            'Tags' | translate | requiredIndicator
+          }}</label>
+          <div fxFlex="80" class="p-fluid">
+            <p-autoComplete
+              [formControl]="tagsControl"
+              [multiple]="true"
+              [suggestions]="previouslyUsedTags | async"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  tagsControl.touched && tagsControl.invalid
+              }"
+              (completeMethod)="fetchPreviouslyUsedTags($event)"
+            >
+            </p-autoComplete>
+          </div>
         </div>
         <div fxLayout="row" *ngIf="tagsControl.touched && tagsControl.invalid">
           <het-form-field-error
@@ -82,7 +87,9 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
         </div>
 
         <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-          <label for="tags">{{ 'Description' | translate }}</label>
+          <label for="tags" [fxFlex]="labelWidth">{{
+            'Description' | translate
+          }}</label>
           <textarea
             [formControl]="descriptionControl"
             [rows]="5"
@@ -141,9 +148,9 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 })
 export class ExpenseModalFormComponent {
   readonly amountPattern = '^[+-]?\\d+(\\.\\d{1,2})?$';
-
   readonly dateFormat = 'dd/mm/yy';
   readonly currentDate = new Date();
+  readonly labelWidth = 20;
 
   dateControl = new FormControl(this.currentDate, Validators.required);
   amountControl = new FormControl(null, Validators.pattern(this.amountPattern));

@@ -36,8 +36,7 @@ export class DashboardToolbarComponent implements OnDestroy {
   openNewExpenseForm(): void {
     this.ref = this.dialogService.open(ExpenseModalFormComponent, {
       header: this.translateService.instant('NewExpense'),
-      width: '90%',
-      height: '90%',
+      width: '40%',
     });
   }
 }
