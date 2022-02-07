@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ExpensesService } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { State } from './expense.reducers';
+import { Store } from '@ngrx/store';
+import {ExpenseFacade} from './expense.facade';
 
 @Injectable()
 export class ExpenseEffects {
@@ -29,7 +32,7 @@ export class ExpenseEffects {
                 items: response.items,
               })
             ),
-            catchError(() => of(ExpenseActions.ExpenseError()))
+            catchError(() => of(ExpenseActions.expenseError()))
           )
       )
     )
@@ -46,31 +49,60 @@ export class ExpenseEffects {
               dialogRef: action.dialogRef,
             })
           ),
-          catchError(() => of(ExpenseActions.ExpenseError()))
+          catchError(() => of(ExpenseActions.expenseError()))
         )
       )
     )
   );
 
-  expenseCreated$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ExpenseActions.expenseCreated),
-        tap(() =>
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Data saved',
-            detail: 'The expense has been created',
-          })
-        ),
-        tap((action) => action.dialogRef.close())
+  expenseCreated$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.expenseCreated),
+      tap(() =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Data saved',
+          detail: 'The expense has been created',
+        })
       ),
-    { dispatch: false }
+      tap((action) => action.dialogRef.close()),
+      map(() => ExpenseActions.refreshCurrentPage())
+    )
+  );
+
+  refreshExpensePage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.refreshCurrentPage),
+      withLatestFrom(this.expenseFacade.currentPageQuery$),
+      mergeMap(([_action, currentPageQuery]) =>
+        this.expensesService
+          .getExpenses(
+            currentPageQuery.pageSize,
+            currentPageQuery.pageNumber,
+            currentPageQuery.sortDirection,
+            currentPageQuery.sortBy,
+            currentPageQuery.tagFilters,
+            currentPageQuery.descriptionFilter,
+            currentPageQuery.paidWithCreditCardFilter,
+            currentPageQuery.creditCardStatementIssuedFilter
+          )
+          .pipe(
+            map((response) =>
+              ExpenseActions.expensePageFetched({
+                totalNumberOfItems: response.totalNumberOfItems,
+                items: response.items,
+              })
+            ),
+            catchError(() => of(ExpenseActions.expenseError()))
+          )
+      )
+    )
   );
 
   constructor(
     private readonly actions$: Actions,
     private readonly expensesService: ExpensesService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly expenseFacade: ExpenseFacade,
   ) {}
 }

@@ -44,12 +44,15 @@ export const expenseReducer = createReducer(
     pendingReadRequest: true,
     query: action.query,
   })),
-  on(ExpenseActions.expensePageFetched, (state, action) =>
-    expenseResponseEntityAdapter.setAll(action.items, {
-      ...state,
-      pendingReadRequest: false,
-      totalNumberOfItems: action.totalNumberOfItems,
-    })
+  on(
+    ExpenseActions.expensePageFetched,
+    ExpenseActions.currentPageRefreshed,
+    (state, action) =>
+      expenseResponseEntityAdapter.setAll(action.items, {
+        ...state,
+        pendingReadRequest: false,
+        totalNumberOfItems: action.totalNumberOfItems,
+      })
   ),
   on(ExpenseActions.createExpense, (state) => ({
     ...state,
@@ -58,5 +61,9 @@ export const expenseReducer = createReducer(
   on(ExpenseActions.expenseCreated, (state) => ({
     ...state,
     pendingWriteRequest: false,
+  })),
+  on(ExpenseActions.refreshCurrentPage, (state) => ({
+    ...state,
+    pendingReadRequest: true,
   }))
 );

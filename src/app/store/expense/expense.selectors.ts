@@ -18,3 +18,8 @@ export const selectTotalNumberOfExpenses = createSelector(
   selectFeature,
   (state) => state.totalNumberOfItems
 );
+
+export const selectCurrentExpensePageQuery = createSelector(
+  selectFeature,
+  (state) => state.query
+)

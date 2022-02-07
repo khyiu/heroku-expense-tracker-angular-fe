@@ -21,7 +21,7 @@ export const expensePageFetched = createAction(
   }>()
 );
 
-export const ExpenseError = createAction('[Expense] Error');
+export const expenseError = createAction('[Expense] Error');
 
 export const createExpense = createAction(
   '[Expense] Create',
@@ -36,5 +36,15 @@ export const expenseCreated = createAction(
   props<{
     expenseResponse: ExpenseResponse;
     dialogRef: DynamicDialogRef;
+  }>()
+);
+
+export const refreshCurrentPage = createAction('[Expense] Refresh page');
+
+export const currentPageRefreshed = createAction(
+  '[Expense] Page refreshed',
+  props<{
+    totalNumberOfItems: number;
+    items: ExpenseResponse[];
   }>()
 );

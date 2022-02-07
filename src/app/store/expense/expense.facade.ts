@@ -3,7 +3,7 @@ import { ExpenseQuery, State } from './expense.reducers';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions from './expense.actions';
 import {
-  selectCurrentExpensePage,
+  selectCurrentExpensePage, selectCurrentExpensePageQuery,
   selectPendingReadRequest,
   selectTotalNumberOfExpenses,
 } from './expense.selectors';
@@ -15,6 +15,7 @@ export class ExpenseFacade {
   currentExpensePage$ = this.store$.select(selectCurrentExpensePage);
   pendingReadRequest$ = this.store$.select(selectPendingReadRequest);
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
+  currentPageQuery$ = this.store$.select(selectCurrentExpensePageQuery);
 
   constructor(private readonly store$: Store<State>) {}
 
