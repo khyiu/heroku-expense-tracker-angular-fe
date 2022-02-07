@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadExpensePage(event: LazyLoadEvent): void {
-    const expenseQuery = this.convertLazyLoadEventToExpenseQuery(event);
+    const expenseQuery = DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
     this.expenseFacade.loadExpensePage(expenseQuery);
 
     this.router.navigate(['.'], {
@@ -155,28 +155,28 @@ export class DashboardComponent implements OnInit {
   private extractExpenseQueryFromRoute(): ExpenseQuery {
     const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
     return {
-      pageSize: this.extractPageSizeParamFromRoute(
+      pageSize: DashboardComponent.extractPageSizeParamFromRoute(
         queryParamMap,
         this.defaultExpenseQuery.pageSize
       ),
-      pageNumber: this.extractPageNumberParamFromRoute(
+      pageNumber: DashboardComponent.extractPageNumberParamFromRoute(
         queryParamMap,
         this.defaultExpenseQuery.pageNumber
       ),
 
-      sortDirection: this.extractSortDirectionParamFromRoute(
+      sortDirection: DashboardComponent.extractSortDirectionParamFromRoute(
         queryParamMap,
         this.defaultExpenseQuery.sortDirection
       ),
 
-      sortBy: this.extractSortAttributeParamFromRoute(
+      sortBy: DashboardComponent.extractSortAttributeParamFromRoute(
         queryParamMap,
         this.defaultExpenseQuery.sortBy
       ),
     };
   }
 
-  private extractPageSizeParamFromRoute(
+  private static extractPageSizeParamFromRoute(
     paramMap: ParamMap,
     defaultPageSize: number
   ): number {
@@ -184,7 +184,7 @@ export class DashboardComponent implements OnInit {
     return pageSize && parseInt(pageSize, 10) ? +pageSize : defaultPageSize;
   }
 
-  private extractPageNumberParamFromRoute(
+  private static extractPageNumberParamFromRoute(
     paramMap: ParamMap,
     defaultPageNumber: number
   ): number {
@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit {
       : defaultPageNumber;
   }
 
-  private extractSortDirectionParamFromRoute(
+  private static extractSortDirectionParamFromRoute(
     paramMap: ParamMap,
     defaultSortDirection: SortDirection
   ): SortDirection {
@@ -204,7 +204,7 @@ export class DashboardComponent implements OnInit {
       : defaultSortDirection;
   }
 
-  private extractSortAttributeParamFromRoute(
+  private static extractSortAttributeParamFromRoute(
     paramMap: ParamMap,
     defaultSortAttribute: SortAttribute
   ): SortAttribute {
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit {
       : defaultSortAttribute;
   }
 
-  private convertLazyLoadEventToExpenseQuery(
+  private static convertLazyLoadEventToExpenseQuery(
     event: LazyLoadEvent
   ): ExpenseQuery {
     return {
