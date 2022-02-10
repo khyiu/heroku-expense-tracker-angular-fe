@@ -30,7 +30,8 @@ jobs:
           paths:
             - node_modules
 
-      - browser-tools/install-browser-tools
+      - browser-tools/install-browser-tools:
+          firefox-version: 96.0.3
 
       - run:
           name: Linting
