@@ -4,9 +4,7 @@ import { ExpensesService } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
 import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { State } from './expense.reducers';
-import { Store } from '@ngrx/store';
-import {ExpenseFacade} from './expense.facade';
+import { ExpenseFacade } from './expense.facade';
 
 @Injectable()
 export class ExpenseEffects {
@@ -103,6 +101,6 @@ export class ExpenseEffects {
     private readonly actions$: Actions,
     private readonly expensesService: ExpensesService,
     private readonly messageService: MessageService,
-    private readonly expenseFacade: ExpenseFacade,
+    private readonly expenseFacade: ExpenseFacade
   ) {}
 }

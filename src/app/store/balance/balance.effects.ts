@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { BalanceService } from '../../generated-sources/expense-api';
 import * as BalanceActions from './balance.actions';
-import {catchError, map, mergeMap, of} from 'rxjs';
+import * as ExpenseActions from '../expense/expense.actions';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
 export class BalanceEffects {
@@ -15,6 +16,13 @@ export class BalanceEffects {
           .pipe(map((balance) => BalanceActions.balanceFetched({ balance })))
       ),
       catchError(() => of(BalanceActions.BalanceError()))
+    )
+  );
+
+  expenseCreated$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.expenseCreated),
+      map(() => BalanceActions.fetchBalance())
     )
   );
 
