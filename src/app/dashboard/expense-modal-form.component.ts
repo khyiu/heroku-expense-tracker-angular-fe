@@ -234,8 +234,15 @@ export class ExpenseModalFormComponent {
   }
 
   private extractForm(): ExpenseRequest {
+    const expenseDate = <Date>this.dateControl.value;
+
     return {
-      date: (<Date>this.dateControl.value).toISOString().substr(0, 10),
+      date: `${expenseDate.getFullYear()}-${(expenseDate.getMonth() + 1)
+        .toString(10)
+        .padStart(2, '0')}-${expenseDate
+        .getDate()
+        .toString(10)
+        .padStart(2, '0')}`,
       amount: this.amountControl.value,
       tags: this.tagsControl.value,
       description: this.descriptionControl.value,
