@@ -220,7 +220,7 @@ export class DashboardComponent implements OnInit {
     return {
       pageSize: event.rows!,
       pageNumber: event.first! / event.rows! + 1,
-      sortBy: 'AMOUNT',
+      sortBy: 'DATE',
       sortDirection: 'DESC',
     };
   }
