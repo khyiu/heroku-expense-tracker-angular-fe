@@ -13,12 +13,16 @@ import {
   SortDirection,
 } from '../store/expense/expense.reducers';
 import { DASHBOARD_PARAMS } from '../routing.constants';
-import { LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { BalanceFacade } from '../store/balance/balance.facade';
 
 @Component({
   selector: 'het-dashboard',
   template: `
+    <p-confirmDialog
+      header="Confirmation"
+      icon="pi pi-exclamation-triangle"
+    ></p-confirmDialog>
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
       <het-dashboard-toolbar></het-dashboard-toolbar>
@@ -73,6 +77,16 @@ import { BalanceFacade } from '../store/balance/balance.facade';
                 ></p-tag>
               </div>
             </td>
+            <td>
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-times"
+                class="p-button-rounded p-button-danger p-button-text"
+                (click)="triggerExpenseDeletion(expense.id)"
+              ></button>
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -122,7 +136,8 @@ export class DashboardComponent implements OnInit {
     private readonly expenseFacade: ExpenseFacade,
     private readonly balanceFacade: BalanceFacade,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -133,7 +148,8 @@ export class DashboardComponent implements OnInit {
   }
 
   loadExpensePage(event: LazyLoadEvent): void {
-    const expenseQuery = DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
+    const expenseQuery =
+      DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
     this.expenseFacade.loadExpensePage(expenseQuery);
 
     this.router.navigate(['.'], {
@@ -223,5 +239,14 @@ export class DashboardComponent implements OnInit {
       sortBy: 'DATE',
       sortDirection: 'DESC',
     };
+  }
+
+  triggerExpenseDeletion(expenseId: string): void {
+    // todo kyiu: implement
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => this.expenseFacade.deleteExpense(expenseId),
+    });
   }
 }
