@@ -3,7 +3,8 @@ import { ExpenseQuery, State } from './expense.reducers';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions from './expense.actions';
 import {
-  selectCurrentExpensePage, selectCurrentExpensePageQuery,
+  selectCurrentExpensePage,
+  selectCurrentExpensePageQuery,
   selectPendingReadRequest,
   selectTotalNumberOfExpenses,
 } from './expense.selectors';
@@ -37,5 +38,9 @@ export class ExpenseFacade {
         dialogRef,
       })
     );
+  }
+
+  deleteExpense(expenseId: string): void {
+    this.store$.dispatch(ExpenseActions.deleteExpense({ expenseId }));
   }
 }

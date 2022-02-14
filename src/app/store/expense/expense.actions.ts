@@ -48,3 +48,12 @@ export const currentPageRefreshed = createAction(
     items: ExpenseResponse[];
   }>()
 );
+
+export const deleteExpense = createAction(
+  '[Expense] Delete',
+  props<{
+    expenseId: string;
+  }>()
+);
+
+export const expenseDeleted = createAction('[Expense] Deleted');

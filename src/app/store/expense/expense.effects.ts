@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ExpensesService } from '../../generated-sources/expense-api';
+import {
+  ExpenseService,
+  ExpensesService,
+} from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
 import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
@@ -97,9 +100,36 @@ export class ExpenseEffects {
     )
   );
 
+  deleteExpense$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.deleteExpense),
+      mergeMap((action: ReturnType<typeof ExpenseActions.deleteExpense>) =>
+        this.expenseService.deleteExpense(action.expenseId).pipe(
+          map(() => ExpenseActions.expenseDeleted()),
+          catchError(() => of(ExpenseActions.expenseError()))
+        )
+      )
+    )
+  );
+
+  expenseDeleted$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.expenseDeleted),
+      tap(() =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Data deleted',
+          detail: 'The expense has been deleted',
+        })
+      ),
+      map(() => ExpenseActions.refreshCurrentPage())
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly expensesService: ExpensesService,
+    private readonly expenseService: ExpenseService,
     private readonly messageService: MessageService,
     private readonly expenseFacade: ExpenseFacade
   ) {}

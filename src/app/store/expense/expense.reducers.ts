@@ -54,11 +54,11 @@ export const expenseReducer = createReducer(
         totalNumberOfItems: action.totalNumberOfItems,
       })
   ),
-  on(ExpenseActions.createExpense, (state) => ({
+  on(ExpenseActions.createExpense, ExpenseActions.deleteExpense, (state) => ({
     ...state,
     pendingWriteRequest: true,
   })),
-  on(ExpenseActions.expenseCreated, (state) => ({
+  on(ExpenseActions.expenseCreated, ExpenseActions.expenseDeleted, (state) => ({
     ...state,
     pendingWriteRequest: false,
   })),

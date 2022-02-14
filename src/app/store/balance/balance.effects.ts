@@ -26,6 +26,13 @@ export class BalanceEffects {
     )
   );
 
+  expenseDeleted$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.expenseDeleted),
+      map(() => BalanceActions.fetchBalance())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService
