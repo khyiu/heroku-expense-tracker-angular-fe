@@ -3,6 +3,8 @@
   "AddExpense": "Add expense",
   "Amount": "Amount",
   "Balance": "Balance",
+  "ConfirmDeletion": "Are you sure you want to delete this expense?",
+  "Confirmation": "Confirmation",
   "CreditCardStatementIssued": "Credit card statement issued",
   "Dashboard": "Dashboard",
   "Date": "Date",
@@ -12,10 +14,12 @@
   },
   "Logout": "Log out",
   "NewExpense": "New expense",
+  "No": "No",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
   "PaidWithCreditCard": "Paid with credit card",
   "Save": "Save",
   "Tags": "Tags",
+  "Yes": "Yes",
   "primeng": {
     "dateFormat": "mm/dd/yy",
     "dayNames": [

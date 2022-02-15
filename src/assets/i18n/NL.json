@@ -1,8 +1,10 @@
 {
   "Actions": "Acties",
-  "AddExpense": "Kost toevoegen",
+  "AddExpense": "Uitgave toevoegen",
   "Amount": "Bedrag",
   "Balance": "Saldo",
+  "ConfirmDeletion": "Bent u zeker dat je deze uitgave wilt schrappen?",
+  "Confirmation": "Bevestiging",
   "CreditCardStatementIssued": "Kredietkaart uittreksel opgemaakt",
   "Dashboard": "Dashboard",
   "Date": "Datum",
@@ -11,11 +13,13 @@
     "required": "Dit veld is verplicht"
   },
   "Logout": "Afmelden",
-  "NewExpense": "Nieuwe kost",
+  "NewExpense": "Nieuwe uitgave",
+  "No": "Nee",
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
   "PaidWithCreditCard": "Betaald met kredietkaart",
   "Save": "Opslaan",
   "Tags": "Tags",
+  "Yes": "Ja",
   "primeng": {
     "dateFormat": "mm/dd/yy",
     "dayNames": [

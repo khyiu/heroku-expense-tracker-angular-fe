@@ -15,14 +15,35 @@ import {
 import { DASHBOARD_PARAMS } from '../routing.constants';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { BalanceFacade } from '../store/balance/balance.facade';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'het-dashboard',
   template: `
     <p-confirmDialog
-      header="Confirmation"
-      icon="pi pi-exclamation-triangle"
-    ></p-confirmDialog>
+      #cd
+      header="{{ 'Confirmation' | translate }}"
+      message="{{ 'ConfirmDeletion' | translate }}"
+    >
+      <ng-template pTemplate="footer">
+        <button
+          type="button"
+          pButton
+          icon="pi pi-times"
+          class="p-button-outlined"
+          label="{{ 'No' | translate }}"
+          (click)="cd.reject()"
+        ></button>
+        <button
+          type="button"
+          pButton
+          icon="pi pi-check"
+          label="{{ 'Yes' | translate }}"
+          (click)="cd.accept()"
+        ></button>
+      </ng-template>
+    </p-confirmDialog>
+
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
       <het-dashboard-toolbar></het-dashboard-toolbar>
@@ -137,7 +158,8 @@ export class DashboardComponent implements OnInit {
     private readonly balanceFacade: BalanceFacade,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly confirmationService: ConfirmationService
+    private readonly confirmationService: ConfirmationService,
+    private readonly translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -242,10 +264,7 @@ export class DashboardComponent implements OnInit {
   }
 
   triggerExpenseDeletion(expenseId: string): void {
-    // todo kyiu: implement
-
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
       accept: () => this.expenseFacade.deleteExpense(expenseId),
     });
   }

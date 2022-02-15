@@ -3,6 +3,8 @@
   "AddExpense": "Ajouter dépense",
   "Amount": "Montant",
   "Balance": "Solde",
+  "ConfirmDeletion": "Êtes-vous sûr de vouloir supprimer cette dépense?",
+  "Confirmation": "Confirmation",
   "CreditCardStatementIssued": "Relevé carte de crédit émis",
   "Dashboard": "Tableau de bord",
   "Date": "Date",
@@ -12,10 +14,12 @@
   },
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
+  "No": "Non",
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
   "PaidWithCreditCard": "Payé par carte de crédit",
   "Save": "Sauver",
   "Tags": "Tags",
+  "Yes": "Oui",
   "primeng": {
     "dateFormat": "mm/dd/yy",
     "dayNames": [
