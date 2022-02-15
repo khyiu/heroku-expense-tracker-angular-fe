@@ -7,11 +7,13 @@
   "Confirmation": "Confirmation",
   "CreditCardStatementIssued": "Credit card statement issued",
   "Dashboard": "Dashboard",
+  "DataSaved": "DataSaved",
   "Date": "Date",
   "Description": "Description",
   "Errors": {
     "required": "This field is mandatory"
   },
+  "ExpenseCreated": "The expense has been created",
   "Logout": "Log out",
   "NewExpense": "New expense",
   "No": "No",

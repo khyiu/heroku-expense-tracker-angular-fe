@@ -8,6 +8,7 @@ import * as ExpenseActions from './expense.actions';
 import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ExpenseFacade } from './expense.facade';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ExpenseEffects {
@@ -62,8 +63,8 @@ export class ExpenseEffects {
       tap(() =>
         this.messageService.add({
           severity: 'success',
-          summary: 'Data saved',
-          detail: 'The expense has been created',
+          summary: this.translateService.instant('DataSaved'),
+          detail: this.translateService.instant('ExpenseCreated'),
         })
       ),
       tap((action) => action.dialogRef.close()),
@@ -131,6 +132,7 @@ export class ExpenseEffects {
     private readonly expensesService: ExpensesService,
     private readonly expenseService: ExpenseService,
     private readonly messageService: MessageService,
-    private readonly expenseFacade: ExpenseFacade
+    private readonly expenseFacade: ExpenseFacade,
+    private readonly translateService: TranslateService
   ) {}
 }
