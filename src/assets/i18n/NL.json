@@ -7,6 +7,7 @@
   "Confirmation": "Bevestiging",
   "CreditCardStatementIssued": "Kredietkaart uittreksel opgemaakt",
   "Dashboard": "Dashboard",
+  "DataDeleted": "Gegevens geschrapt",
   "DataSaved": "Gegevens opslaan",
   "Date": "Datum",
   "Description": "Beschrijving",
@@ -14,6 +15,7 @@
     "required": "Dit veld is verplicht"
   },
   "ExpenseCreated": "Het uitgave wordt gecrëeerd",
+  "ExpenseDeleted": "Het uitgave is geschrapt",
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe uitgave",
   "No": "Nee",

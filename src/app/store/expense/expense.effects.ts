@@ -119,8 +119,8 @@ export class ExpenseEffects {
       tap(() =>
         this.messageService.add({
           severity: 'success',
-          summary: 'Data deleted',
-          detail: 'The expense has been deleted',
+          summary: this.translateService.instant('DataDeleted'),
+          detail: this.translateService.instant('ExpenseDeleted'),
         })
       ),
       map(() => ExpenseActions.refreshCurrentPage())

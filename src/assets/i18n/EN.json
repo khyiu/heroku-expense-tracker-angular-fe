@@ -7,6 +7,7 @@
   "Confirmation": "Confirmation",
   "CreditCardStatementIssued": "Credit card statement issued",
   "Dashboard": "Dashboard",
+  "DataDeleted": "Data deleted",
   "DataSaved": "DataSaved",
   "Date": "Date",
   "Description": "Description",
@@ -14,6 +15,7 @@
     "required": "This field is mandatory"
   },
   "ExpenseCreated": "The expense has been created",
+  "ExpenseDeleted": "The expense has been deleted",
   "Logout": "Log out",
   "NewExpense": "New expense",
   "No": "No",

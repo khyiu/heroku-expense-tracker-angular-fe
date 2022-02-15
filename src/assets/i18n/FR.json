@@ -7,6 +7,7 @@
   "Confirmation": "Confirmation",
   "CreditCardStatementIssued": "Relevé carte de crédit émis",
   "Dashboard": "Tableau de bord",
+  "DataDeleted": "Données supprimées",
   "DataSaved": "Données sauvegardées",
   "Date": "Date",
   "Description": "Description",
@@ -14,6 +15,7 @@
     "required": "Ce champ est obligatoire"
   },
   "ExpenseCreated": "La dépense a été créée",
+  "ExpenseDeleted": "La dépense a été supprimées",
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
   "No": "Non",
