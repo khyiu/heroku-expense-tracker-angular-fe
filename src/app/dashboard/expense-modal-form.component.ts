@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, Observable, of, take, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ExpenseFacade } from '../store/expense/expense.facade';
-import { ExpenseRequest } from '../generated-sources/expense-api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  ExpenseRequest,
+  ExpenseResponse,
+} from '../generated-sources/expense-api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @UntilDestroy()
 @Component({
@@ -154,7 +157,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpenseModalFormComponent {
+export class ExpenseModalFormComponent implements OnInit {
   readonly amountPattern = '^[+-]?\\d+(\\.\\d{1,2})?$';
   readonly dateFormat = 'dd/mm/yy';
   readonly currentDate = new Date();
@@ -177,14 +180,24 @@ export class ExpenseModalFormComponent {
 
   previouslyUsedTags: Observable<string[]> = of([]);
 
+  private existingExpenseId: string;
+
   constructor(
     private readonly config: PrimeNGConfig,
     private readonly translateService: TranslateService,
     private readonly expenseFacade: ExpenseFacade,
-    private readonly dialogRef: DynamicDialogRef
+    private readonly dialogRef: DynamicDialogRef,
+    private readonly dialogConfig: DynamicDialogConfig
   ) {
     this.initCalendarLanguage();
     this.initCreditCardControlSubscriptions();
+  }
+
+  ngOnInit(): void {
+    if (this.dialogConfig.data) {
+      this.existingExpenseId = this.dialogConfig.data.id;
+      this.initFormWithExistingExpense(this.dialogConfig.data);
+    }
   }
 
   private initCalendarLanguage(): void {
@@ -217,6 +230,17 @@ export class ExpenseModalFormComponent {
       .subscribe();
   }
 
+  private initFormWithExistingExpense(expense: ExpenseResponse): void {
+    this.expenseForm.patchValue({
+      date: new Date(expense.date),
+      amount: expense.amount,
+      tags: expense.tags,
+      description: expense.description,
+      creditCard: expense.paidWithCreditCard,
+      creditCardStatement: expense.creditCardStatementIssued,
+    });
+  }
+
   fetchPreviouslyUsedTags(event: {
     originalEvent: unknown;
     query: string;
@@ -227,7 +251,16 @@ export class ExpenseModalFormComponent {
   save(): void {
     if (this.expenseForm.valid) {
       const expenseRequest = this.extractForm();
-      this.expenseFacade.createExpense(expenseRequest, this.dialogRef);
+
+      if (this.existingExpenseId) {
+        this.expenseFacade.updateExpense(
+          this.existingExpenseId,
+          expenseRequest,
+          this.dialogRef
+        );
+      } else {
+        this.expenseFacade.createExpense(expenseRequest, this.dialogRef);
+      }
     } else {
       this.expenseForm.markAllAsTouched();
     }

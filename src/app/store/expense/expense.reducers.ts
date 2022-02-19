@@ -54,10 +54,15 @@ export const expenseReducer = createReducer(
         totalNumberOfItems: action.totalNumberOfItems,
       })
   ),
-  on(ExpenseActions.createExpense, ExpenseActions.deleteExpense, (state) => ({
-    ...state,
-    pendingWriteRequest: true,
-  })),
+  on(
+    ExpenseActions.createExpense,
+    ExpenseActions.deleteExpense,
+    ExpenseActions.updateExpense,
+    (state) => ({
+      ...state,
+      pendingWriteRequest: true,
+    })
+  ),
   on(ExpenseActions.expenseCreated, ExpenseActions.expenseDeleted, (state) => ({
     ...state,
     pendingWriteRequest: false,
@@ -65,5 +70,11 @@ export const expenseReducer = createReducer(
   on(ExpenseActions.refreshCurrentPage, (state) => ({
     ...state,
     pendingReadRequest: true,
-  }))
+  })),
+  on(ExpenseActions.expenseUpdated, (state, action) =>
+    expenseResponseEntityAdapter.upsertOne(action.expenseResponse, {
+      ...state,
+      pendingWriteRequest: false,
+    })
+  )
 );

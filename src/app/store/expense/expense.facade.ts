@@ -43,4 +43,14 @@ export class ExpenseFacade {
   deleteExpense(expenseId: string): void {
     this.store$.dispatch(ExpenseActions.deleteExpense({ expenseId }));
   }
+
+  updateExpense(
+    expenseId: string,
+    expenseRequest: ExpenseRequest,
+    dialogRef: DynamicDialogRef
+  ): void {
+    this.store$.dispatch(
+      ExpenseActions.updateExpense({ expenseId, expenseRequest, dialogRef })
+    );
+  }
 }

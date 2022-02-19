@@ -57,3 +57,20 @@ export const deleteExpense = createAction(
 );
 
 export const expenseDeleted = createAction('[Expense] Deleted');
+
+export const updateExpense = createAction(
+  '[Expense] Update',
+  props<{
+    expenseId: string;
+    expenseRequest: ExpenseRequest;
+    dialogRef: DynamicDialogRef;
+  }>()
+);
+
+export const expenseUpdated = createAction(
+  '[Expense] Updated',
+  props<{
+    expenseResponse: ExpenseResponse;
+    dialogRef: DynamicDialogRef;
+  }>()
+);

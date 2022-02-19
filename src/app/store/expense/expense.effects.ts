@@ -127,6 +127,40 @@ export class ExpenseEffects {
     )
   );
 
+  updateExpense$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.updateExpense),
+      mergeMap((action: ReturnType<typeof ExpenseActions.updateExpense>) =>
+        this.expenseService
+          .updateExpense(action.expenseId, action.expenseRequest)
+          .pipe(
+            map((response) =>
+              ExpenseActions.expenseUpdated({
+                expenseResponse: response,
+                dialogRef: action.dialogRef,
+              })
+            )
+          )
+      )
+    )
+  );
+
+  expenseUpdated$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ExpenseActions.expenseUpdated),
+        tap(() =>
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant('DataSaved'),
+            detail: this.translateService.instant('ExpenseUpdated'),
+          })
+        ),
+        tap((action) => action.dialogRef.close())
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly expensesService: ExpensesService,

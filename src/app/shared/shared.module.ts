@@ -7,6 +7,7 @@ import { FormFieldErrorComponent } from './form-field-error/form-field-error.com
 import { RequiredIndicatorPipe } from './required-indicator.pipe';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     EuroAmountPipe,
     FormFieldErrorComponent,
     RequiredIndicatorPipe,
-    ConfirmDialogModule
+    ConfirmDialogModule,
   ],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, DialogService],
 })
 export class SharedModule {}

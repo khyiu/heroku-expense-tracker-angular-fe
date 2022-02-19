@@ -11,11 +11,13 @@
   "DataSaved": "Données sauvegardées",
   "Date": "Date",
   "Description": "Description",
+  "EditExpense": "Modification dépense",
   "Errors": {
     "required": "Ce champ est obligatoire"
   },
   "ExpenseCreated": "La dépense a été créée",
   "ExpenseDeleted": "La dépense a été supprimées",
+  "ExpenseUpdated": "La dépense a été mise à jour",
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
   "No": "Non",

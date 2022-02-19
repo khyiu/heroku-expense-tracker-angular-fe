@@ -11,11 +11,13 @@
   "DataSaved": "Gegevens opslaan",
   "Date": "Datum",
   "Description": "Beschrijving",
+  "EditExpense": "Uitgave bewerking",
   "Errors": {
     "required": "Dit veld is verplicht"
   },
   "ExpenseCreated": "Het uitgave wordt gecrëeerd",
   "ExpenseDeleted": "Het uitgave is geschrapt",
+  "ExpenseUpdated": "Het uitgave is gewijzigd",
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe uitgave",
   "No": "Nee",

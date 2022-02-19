@@ -16,6 +16,8 @@ import { DASHBOARD_PARAMS } from '../routing.constants';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { BalanceFacade } from '../store/balance/balance.facade';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ExpenseModalFormComponent } from './expense-modal-form.component';
 
 @Component({
   selector: 'het-dashboard',
@@ -107,6 +109,14 @@ import { TranslateService } from '@ngx-translate/core';
                 class="p-button-rounded p-button-danger p-button-text"
                 (click)="triggerExpenseDeletion(expense.id)"
               ></button>
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-info p-button-text"
+                (click)="editExpense(expense)"
+              ></button>
             </td>
           </tr>
         </ng-template>
@@ -152,6 +162,8 @@ export class DashboardComponent implements OnInit {
   currentPageFirstItemIdx = 0;
   pageSize = this.paginatorPageSizes[0];
 
+  private ref: DynamicDialogRef;
+
   constructor(
     private readonly expensesApiService: ExpensesService,
     private readonly expenseFacade: ExpenseFacade,
@@ -159,7 +171,8 @@ export class DashboardComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly confirmationService: ConfirmationService,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -266,6 +279,14 @@ export class DashboardComponent implements OnInit {
   triggerExpenseDeletion(expenseId: string): void {
     this.confirmationService.confirm({
       accept: () => this.expenseFacade.deleteExpense(expenseId),
+    });
+  }
+
+  editExpense(expense: ExpenseResponse): void {
+    this.ref = this.dialogService.open(ExpenseModalFormComponent, {
+      header: this.translateService.instant('EditExpense'),
+      width: '40%',
+      data: expense,
     });
   }
 }
