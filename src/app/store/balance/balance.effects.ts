@@ -33,6 +33,13 @@ export class BalanceEffects {
     )
   );
 
+  expenseUpdated$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.expenseUpdated),
+      map(() => BalanceActions.fetchBalance())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private balanceService: BalanceService
