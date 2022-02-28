@@ -8,6 +8,7 @@ import { ExpenseFacade } from '../store/expense/expense.facade';
 import {
   ExpenseRequest,
   ExpenseResponse,
+  Tag,
 } from '../generated-sources/expense-api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -77,6 +78,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
                 [formControl]="tagsControl"
                 [multiple]="true"
                 [suggestions]="previouslyUsedTags | async"
+                [field]="'value'"
                 [ngClass]="{
                   'ng-invalid ng-dirty':
                     tagsControl.touched && tagsControl.invalid
@@ -178,7 +180,7 @@ export class ExpenseModalFormComponent implements OnInit {
     creditCardStatement: this.creditCardStatementControl,
   });
 
-  previouslyUsedTags: Observable<string[]> = of([]);
+  previouslyUsedTags: Observable<Tag[]> = of([]);
 
   private existingExpenseId: string;
 
@@ -197,6 +199,31 @@ export class ExpenseModalFormComponent implements OnInit {
     if (this.dialogConfig.data) {
       this.existingExpenseId = this.dialogConfig.data.id;
       this.initFormWithExistingExpense(this.dialogConfig.data);
+    }
+  }
+
+  fetchPreviouslyUsedTags(event: {
+    originalEvent: unknown;
+    query: string;
+  }): void {
+    this.previouslyUsedTags = of([{ value: event.query }]);
+  }
+
+  save(): void {
+    if (this.expenseForm.valid) {
+      const expenseRequest = this.extractForm();
+
+      if (this.existingExpenseId) {
+        this.expenseFacade.updateExpense(
+          this.existingExpenseId,
+          expenseRequest,
+          this.dialogRef
+        );
+      } else {
+        this.expenseFacade.createExpense(expenseRequest, this.dialogRef);
+      }
+    } else {
+      this.expenseForm.markAllAsTouched();
     }
   }
 
@@ -241,33 +268,9 @@ export class ExpenseModalFormComponent implements OnInit {
     });
   }
 
-  fetchPreviouslyUsedTags(event: {
-    originalEvent: unknown;
-    query: string;
-  }): void {
-    this.previouslyUsedTags = of([event.query]);
-  }
-
-  save(): void {
-    if (this.expenseForm.valid) {
-      const expenseRequest = this.extractForm();
-
-      if (this.existingExpenseId) {
-        this.expenseFacade.updateExpense(
-          this.existingExpenseId,
-          expenseRequest,
-          this.dialogRef
-        );
-      } else {
-        this.expenseFacade.createExpense(expenseRequest, this.dialogRef);
-      }
-    } else {
-      this.expenseForm.markAllAsTouched();
-    }
-  }
-
   private extractForm(): ExpenseRequest {
     const expenseDate = <Date>this.dateControl.value;
+    const tags: Tag[] = this.tagsControl.value;
 
     return {
       date: `${expenseDate.getFullYear()}-${(expenseDate.getMonth() + 1)
@@ -277,7 +280,7 @@ export class ExpenseModalFormComponent implements OnInit {
         .toString(10)
         .padStart(2, '0')}`,
       amount: this.amountControl.value,
-      tags: this.tagsControl.value,
+      tags,
       description: this.descriptionControl.value,
       paidWithCreditCard: this.creditCardControl.value,
       creditCardStatementIssued: this.creditCardStatementControl.value,

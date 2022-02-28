@@ -17,4 +17,5 @@ model/expenseRequest.ts
 model/expenseResponse.ts
 model/expenseResponseAllOf.ts
 model/models.ts
+model/tag.ts
 variables.ts

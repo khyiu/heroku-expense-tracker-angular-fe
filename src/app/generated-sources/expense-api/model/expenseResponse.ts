@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
+import { Tag } from './tag';
 
 /**
  * Representation of an expense that has been persisted in the system.
@@ -17,11 +17,10 @@
 export interface ExpenseResponse {
   date: string;
   amount: number;
-  tags: Array<string>;
+  tags: Array<Tag>;
   description?: string;
   paidWithCreditCard?: boolean;
   creditCardStatementIssued?: boolean;
   version?: number;
   id: string;
 }
-

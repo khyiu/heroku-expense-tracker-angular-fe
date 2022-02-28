@@ -9,16 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import {HttpHeaders} from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {ExpenseRequest} from '../model/models';
-import {ExpenseResponse} from '../model/models';
+import { ExpenseRequest, ExpenseResponse } from '../model/models';
 
-
-import {Configuration} from '../configuration';
-
+import { Configuration } from '../configuration';
 
 export interface ExpenseServiceInterface {
   defaultHeaders: HttpHeaders;
@@ -36,7 +33,10 @@ export interface ExpenseServiceInterface {
    * Fetch the expense that is identitied by &#x60;id&#x60; and belongs to the current user
    * @param id Identifier of the expense to be retrieved
    */
-  getExpense(id: string, extraHttpRequestParams?: any): Observable<ExpenseResponse>;
+  getExpense(
+    id: string,
+    extraHttpRequestParams?: any
+  ): Observable<ExpenseResponse>;
 
   /**
    * Update an existing expense
@@ -44,6 +44,9 @@ export interface ExpenseServiceInterface {
    * @param id Identifier of the expense to be updated
    * @param expenseRequest
    */
-  updateExpense(id: string, expenseRequest: ExpenseRequest, extraHttpRequestParams?: any): Observable<ExpenseResponse>;
-
+  updateExpense(
+    id: string,
+    expenseRequest: ExpenseRequest,
+    extraHttpRequestParams?: any
+  ): Observable<ExpenseResponse>;
 }

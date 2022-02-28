@@ -9,8 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import {ExpenseResponse} from './expenseResponse';
-
+import { ExpenseResponse } from './expenseResponse';
 
 /**
  * Paginated response that is returned to the user upon retrieval of his expenses
@@ -21,4 +20,3 @@ export interface ExpenseListResponse {
   totalNumberOfItems: number;
   items: Array<ExpenseResponse>;
 }
-

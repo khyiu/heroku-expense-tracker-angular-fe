@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
+import { Tag } from './tag';
 
 /**
  * Request object representing an expense to be registered in the application
@@ -17,10 +17,9 @@
 export interface ExpenseRequest {
   date: string;
   amount: number;
-  tags: Array<string>;
+  tags: Array<Tag>;
   description?: string;
   paidWithCreditCard?: boolean;
   creditCardStatementIssued?: boolean;
   version?: number;
 }
-

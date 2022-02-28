@@ -95,7 +95,7 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
               <div fxLayout="row" fxLayoutGap="1em">
                 <p-tag
                   *ngFor="let tag of expense.tags"
-                  [value]="tag"
+                  [value]="tag.value"
                   severity="info"
                 ></p-tag>
               </div>

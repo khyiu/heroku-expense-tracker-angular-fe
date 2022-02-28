@@ -10,6 +10,10 @@
  * Do not edit the class manually.
  */
 
-export interface ExpenseResponseAllOf {
-  id: string;
+/**
+ * Tag associated to an expense
+ */
+export interface Tag {
+  id?: string;
+  value: string;
 }
