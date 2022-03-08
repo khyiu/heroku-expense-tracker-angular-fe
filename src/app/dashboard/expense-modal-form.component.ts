@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, Observable, of, take, tap } from 'rxjs';
+import { filter, map, Observable, of, take, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ExpenseFacade } from '../store/expense/expense.facade';
 import {
@@ -11,6 +11,7 @@ import {
   Tag,
 } from '../generated-sources/expense-api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TagFacade } from '../store/tag/tag.facade';
 
 @UntilDestroy()
 @Component({
@@ -69,6 +70,8 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
               [errors]="amountControl.errors"
             ></het-form-field-error>
           </div>
+          <!--          todo kyiu: clear after test -->
+          <pre>{{ previouslyUsedTags$ | async | json }}</pre>
           <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
             <label for="tags" [fxFlex]="labelWidth">{{
               'Tags' | translate | requiredIndicator
@@ -77,7 +80,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
               <p-autoComplete
                 [formControl]="tagsControl"
                 [multiple]="true"
-                [suggestions]="previouslyUsedTags | async"
+                [suggestions]="previouslyUsedTags$ | async"
                 [field]="'value'"
                 [ngClass]="{
                   'ng-invalid ng-dirty':
@@ -180,7 +183,7 @@ export class ExpenseModalFormComponent implements OnInit {
     creditCardStatement: this.creditCardStatementControl,
   });
 
-  previouslyUsedTags: Observable<Tag[]> = of([]);
+  previouslyUsedTags$: Observable<Tag[]> = of([]);
 
   private existingExpenseId: string;
 
@@ -189,7 +192,8 @@ export class ExpenseModalFormComponent implements OnInit {
     private readonly translateService: TranslateService,
     private readonly expenseFacade: ExpenseFacade,
     private readonly dialogRef: DynamicDialogRef,
-    private readonly dialogConfig: DynamicDialogConfig
+    private readonly dialogConfig: DynamicDialogConfig,
+    private readonly tagFacade: TagFacade
   ) {
     this.initCalendarLanguage();
     this.initCreditCardControlSubscriptions();
@@ -206,7 +210,16 @@ export class ExpenseModalFormComponent implements OnInit {
     originalEvent: unknown;
     query: string;
   }): void {
-    this.previouslyUsedTags = of([{ value: event.query }]);
+    this.tagFacade.fetchTags(event.query);
+    this.previouslyUsedTags$ = this.tagFacade.tags$.pipe(
+      map((tags) => {
+        if (!tags.find((tag) => tag.value === event.query)) {
+          return tags.concat({ value: event.query });
+        }
+
+        return tags;
+      })
+    );
   }
 
   save(): void {

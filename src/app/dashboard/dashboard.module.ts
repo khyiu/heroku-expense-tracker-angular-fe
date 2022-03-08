@@ -12,10 +12,11 @@ import { DashboardToolbarComponent } from './dashboard-toolbar.component';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {CheckboxModule} from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TagNgrxModule } from '../store/tag/tag.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {CheckboxModule} from 'primeng/checkbox';
     SharedModule,
     TagModule,
     BalanceNgRxModule.forRoot(environment.apiBasePath),
+    TagNgrxModule.forRoot(environment.apiBasePath),
     RippleModule,
     ReactiveFormsModule,
     CalendarModule,

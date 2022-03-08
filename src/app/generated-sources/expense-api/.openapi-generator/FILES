@@ -8,6 +8,8 @@ api/expense.service.ts
 api/expense.serviceInterface.ts
 api/expenses.service.ts
 api/expenses.serviceInterface.ts
+api/tags.service.ts
+api/tags.serviceInterface.ts
 configuration.ts
 encoder.ts
 git_push.sh

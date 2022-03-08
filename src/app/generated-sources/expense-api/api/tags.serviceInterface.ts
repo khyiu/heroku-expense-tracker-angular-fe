@@ -13,20 +13,22 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { Tag } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 
-export interface BalanceServiceInterface {
+export interface TagsServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
 
     /**
-     * Retrieve balance
-     * Retrieve the sum of the current user\&#39;s expenses amount
+     * Retrieve current authenticated user\&#39;s tags
+     * Retrieve the tags that belong to the current user and that match the provided query, if there is any
+     * @param query 
      */
-    getBalance(extraHttpRequestParams?: any): Observable<number>;
+    getTags(query?: string, extraHttpRequestParams?: any): Observable<Array<Tag>>;
 
 }
