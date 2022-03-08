@@ -70,8 +70,6 @@ import { TagFacade } from '../store/tag/tag.facade';
               [errors]="amountControl.errors"
             ></het-form-field-error>
           </div>
-          <!--          todo kyiu: clear after test -->
-          <pre>{{ previouslyUsedTags$ | async | json }}</pre>
           <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
             <label for="tags" [fxFlex]="labelWidth">{{
               'Tags' | translate | requiredIndicator
