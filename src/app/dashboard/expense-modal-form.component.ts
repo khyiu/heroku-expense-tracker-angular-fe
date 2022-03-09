@@ -54,7 +54,6 @@ import { TagFacade } from '../store/tag/tag.facade';
               [minFractionDigits]="2"
               [maxFractionDigits]="2"
               [useGrouping]="false"
-              [s
               suffix=" €"
               inputId="expenseAmount"
               [ngClass]="{
