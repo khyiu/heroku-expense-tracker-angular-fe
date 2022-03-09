@@ -51,10 +51,12 @@ import { TagFacade } from '../store/tag/tag.facade';
             <p-inputNumber
               [formControl]="amountControl"
               [required]="true"
-              mode="currency"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
+              [useGrouping]="false"
+              [s
+              suffix=" €"
               inputId="expenseAmount"
-              currency="EUR"
-              locale="fr-BE"
               [ngClass]="{
                 'ng-invalid ng-dirty':
                   amountControl.touched && amountControl.invalid
