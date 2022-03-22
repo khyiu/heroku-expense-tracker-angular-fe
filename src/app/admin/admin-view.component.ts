@@ -7,6 +7,7 @@ import { FileUpload } from 'primeng/fileupload';
   template: `
     <div id="container" fxFlex="100">
       <h2>{{ 'Actions' | translate }}</h2>
+      <div fxLayout="column" fxLayoutGap="1rem">
       <p-fileUpload
         #fileUploader
         accept=".csv"
@@ -18,9 +19,14 @@ import { FileUpload } from 'primeng/fileupload';
         [customUpload]="true"
         [fileLimit]="1"
         (uploadHandler)="uploadFile($event, fileUploader)"
+        [disabled]="pendingImportRequest$ | async"
       ></p-fileUpload>
-      <!--      todo kyiu: cleanup after test -->
-      <pre>{{ pendingImportRequest$ | async }}</pre>
+      <p-progressBar
+        mode="indeterminate"
+        [style]="{'height': '6px'}"
+        *ngIf="pendingImportRequest$ | async"
+      ></p-progressBar>
+      </div>
     </div>
   `,
   styles: [
