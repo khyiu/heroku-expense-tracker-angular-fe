@@ -14,6 +14,11 @@ export const selectPendingReadRequest = createSelector(
   (state) => state.pendingReadRequest
 );
 
+export const selectPendingImportRequest = createSelector(
+  selectFeature,
+  (state) => state.pendingImportRequest
+);
+
 export const selectTotalNumberOfExpenses = createSelector(
   selectFeature,
   (state) => state.totalNumberOfItems

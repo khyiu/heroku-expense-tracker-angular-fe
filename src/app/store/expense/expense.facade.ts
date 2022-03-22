@@ -5,6 +5,7 @@ import * as ExpenseActions from './expense.actions';
 import {
   selectCurrentExpensePage,
   selectCurrentExpensePageQuery,
+  selectPendingImportRequest,
   selectPendingReadRequest,
   selectTotalNumberOfExpenses,
 } from './expense.selectors';
@@ -17,6 +18,7 @@ export class ExpenseFacade {
   pendingReadRequest$ = this.store$.select(selectPendingReadRequest);
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
   currentPageQuery$ = this.store$.select(selectCurrentExpensePageQuery);
+  pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
 
   constructor(private readonly store$: Store<State>) {}
 
@@ -52,5 +54,9 @@ export class ExpenseFacade {
     this.store$.dispatch(
       ExpenseActions.updateExpense({ expenseId, expenseRequest, dialogRef })
     );
+  }
+
+  importExpenses(file: File): void {
+    this.store$.dispatch(ExpenseActions.importExpenses({ file }));
   }
 }

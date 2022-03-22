@@ -74,3 +74,10 @@ export const expenseUpdated = createAction(
     dialogRef: DynamicDialogRef;
   }>()
 );
+
+export const importExpenses = createAction(
+  '[Expense] Import file',
+  props<{ file: File }>()
+);
+
+export const expensesImported = createAction('[Expense] File imported');

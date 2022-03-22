@@ -5,7 +5,15 @@ import {
   ExpensesService,
 } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
-import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ExpenseFacade } from './expense.facade';
 import { TranslateService } from '@ngx-translate/core';
@@ -157,6 +165,32 @@ export class ExpenseEffects {
           })
         ),
         tap((action) => action.dialogRef.close())
+      ),
+    { dispatch: false }
+  );
+
+  importExpenses$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.importExpenses),
+      switchMap((action: ReturnType<typeof ExpenseActions.importExpenses>) =>
+        this.expensesService
+          .importExpenses(action.file)
+          .pipe(map(() => ExpenseActions.expensesImported()))
+      )
+    )
+  );
+
+  expensesImported$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ExpenseActions.expensesImported),
+        tap(() =>
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant('DataImported'),
+            detail: this.translateService.instant('ExpensesImported'),
+          })
+        )
       ),
     { dispatch: false }
   );

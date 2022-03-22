@@ -48,6 +48,12 @@ import { KeycloakService } from 'keycloak-angular';
               ><span>{{ 'Dashboard' | translate }}</span>
             </div>
           </a>
+          <a routerLink="/admin" routerLinkActive="activeLink">
+            <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="0.5em">
+              <i class="pi pi-sync"></i
+              ><span>{{ 'Admin' | translate }}</span>
+            </div>
+          </a>
         </div>
         <a routerLink="logout" (click)="logout()">
           <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="0.5em">

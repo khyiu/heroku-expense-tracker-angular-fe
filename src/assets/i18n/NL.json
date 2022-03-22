@@ -1,6 +1,7 @@
 {
   "Actions": "Acties",
   "AddExpense": "Uitgave toevoegen",
+  "Admin": "Beheer",
   "Amount": "Bedrag",
   "Balance": "Saldo",
   "ConfirmDeletion": "Bent u zeker dat je deze uitgave wilt schrappen?",
@@ -8,6 +9,7 @@
   "CreditCardStatementIssued": "Kredietkaart uittreksel opgemaakt",
   "Dashboard": "Dashboard",
   "DataDeleted": "Gegevens geschrapt",
+  "DataImported": "Gegevens geïmporteerd",
   "DataSaved": "Gegevens opslaan",
   "Date": "Datum",
   "Description": "Beschrijving",
@@ -18,6 +20,7 @@
   "ExpenseCreated": "Het uitgave wordt gecrëeerd",
   "ExpenseDeleted": "Het uitgave is geschrapt",
   "ExpenseUpdated": "Het uitgave is gewijzigd",
+  "ExpensesImported": "Uitgaven zijn geïmporteerd",
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe uitgave",
   "No": "Nee",
@@ -27,6 +30,7 @@
   "Tags": "Tags",
   "Yes": "Ja",
   "primeng": {
+    "ImportFile": "Bestand importeren",
     "dateFormat": "mm/dd/yy",
     "dayNames": [
       "Zondag",

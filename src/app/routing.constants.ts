@@ -1,5 +1,6 @@
 export const PATHS = {
   DASHBOARD: 'dashboard',
+  ADMIN: 'admin',
 };
 
 export const DASHBOARD_PARAMS = {
