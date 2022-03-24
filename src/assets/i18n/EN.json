@@ -28,6 +28,7 @@
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
   "PaidWithCreditCard": "Paid with credit card",
   "Save": "Save",
+  "Status": "Status",
   "Tags": "Tags",
   "Yes": "Yes",
   "primeng": {

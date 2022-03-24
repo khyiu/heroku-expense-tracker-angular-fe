@@ -28,6 +28,7 @@
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
   "PaidWithCreditCard": "Payé par carte de crédit",
   "Save": "Sauver",
+  "Status": "Etats",
   "Tags": "Tags",
   "Yes": "Oui",
   "primeng": {

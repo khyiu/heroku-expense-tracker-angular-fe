@@ -68,11 +68,12 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
       >
         <ng-template pTemplate="header">
           <tr>
-            <th>{{ 'Date' | translate }}</th>
-            <th>{{ 'Amount' | translate }}</th>
-            <th>{{ 'Description' | translate }}</th>
-            <th>{{ 'Tags' | translate }}</th>
-            <th>{{ 'Actions' | translate }}</th>
+            <th id="colDate">{{ 'Date' | translate }}</th>
+            <th id="colAmount">{{ 'Amount' | translate }}</th>
+            <th id="colDescription">{{ 'Description' | translate }}</th>
+            <th id="colTags">{{ 'Tags' | translate }}</th>
+            <th id="colStatus">{{ 'Status' | translate }}</th>
+            <th id="colActionsStatus">{{ 'Actions' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-expense>
@@ -99,6 +100,22 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
                   severity="info"
                 ></p-tag>
               </div>
+            </td>
+            <td>
+              <i
+                class="pi pi-credit-card ready"
+                *ngIf="
+                  expense.paidWithCreditCard &&
+                  !expense.creditCardStatementIssued
+                "
+              ></i>
+              <i
+                class="pi pi-credit-card done"
+                *ngIf="
+                  expense.paidWithCreditCard &&
+                  expense.creditCardStatementIssued
+                "
+              ></i>
             </td>
             <td>
               <button
@@ -137,6 +154,27 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
       .outcome {
         color: #dc143c;
       }
+
+      #colDate,
+      #colActionStatus {
+        width: 10%;
+      }
+
+      #colStatus {
+        width: 5%;
+      }
+
+      #colAmount {
+        width: 12%;
+      }
+
+      .pi.ready {
+        color: var(--yellow-400);
+      }
+
+      .pi.done {
+        color: var(--green-400);
+      }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -174,58 +212,6 @@ export class DashboardComponent implements OnInit {
     private readonly translateService: TranslateService,
     private readonly dialogService: DialogService
   ) {}
-
-  ngOnInit(): void {
-    const expenseQuery = this.extractExpenseQueryFromRoute();
-    this.initPaginatorInfo(expenseQuery);
-
-    this.balanceFacade.loadBalance();
-  }
-
-  loadExpensePage(event: LazyLoadEvent): void {
-    const expenseQuery =
-      DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
-    this.expenseFacade.loadExpensePage(expenseQuery);
-
-    this.router.navigate(['.'], {
-      queryParams: {
-        pageNumber: event.first! / event.rows! + 1,
-        pageSize: event.rows,
-        sortDirection: event.sortField! === '0' ? 'ASC' : 'DESC',
-        sortBy: 'DATE',
-      } as ExpenseQuery,
-    });
-  }
-
-  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
-    this.pageSize = expenseQuery.pageSize;
-    this.currentPageFirstItemIdx =
-      (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
-  }
-
-  private extractExpenseQueryFromRoute(): ExpenseQuery {
-    const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
-    return {
-      pageSize: DashboardComponent.extractPageSizeParamFromRoute(
-        queryParamMap,
-        this.defaultExpenseQuery.pageSize
-      ),
-      pageNumber: DashboardComponent.extractPageNumberParamFromRoute(
-        queryParamMap,
-        this.defaultExpenseQuery.pageNumber
-      ),
-
-      sortDirection: DashboardComponent.extractSortDirectionParamFromRoute(
-        queryParamMap,
-        this.defaultExpenseQuery.sortDirection
-      ),
-
-      sortBy: DashboardComponent.extractSortAttributeParamFromRoute(
-        queryParamMap,
-        this.defaultExpenseQuery.sortBy
-      ),
-    };
-  }
 
   private static extractPageSizeParamFromRoute(
     paramMap: ParamMap,
@@ -276,6 +262,28 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  ngOnInit(): void {
+    const expenseQuery = this.extractExpenseQueryFromRoute();
+    this.initPaginatorInfo(expenseQuery);
+
+    this.balanceFacade.loadBalance();
+  }
+
+  loadExpensePage(event: LazyLoadEvent): void {
+    const expenseQuery =
+      DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
+    this.expenseFacade.loadExpensePage(expenseQuery);
+
+    this.router.navigate(['.'], {
+      queryParams: {
+        pageNumber: event.first! / event.rows! + 1,
+        pageSize: event.rows,
+        sortDirection: event.sortField! === '0' ? 'ASC' : 'DESC',
+        sortBy: 'DATE',
+      } as ExpenseQuery,
+    });
+  }
+
   triggerExpenseDeletion(expenseId: string): void {
     this.confirmationService.confirm({
       accept: () => this.expenseFacade.deleteExpense(expenseId),
@@ -288,5 +296,35 @@ export class DashboardComponent implements OnInit {
       width: '40%',
       data: expense,
     });
+  }
+
+  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
+    this.pageSize = expenseQuery.pageSize;
+    this.currentPageFirstItemIdx =
+      (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
+  }
+
+  private extractExpenseQueryFromRoute(): ExpenseQuery {
+    const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
+    return {
+      pageSize: DashboardComponent.extractPageSizeParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.pageSize
+      ),
+      pageNumber: DashboardComponent.extractPageNumberParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.pageNumber
+      ),
+
+      sortDirection: DashboardComponent.extractSortDirectionParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.sortDirection
+      ),
+
+      sortBy: DashboardComponent.extractSortAttributeParamFromRoute(
+        queryParamMap,
+        this.defaultExpenseQuery.sortBy
+      ),
+    };
   }
 }

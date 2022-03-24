@@ -27,6 +27,7 @@
   "PaginatorSummary": "Items {first} tot {last} op {totalRecords}",
   "PaidWithCreditCard": "Betaald met kredietkaart",
   "Save": "Opslaan",
+  "Status": "Status",
   "Tags": "Tags",
   "Yes": "Ja",
   "primeng": {
