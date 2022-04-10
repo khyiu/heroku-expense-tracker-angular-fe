@@ -443,11 +443,6 @@ export class ExpensesService implements ExpensesServiceInterface {
       localVarHttpContext = new HttpContext();
     }
 
-    // to determine the Content-Type header
-    const consumes: string[] = ['multipart/form-data'];
-
-    const canConsumeForm = this.canConsumeForm(consumes);
-
     let localVarFormParams: { append(param: string, value: any): any };
     let localVarUseForm = false;
     let localVarConvertFormParamsToString = false;
