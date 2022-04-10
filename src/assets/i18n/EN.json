@@ -21,6 +21,7 @@
   "ExpenseDeleted": "The expense has been deleted",
   "ExpenseUpdated": "The expense has been updated",
   "ExpensesImported": "Expenses have been imported",
+  "Export": "Export",
   "ImportFile": "Import file",
   "Logout": "Log out",
   "NewExpense": "New expense",
@@ -42,24 +43,8 @@
       "Friday",
       "Saturday"
     ],
-    "dayNamesMin": [
-      "Su",
-      "Mo",
-      "Tu",
-      "We",
-      "Th",
-      "Fr",
-      "Sa"
-    ],
-    "dayNamesShort": [
-      "Zon",
-      "Maa",
-      "Din",
-      "Woe",
-      "Don",
-      "Vri",
-      "Zat"
-    ],
+    "dayNamesMin": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    "dayNamesShort": ["Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"],
     "monthNames": [
       "January",
       "February",

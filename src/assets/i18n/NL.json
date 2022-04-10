@@ -21,6 +21,7 @@
   "ExpenseDeleted": "Het uitgave is geschrapt",
   "ExpenseUpdated": "Het uitgave is gewijzigd",
   "ExpensesImported": "Uitgaven zijn geïmporteerd",
+  "Export": "Exporteren",
   "Logout": "Afmelden",
   "NewExpense": "Nieuwe uitgave",
   "No": "Nee",
@@ -42,24 +43,8 @@
       "Vrijdag",
       "Zaterdag"
     ],
-    "dayNamesMin": [
-      "Zo",
-      "Ma",
-      "Di",
-      "Wo",
-      "Do",
-      "Vr",
-      "Za"
-    ],
-    "dayNamesShort": [
-      "Zon",
-      "Maa",
-      "Din",
-      "Woe",
-      "Don",
-      "Vri",
-      "Zat"
-    ],
+    "dayNamesMin": ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"],
+    "dayNamesShort": ["Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"],
     "monthNames": [
       "Januari",
       "Februari",

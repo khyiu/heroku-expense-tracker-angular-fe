@@ -8,24 +8,31 @@ import { FileUpload } from 'primeng/fileupload';
     <div id="container" fxFlex="100">
       <h2>{{ 'Actions' | translate }}</h2>
       <div fxLayout="column" fxLayoutGap="1rem">
-      <p-fileUpload
-        #fileUploader
-        accept=".csv"
-        mode="basic"
-        chooseLabel="{{ 'ImportFile' | translate }}"
-        chooseIcon="pi-upload"
-        [maxFileSize]="256000"
-        [auto]="true"
-        [customUpload]="true"
-        [fileLimit]="1"
-        (uploadHandler)="uploadFile($event, fileUploader)"
-        [disabled]="pendingImportRequest$ | async"
-      ></p-fileUpload>
-      <p-progressBar
-        mode="indeterminate"
-        [style]="{'height': '6px'}"
-        *ngIf="pendingImportRequest$ | async"
-      ></p-progressBar>
+        <div fxLayout="row" fxLayoutGap="1rem">
+          <p-fileUpload
+            #fileUploader
+            accept=".csv"
+            mode="basic"
+            chooseLabel="{{ 'ImportFile' | translate }}"
+            chooseIcon="pi-upload"
+            [maxFileSize]="256000"
+            [auto]="true"
+            [customUpload]="true"
+            [fileLimit]="1"
+            (uploadHandler)="uploadFile($event, fileUploader)"
+            [disabled]="pendingImportRequest$ | async"
+          ></p-fileUpload>
+          <p-button
+            label="{{ 'Export' | translate }}"
+            icon="pi pi-download"
+            (click)="exportExpenses()"
+          ></p-button>
+        </div>
+        <p-progressBar
+          mode="indeterminate"
+          [style]="{ height: '6px' }"
+          *ngIf="pendingImportRequest$ | async"
+        ></p-progressBar>
       </div>
     </div>
   `,
@@ -46,5 +53,9 @@ export class AdminViewComponent {
   uploadFile($event: { files: File[] }, fileUploader: FileUpload): void {
     this.expenseFacade.importExpenses($event.files[0]);
     fileUploader.clear();
+  }
+
+  exportExpenses(): void {
+    this.expenseFacade.exportExpenses();
   }
 }

@@ -21,6 +21,7 @@
   "ExpenseDeleted": "La dépense a été supprimées",
   "ExpenseUpdated": "La dépense a été mise à jour",
   "ExpensesImported": "Les dépenses ont été importées",
+  "Export": "Exporter",
   "ImportFile": "Importer fichier",
   "Logout": "Se déconnecter",
   "NewExpense": "Nouvelle dépense",
@@ -42,24 +43,8 @@
       "Vendredi",
       "Samedi"
     ],
-    "dayNamesMin": [
-      "Di",
-      "Lu",
-      "Ma",
-      "Me",
-      "Je",
-      "Ve",
-      "Sa"
-    ],
-    "dayNamesShort": [
-      "Dim",
-      "Lun",
-      "Mar",
-      "Mer",
-      "Jeu",
-      "Ven",
-      "Sam"
-    ],
+    "dayNamesMin": ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
     "monthNames": [
       "Janvier",
       "Février",

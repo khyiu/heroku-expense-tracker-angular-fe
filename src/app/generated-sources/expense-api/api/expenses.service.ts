@@ -130,6 +130,68 @@ export class ExpensesService implements ExpensesServiceInterface {
   }
 
   /**
+   * Export expenses
+   * Download current user\&#39;s expenses as a CSV file
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public exportExpenses(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'text/csv'; context?: HttpContext }
+  ): Observable<Blob>;
+  public exportExpenses(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'text/csv'; context?: HttpContext }
+  ): Observable<HttpResponse<Blob>>;
+  public exportExpenses(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'text/csv'; context?: HttpContext }
+  ): Observable<HttpEvent<Blob>>;
+  public exportExpenses(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: 'text/csv'; context?: HttpContext }
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['text/csv'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    return this.httpClient.get(
+      `${this.configuration.basePath}/expenses/back-up`,
+      {
+        context: localVarHttpContext,
+        responseType: 'blob',
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
    * Retrieve expenses
    * Retrieve expenses belonging to the current user, in a paginated way. This operation also supports filtering based on tag(s) and partial description
    * @param pageSize
@@ -381,13 +443,16 @@ export class ExpensesService implements ExpensesServiceInterface {
       localVarHttpContext = new HttpContext();
     }
 
+    // to determine the Content-Type header
+    const consumes: string[] = ['multipart/form-data'];
+
+    const canConsumeForm = this.canConsumeForm(consumes);
+
     let localVarFormParams: { append(param: string, value: any): any };
-    // Override generated value from 'false' to 'true'. Otherwise, wouldn't ever be able to use multipart/form-data
-    let localVarUseForm = true;
+    let localVarUseForm = false;
     let localVarConvertFormParamsToString = false;
     if (localVarUseForm) {
       localVarFormParams = new FormData();
-      localVarFormParams.append('file', file);
     } else {
       localVarFormParams = new HttpParams({ encoder: this.encoder });
     }

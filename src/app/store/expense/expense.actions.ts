@@ -81,3 +81,5 @@ export const importExpenses = createAction(
 );
 
 export const expensesImported = createAction('[Expense] File imported');
+
+export const exportExpenses = createAction('[Expense] Export');

@@ -26,6 +26,12 @@ export interface ExpensesServiceInterface {
   configuration: Configuration;
 
   /**
+   * Export expenses
+   * Download current user\&#39;s expenses as a CSV file
+   */
+  exportExpenses(extraHttpRequestParams?: any): Observable<Blob>;
+
+  /**
    * Retrieve expenses
    * Retrieve expenses belonging to the current user, in a paginated way. This operation also supports filtering based on tag(s) and partial description
    * @param pageSize

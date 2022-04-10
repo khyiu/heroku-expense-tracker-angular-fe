@@ -59,4 +59,8 @@ export class ExpenseFacade {
   importExpenses(file: File): void {
     this.store$.dispatch(ExpenseActions.importExpenses({ file }));
   }
+
+  exportExpenses(): void {
+    this.store$.dispatch(ExpenseActions.exportExpenses());
+  }
 }
