@@ -102,20 +102,26 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
               </div>
             </td>
             <td>
-              <i
-                class="pi pi-credit-card ready"
-                *ngIf="
-                  expense.paidWithCreditCard &&
-                  !expense.creditCardStatementIssued
-                "
-              ></i>
-              <i
-                class="pi pi-credit-card done"
-                *ngIf="
-                  expense.paidWithCreditCard &&
-                  expense.creditCardStatementIssued
-                "
-              ></i>
+              <div fxLayout="row" fxLayoutGap="1em">
+                <i
+                  class="pi pi-check-circle"
+                  [ngClass]="{ ready: !expense.checked, done: expense.checked }"
+                ></i>
+                <i
+                  class="pi pi-credit-card ready"
+                  *ngIf="
+                    expense.paidWithCreditCard &&
+                    !expense.creditCardStatementIssued
+                  "
+                ></i>
+                <i
+                  class="pi pi-credit-card done"
+                  *ngIf="
+                    expense.paidWithCreditCard &&
+                    expense.creditCardStatementIssued
+                  "
+                ></i>
+              </div>
             </td>
             <td>
               <button
