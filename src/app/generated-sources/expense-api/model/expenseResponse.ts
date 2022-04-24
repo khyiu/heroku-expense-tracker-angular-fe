@@ -23,4 +23,5 @@ export interface ExpenseResponse {
   creditCardStatementIssued?: boolean;
   version?: number;
   id: string;
+  checked: boolean;
 }

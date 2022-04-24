@@ -25,6 +25,7 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 import {
+  ExpenseCheckedStatusRequest,
   ExpenseListResponse,
   ExpenseRequest,
   ExpenseResponse,
@@ -558,6 +559,101 @@ export class ExpensesService implements ExpensesServiceInterface {
     return this.httpClient.post<ExpenseResponse>(
       `${this.configuration.basePath}/expenses`,
       expenseRequest,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Update the checked/unchecked status of the specified expenses
+   * @param expenseCheckedStatusRequest
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public updateExpensesCheckedStatus(
+    expenseCheckedStatusRequest: ExpenseCheckedStatusRequest,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+  ): Observable<Array<ExpenseResponse>>;
+  public updateExpensesCheckedStatus(
+    expenseCheckedStatusRequest: ExpenseCheckedStatusRequest,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+  ): Observable<HttpResponse<Array<ExpenseResponse>>>;
+  public updateExpensesCheckedStatus(
+    expenseCheckedStatusRequest: ExpenseCheckedStatusRequest,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+  ): Observable<HttpEvent<Array<ExpenseResponse>>>;
+  public updateExpensesCheckedStatus(
+    expenseCheckedStatusRequest: ExpenseCheckedStatusRequest,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+  ): Observable<any> {
+    if (
+      expenseCheckedStatusRequest === null ||
+      expenseCheckedStatusRequest === undefined
+    ) {
+      throw new Error(
+        'Required parameter expenseCheckedStatusRequest was null or undefined when calling updateExpensesCheckedStatus.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/json'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      localVarHttpHeaderAcceptSelected &&
+      localVarHttpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.patch<Array<ExpenseResponse>>(
+      `${this.configuration.basePath}/expenses/checked-status`,
+      expenseCheckedStatusRequest,
       {
         context: localVarHttpContext,
         responseType: <any>responseType_,

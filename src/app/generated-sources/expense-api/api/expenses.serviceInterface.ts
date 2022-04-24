@@ -14,6 +14,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
+  ExpenseCheckedStatusRequest,
   ExpenseListResponse,
   ExpenseRequest,
   ExpenseResponse,
@@ -71,4 +72,14 @@ export interface ExpensesServiceInterface {
     expenseRequest: ExpenseRequest,
     extraHttpRequestParams?: any
   ): Observable<ExpenseResponse>;
+
+  /**
+   * Update the checked/unchecked status of the specified expenses
+   *
+   * @param expenseCheckedStatusRequest
+   */
+  updateExpensesCheckedStatus(
+    expenseCheckedStatusRequest: ExpenseCheckedStatusRequest,
+    extraHttpRequestParams?: any
+  ): Observable<Array<ExpenseResponse>>;
 }
