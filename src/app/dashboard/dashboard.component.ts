@@ -63,11 +63,16 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
         [(first)]="currentPageFirstItemIdx"
         [(rows)]="pageSize"
         [totalRecords]="(totalNumberOfExpenses$ | async) || 0"
+        [(selection)]="selectedExpenses"
+        [selectionPageOnly]="true"
         currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
         styleClass="p-datatable-striped"
       >
         <ng-template pTemplate="header">
           <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
             <th id="colDate">{{ 'Date' | translate }}</th>
             <th id="colAmount">{{ 'Amount' | translate }}</th>
             <th id="colDescription">{{ 'Description' | translate }}</th>
@@ -78,6 +83,9 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
         </ng-template>
         <ng-template pTemplate="body" let-expense>
           <tr>
+            <td>
+              <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+            </td>
             <td>
               {{ expense.date | date: dateFormat }}
             </td>
@@ -205,6 +213,7 @@ export class DashboardComponent implements OnInit {
 
   currentPageFirstItemIdx = 0;
   pageSize = this.paginatorPageSizes[0];
+  selectedExpenses: string[] = [];
 
   private ref: DynamicDialogRef;
 
