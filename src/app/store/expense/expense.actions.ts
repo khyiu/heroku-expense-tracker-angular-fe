@@ -83,3 +83,18 @@ export const importExpenses = createAction(
 export const expensesImported = createAction('[Expense] File imported');
 
 export const exportExpenses = createAction('[Expense] Export');
+
+export const updateExpensesStatus = createAction(
+  '[Expense] Update status',
+  props<{
+    checked: boolean;
+    expenseIds: string[];
+  }>()
+);
+
+export const expensesStatusUpdated = createAction(
+  '[Expense] Status updated',
+  props<{
+    expenses: ExpenseResponse[];
+  }>()
+);

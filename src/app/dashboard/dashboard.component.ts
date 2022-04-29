@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   ExpenseResponse,
   ExpensesService,
@@ -48,7 +48,9 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
 
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
-      <het-dashboard-toolbar></het-dashboard-toolbar>
+      <het-dashboard-toolbar
+        [selectedExpenseIds]="selectedExpenseIds$ | async"
+      ></het-dashboard-toolbar>
       <p-table
         [responsive]="true"
         [responsiveLayout]="'stack'"
@@ -65,6 +67,7 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
         [totalRecords]="(totalNumberOfExpenses$ | async) || 0"
         [(selection)]="selectedExpenses"
         [selectionPageOnly]="true"
+        (selectionChange)="updateSelection()"
         currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
         styleClass="p-datatable-striped"
       >
@@ -213,7 +216,8 @@ export class DashboardComponent implements OnInit {
 
   currentPageFirstItemIdx = 0;
   pageSize = this.paginatorPageSizes[0];
-  selectedExpenses: string[] = [];
+  selectedExpenses: ExpenseResponse[] = [];
+  selectedExpenseIds$: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
   private ref: DynamicDialogRef;
 
@@ -341,5 +345,11 @@ export class DashboardComponent implements OnInit {
         this.defaultExpenseQuery.sortBy
       ),
     };
+  }
+
+  updateSelection(): void {
+    this.selectedExpenseIds$.next(
+      this.selectedExpenses.map((expense) => expense.id)
+    );
   }
 }

@@ -7,6 +7,7 @@ import {
   selectCurrentExpensePageQuery,
   selectPendingImportRequest,
   selectPendingReadRequest,
+  selectPendingWriteRequest,
   selectTotalNumberOfExpenses,
 } from './expense.selectors';
 import { ExpenseRequest } from '../../generated-sources/expense-api';
@@ -19,6 +20,7 @@ export class ExpenseFacade {
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
   currentPageQuery$ = this.store$.select(selectCurrentExpensePageQuery);
   pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
+  pendingWriteRequest$ = this.store$.select(selectPendingWriteRequest);
 
   constructor(private readonly store$: Store<State>) {}
 
@@ -62,5 +64,11 @@ export class ExpenseFacade {
 
   exportExpenses(): void {
     this.store$.dispatch(ExpenseActions.exportExpenses());
+  }
+
+  updateExpensesStatus(checked: boolean, expenseIds: string[]): void {
+    this.store$.dispatch(
+      ExpenseActions.updateExpensesStatus({ checked, expenseIds })
+    );
   }
 }

@@ -226,6 +226,28 @@ export class ExpenseEffects {
     { dispatch: false }
   );
 
+  updateExpensesStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.updateExpensesStatus),
+      mergeMap(
+        (action: ReturnType<typeof ExpenseActions.updateExpensesStatus>) =>
+          this.expensesService
+            .updateExpensesCheckedStatus({
+              checked: action.checked,
+              expenseIds: action.expenseIds,
+            })
+            .pipe(
+              map((expenseResponses) =>
+                ExpenseActions.expensesStatusUpdated({
+                  expenses: expenseResponses,
+                })
+              ),
+              catchError(() => of(ExpenseActions.expenseError()))
+            )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly expensesService: ExpensesService,

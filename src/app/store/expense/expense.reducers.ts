@@ -2,6 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { ExpenseResponse } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
+import { expensesStatusUpdated, updateExpensesStatus } from './expense.actions';
 
 export type SortDirection = 'ASC' | 'DESC';
 export type SortAttribute = 'DATE' | 'AMOUNT';
@@ -60,6 +61,7 @@ export const expenseReducer = createReducer(
     ExpenseActions.createExpense,
     ExpenseActions.deleteExpense,
     ExpenseActions.updateExpense,
+    ExpenseActions.updateExpensesStatus,
     (state) => ({
       ...state,
       pendingWriteRequest: true,
@@ -83,6 +85,12 @@ export const expenseReducer = createReducer(
   })),
   on(ExpenseActions.expenseUpdated, (state, action) =>
     expenseResponseEntityAdapter.upsertOne(action.expenseResponse, {
+      ...state,
+      pendingWriteRequest: false,
+    })
+  ),
+  on(ExpenseActions.expensesStatusUpdated, (state, action) =>
+    expenseResponseEntityAdapter.upsertMany(action.expenses, {
       ...state,
       pendingWriteRequest: false,
     })
