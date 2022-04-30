@@ -2,7 +2,6 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { ExpenseResponse } from '../../generated-sources/expense-api';
 import * as ExpenseActions from './expense.actions';
-import { expensesStatusUpdated, updateExpensesStatus } from './expense.actions';
 
 export type SortDirection = 'ASC' | 'DESC';
 export type SortAttribute = 'DATE' | 'AMOUNT';

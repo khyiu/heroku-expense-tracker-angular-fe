@@ -20,9 +20,11 @@ interface FormFieldError {
     </small>
   `,
   styles: [
-    `.error {
-      color: #ef9a9a;
-    }`
+    `
+      .error {
+        color: #ef9a9a;
+      }
+    `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

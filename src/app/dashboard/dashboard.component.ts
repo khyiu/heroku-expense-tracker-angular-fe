@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import {
   ExpenseResponse,
   ExpensesService,
@@ -209,7 +209,9 @@ export class DashboardComponent implements OnInit {
   totalNumberOfExpenses$: Observable<number | null> =
     this.expenseFacade.totalNumberOfExpenses$;
   expenses$: Observable<ExpenseResponse[]> =
-    this.expenseFacade.currentExpensePage$;
+    this.expenseFacade.currentExpensePage$.pipe(
+      tap(() => this.clearSelection())
+    );
   loading$: Observable<boolean> = this.expenseFacade.pendingReadRequest$;
 
   balance$: Observable<number | null> = this.balanceFacade.balance$;
@@ -351,5 +353,10 @@ export class DashboardComponent implements OnInit {
     this.selectedExpenseIds$.next(
       this.selectedExpenses.map((expense) => expense.id)
     );
+  }
+
+  clearSelection(): void {
+    this.selectedExpenses = [];
+    this.updateSelection();
   }
 }

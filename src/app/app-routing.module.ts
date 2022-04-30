@@ -12,7 +12,8 @@ const routes: Routes = [
   {
     path: PATHS.ADMIN,
     pathMatch: 'full',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule)
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: '**',

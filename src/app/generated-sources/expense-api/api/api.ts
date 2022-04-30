@@ -10,4 +10,9 @@ export * from './expenses.serviceInterface';
 export * from './tags.service';
 import { TagsService } from './tags.service';
 export * from './tags.serviceInterface';
-export const APIS = [BalanceService, ExpenseService, ExpensesService, TagsService];
+export const APIS = [
+  BalanceService,
+  ExpenseService,
+  ExpensesService,
+  TagsService,
+];

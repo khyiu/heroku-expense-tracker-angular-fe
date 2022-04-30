@@ -32,4 +32,4 @@ export const selectTotalNumberOfExpenses = createSelector(
 export const selectCurrentExpensePageQuery = createSelector(
   selectFeature,
   (state) => state.query
-)
+);
