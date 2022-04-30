@@ -24,6 +24,8 @@
   "Export": "Export",
   "ImportFile": "Import file",
   "Logout": "Log out",
+  "MarkAsChecked": "Mark as checked",
+  "MarkAsUnchecked": "Mark as unchecked",
   "NewExpense": "New expense",
   "No": "No",
   "PaginatorSummary": "Showing {first} to {last} of {totalRecords} entries",
@@ -43,8 +45,24 @@
       "Friday",
       "Saturday"
     ],
-    "dayNamesMin": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    "dayNamesShort": ["Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"],
+    "dayNamesMin": [
+      "Su",
+      "Mo",
+      "Tu",
+      "We",
+      "Th",
+      "Fr",
+      "Sa"
+    ],
+    "dayNamesShort": [
+      "Zon",
+      "Maa",
+      "Din",
+      "Woe",
+      "Don",
+      "Vri",
+      "Zat"
+    ],
     "monthNames": [
       "January",
       "February",

@@ -24,6 +24,8 @@
   "Export": "Exporter",
   "ImportFile": "Importer fichier",
   "Logout": "Se déconnecter",
+  "MarkAsChecked": "Vérifiée(s)",
+  "MarkAsUnchecked": "Non vérifiée(s)",
   "NewExpense": "Nouvelle dépense",
   "No": "Non",
   "PaginatorSummary": "Eléments {first} à {last} sur {totalRecords}",
@@ -43,8 +45,24 @@
       "Vendredi",
       "Samedi"
     ],
-    "dayNamesMin": ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "dayNamesMin": [
+      "Di",
+      "Lu",
+      "Ma",
+      "Me",
+      "Je",
+      "Ve",
+      "Sa"
+    ],
+    "dayNamesShort": [
+      "Dim",
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+    ],
     "monthNames": [
       "Janvier",
       "Février",
