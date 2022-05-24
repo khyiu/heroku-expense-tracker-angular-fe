@@ -76,12 +76,18 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
             <th style="width: 3rem">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th id="colDate">{{ 'Date' | translate }}</th>
-            <th id="colAmount">{{ 'Amount' | translate }}</th>
-            <th id="colDescription">{{ 'Description' | translate }}</th>
-            <th id="colTags">{{ 'Tags' | translate }}</th>
-            <th id="colStatus">{{ 'Status' | translate }}</th>
-            <th id="colActionsStatus">{{ 'Actions' | translate }}</th>
+            <th id="colDate" style="width: 10%">{{ 'Date' | translate }}</th>
+            <th id="colAmount" style="width: 12%">
+              {{ 'Amount' | translate }}
+            </th>
+            <th id="colDescription" style="width: 40%">
+              {{ 'Description' | translate }}
+            </th>
+            <th id="colTags" style="width: 20%">{{ 'Tags' | translate }}</th>
+            <th id="colStatus" style="width: 9%">{{ 'Status' | translate }}</th>
+            <th id="colActionsStatus" style="width: 9%">
+              {{ 'Actions' | translate }}
+            </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-expense>
