@@ -31,9 +31,12 @@ export class ExpenseEffects {
             action.query.sortDirection,
             action.query.sortBy,
             action.query.tagFilters,
-            action.query.descriptionFilter,
+            action.query.descriptionFilters,
             action.query.paidWithCreditCardFilter,
-            action.query.creditCardStatementIssuedFilter
+            action.query.creditCardStatementIssuedFilter,
+            action.query.inclusiveDateLowerBound,
+            action.query.inclusiveDateUpperBound,
+            action.query.checked
           )
           .pipe(
             map((response) =>
@@ -92,9 +95,12 @@ export class ExpenseEffects {
             currentPageQuery.sortDirection,
             currentPageQuery.sortBy,
             currentPageQuery.tagFilters,
-            currentPageQuery.descriptionFilter,
+            currentPageQuery.descriptionFilters,
             currentPageQuery.paidWithCreditCardFilter,
-            currentPageQuery.creditCardStatementIssuedFilter
+            currentPageQuery.creditCardStatementIssuedFilter,
+            currentPageQuery.inclusiveDateLowerBound,
+            currentPageQuery.inclusiveDateUpperBound,
+            currentPageQuery.checked
           )
           .pipe(
             map((response) =>

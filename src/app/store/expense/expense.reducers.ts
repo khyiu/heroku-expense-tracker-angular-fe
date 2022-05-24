@@ -12,9 +12,12 @@ export interface ExpenseQuery {
   sortDirection: SortDirection;
   sortBy: SortAttribute;
   tagFilters?: Array<string>;
-  descriptionFilter?: string;
+  descriptionFilters?: Array<string>;
   paidWithCreditCardFilter?: boolean;
   creditCardStatementIssuedFilter?: boolean;
+  checked?: boolean;
+  inclusiveDateLowerBound?: string;
+  inclusiveDateUpperBound?: string;
 }
 
 export interface State extends EntityState<ExpenseResponse> {
