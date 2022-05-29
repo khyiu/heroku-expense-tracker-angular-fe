@@ -17,12 +17,16 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TagNgrxModule } from '../store/tag/tag.module';
+import { AccordionModule } from 'primeng/accordion';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { FilterComponent } from './filter.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     DashboardToolbarComponent,
     ExpenseModalFormComponent,
+    FilterComponent,
   ],
   imports: [
     DashboardRoutingModule,
@@ -39,6 +43,8 @@ import { TagNgrxModule } from '../store/tag/tag.module';
     AutoCompleteModule,
     InputTextareaModule,
     CheckboxModule,
+    AccordionModule,
+    TriStateCheckboxModule,
   ],
 })
 export class DashboardModule {}

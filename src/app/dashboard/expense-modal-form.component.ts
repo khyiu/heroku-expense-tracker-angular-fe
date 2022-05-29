@@ -12,6 +12,7 @@ import {
 } from '../generated-sources/expense-api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TagFacade } from '../store/tag/tag.facade';
+import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
 
 @UntilDestroy()
 @Component({
@@ -163,7 +164,7 @@ import { TagFacade } from '../store/tag/tag.facade';
 })
 export class ExpenseModalFormComponent implements OnInit {
   readonly amountPattern = '^[+-]?\\d+(\\.\\d{1,2})?$';
-  readonly dateFormat = 'dd/mm/yy';
+  readonly dateFormat = CALENDAR_DATE_FORMAT;
   readonly currentDate = new Date();
   readonly labelWidth = 20;
 

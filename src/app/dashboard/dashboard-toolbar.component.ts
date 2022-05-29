@@ -8,42 +8,47 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ExpenseFacade } from '../store/expense/expense.facade';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DATE_FORMAT } from '../shared/shared.constants';
 
 @Component({
   selector: 'het-dashboard-toolbar',
   template: `
-    <div fxLayout="row" fxLayoutGap="1rem">
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="{{ 'AddExpense' | translate }}"
-        class="p-button-outlined"
-        icon="pi pi-plus"
-        (click)="openNewExpenseForm()"
-      ></button>
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="{{ 'MarkAsChecked' | translate }}"
-        class="p-button-outlined"
-        icon="pi pi-check-circle"
-        (click)="updateSelectedExpensesStatus(true)"
-        [disabled]="!selectedExpenseIds?.length"
-        [loading]="pendingWriteRequest$ | async"
-      ></button>
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="{{ 'MarkAsUnchecked' | translate }}"
-        class="p-button-outlined"
-        icon="pi pi-ban"
-        (click)="updateSelectedExpensesStatus(false)"
-        [disabled]="!selectedExpenseIds?.length"
-        [loading]="pendingWriteRequest$ | async"
-      ></button>
+    <div fxLayout="column" fxLayoutGap="0.5rem">
+      <div fxLayout="row" fxLayoutGap="1rem">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="{{ 'AddExpense' | translate }}"
+          class="p-button-outlined"
+          icon="pi pi-plus"
+          (click)="openNewExpenseForm()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="{{ 'MarkAsChecked' | translate }}"
+          class="p-button-outlined"
+          icon="pi pi-check-circle"
+          (click)="updateSelectedExpensesStatus(true)"
+          [disabled]="!selectedExpenseIds?.length"
+          [loading]="pendingWriteRequest$ | async"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="{{ 'MarkAsUnchecked' | translate }}"
+          class="p-button-outlined"
+          icon="pi pi-ban"
+          (click)="updateSelectedExpensesStatus(false)"
+          [disabled]="!selectedExpenseIds?.length"
+          [loading]="pendingWriteRequest$ | async"
+        ></button>
+      </div>
+      <het-filter></het-filter>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,6 +56,7 @@ import { ExpenseFacade } from '../store/expense/expense.facade';
 })
 export class DashboardToolbarComponent implements OnDestroy {
   private ref: DynamicDialogRef;
+  readonly dateFormat = DATE_FORMAT;
 
   pendingWriteRequest$ = this.expenseFacade.pendingWriteRequest$;
 
