@@ -29,6 +29,7 @@ import { Tag } from '../model/models';
 import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 import { TagsServiceInterface } from './tags.serviceInterface';
+
 @Injectable({
   providedIn: 'root',
 })

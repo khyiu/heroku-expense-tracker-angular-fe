@@ -13,8 +13,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { ExpenseRequest } from '../model/models';
-import { ExpenseResponse } from '../model/models';
+import { ExpenseRequest, ExpenseResponse } from '../model/models';
 
 import { Configuration } from '../configuration';
 

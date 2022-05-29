@@ -13,10 +13,12 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { ExpenseCheckedStatusRequest } from '../model/models';
-import { ExpenseListResponse } from '../model/models';
-import { ExpenseRequest } from '../model/models';
-import { ExpenseResponse } from '../model/models';
+import {
+  ExpenseCheckedStatusRequest,
+  ExpenseListResponse,
+  ExpenseRequest,
+  ExpenseResponse,
+} from '../model/models';
 
 import { Configuration } from '../configuration';
 
@@ -44,6 +46,8 @@ export interface ExpensesServiceInterface {
    * @param inclusiveDateLowerBound
    * @param inclusiveDateUpperBound
    * @param checked
+   * @param inclusiveAmountLowerBound
+   * @param inclusiveAmountUpperBound
    */
   getExpenses(
     pageSize: number,
@@ -57,6 +61,8 @@ export interface ExpensesServiceInterface {
     inclusiveDateLowerBound?: string,
     inclusiveDateUpperBound?: string,
     checked?: boolean,
+    inclusiveAmountLowerBound?: number,
+    inclusiveAmountUpperBound?: number,
     extraHttpRequestParams?: any
   ): Observable<ExpenseListResponse>;
 

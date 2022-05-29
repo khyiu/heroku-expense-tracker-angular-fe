@@ -11,16 +11,29 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import {Inject, Injectable, Optional} from '@angular/core';
-import {HttpClient, HttpContext, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, HttpResponse,} from '@angular/common/http';
-import {CustomHttpParameterCodec} from '../encoder';
-import {Observable} from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpContext,
+  HttpEvent,
+  HttpHeaders,
+  HttpParameterCodec,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
-import {ExpenseCheckedStatusRequest, ExpenseListResponse, ExpenseRequest, ExpenseResponse} from '../model/models';
+import {
+  ExpenseCheckedStatusRequest,
+  ExpenseListResponse,
+  ExpenseRequest,
+  ExpenseResponse,
+} from '../model/models';
 
-import {BASE_PATH} from '../variables';
-import {Configuration} from '../configuration';
-import {ExpensesServiceInterface} from './expenses.serviceInterface';
+import { BASE_PATH } from '../variables';
+import { Configuration } from '../configuration';
+import { ExpensesServiceInterface } from './expenses.serviceInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -193,6 +206,8 @@ export class ExpensesService implements ExpensesServiceInterface {
    * @param inclusiveDateLowerBound
    * @param inclusiveDateUpperBound
    * @param checked
+   * @param inclusiveAmountLowerBound
+   * @param inclusiveAmountUpperBound
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -208,6 +223,8 @@ export class ExpensesService implements ExpensesServiceInterface {
     inclusiveDateLowerBound?: string,
     inclusiveDateUpperBound?: string,
     checked?: boolean,
+    inclusiveAmountLowerBound?: number,
+    inclusiveAmountUpperBound?: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
@@ -224,6 +241,8 @@ export class ExpensesService implements ExpensesServiceInterface {
     inclusiveDateLowerBound?: string,
     inclusiveDateUpperBound?: string,
     checked?: boolean,
+    inclusiveAmountLowerBound?: number,
+    inclusiveAmountUpperBound?: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
@@ -240,6 +259,8 @@ export class ExpensesService implements ExpensesServiceInterface {
     inclusiveDateLowerBound?: string,
     inclusiveDateUpperBound?: string,
     checked?: boolean,
+    inclusiveAmountLowerBound?: number,
+    inclusiveAmountUpperBound?: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
@@ -256,6 +277,8 @@ export class ExpensesService implements ExpensesServiceInterface {
     inclusiveDateLowerBound?: string,
     inclusiveDateUpperBound?: string,
     checked?: boolean,
+    inclusiveAmountLowerBound?: number,
+    inclusiveAmountUpperBound?: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
@@ -373,6 +396,26 @@ export class ExpensesService implements ExpensesServiceInterface {
         localVarQueryParameters,
         <any>checked,
         'checked'
+      );
+    }
+    if (
+      inclusiveAmountLowerBound !== undefined &&
+      inclusiveAmountLowerBound !== null
+    ) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>inclusiveAmountLowerBound,
+        'inclusiveAmountLowerBound'
+      );
+    }
+    if (
+      inclusiveAmountUpperBound !== undefined &&
+      inclusiveAmountUpperBound !== null
+    ) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>inclusiveAmountUpperBound,
+        'inclusiveAmountUpperBound'
       );
     }
 
