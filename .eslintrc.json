@@ -1,7 +1,7 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
-  "plugins": ["unused-imports"],
+  "ignorePatterns": ["projects/**/*", "**/generated-sources/*"],
+  "plugins": ["unused-imports", "rxjs"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -49,7 +49,24 @@
           }
         ],
         "no-warning-comments": "error",
-        "no-console": "error"
+        "no-console": "error",
+        "rxjs/finnish": [
+          "error",
+          {
+            "functions": true,
+            "methods": true,
+            "names": {
+              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
+            },
+            "parameters": true,
+            "properties": true,
+            "strict": false,
+            "types": {
+              "^EventEmitter$": false
+            },
+            "variables": true
+          }
+        ]
       }
     },
     {
