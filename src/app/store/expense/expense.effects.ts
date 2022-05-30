@@ -89,8 +89,8 @@ export class ExpenseEffects {
     this.actions$.pipe(
       ofType(ExpenseActions.refreshCurrentPage),
       withLatestFrom(
-        this.expenseFacade.currentPaginationQuery,
-        this.expenseFacade.currentFilterQuery
+        this.expenseFacade.currentPaginationQuery$,
+        this.expenseFacade.currentFilterQuery$
       ),
       mergeMap(([_action, currentPageQuery, currentFilterQuery]) =>
         this.expensesService

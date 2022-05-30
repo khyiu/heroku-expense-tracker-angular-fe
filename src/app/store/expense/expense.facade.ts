@@ -23,10 +23,10 @@ export class ExpenseFacade {
   currentExpensePage$ = this.store$.select(selectCurrentExpensePage);
   pendingReadRequest$ = this.store$.select(selectPendingReadRequest);
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
-  currentPaginationQuery = this.store$.select(
+  currentPaginationQuery$ = this.store$.select(
     selectCurrentExpensePaginationQuery
   );
-  currentFilterQuery = this.store$.select(selectCurrentExpenseFilteringQuery);
+  currentFilterQuery$ = this.store$.select(selectCurrentExpenseFilteringQuery);
   pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
   pendingWriteRequest$ = this.store$.select(selectPendingWriteRequest);
 
