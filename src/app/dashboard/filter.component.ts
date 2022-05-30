@@ -7,6 +7,7 @@ import {
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Filters } from './dashboard.model';
+import { TagFacade } from '../store/tag/tag.facade';
 
 @Component({
   selector: 'het-filter',
@@ -14,6 +15,44 @@ import { Filters } from './dashboard.model';
     <p-accordion>
       <p-accordionTab header="{{ 'Filters' | translate }}">
         <form [formGroup]="filterGroup" fxLayout="column" fxLayoutGap="0.5rem">
+          <div fxLayout="row" fxLayoutGap="2rem">
+            <div
+              fxLayout="row"
+              fxLayoutAlign=" center"
+              fxLayoutGap="1rem"
+              fxFlex="48"
+            >
+              <label for="tags">{{ 'Description' | translate }}</label>
+              <input
+                type="text"
+                pInputText
+                fxFlex="1 1 auto"
+                [formControl]="descriptionControl"
+              />
+            </div>
+            <div
+              fxLayout="row"
+              fxLayoutGap="1rem"
+              fxLayoutAlign=" center"
+              fxFlex="48"
+            >
+              <label>{{ 'Tags' | translate }}</label>
+              <div fxFlex="1 1 auto" class="p-fluid">
+                <p-autoComplete
+                  [formControl]="tagsControl"
+                  [multiple]="true"
+                  [suggestions]="tags$ | async"
+                  [field]="'value'"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      tagsControl.touched && tagsControl.invalid
+                  }"
+                  (completeMethod)="fetchTags($event)"
+                >
+                </p-autoComplete>
+              </div>
+            </div>
+          </div>
           <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign=" center">
             <label>{{ 'OperationDateBetween' | translate }}</label>
             <p-calendar
@@ -95,6 +134,8 @@ import { Filters } from './dashboard.model';
 export class FilterComponent {
   readonly dateFormat = CALENDAR_DATE_FORMAT;
 
+  descriptionControl = new FormControl();
+  tagsControl = new FormControl();
   dateLowerBoundControl = new FormControl();
   dateUpperBoundControl = new FormControl();
   amountLowerBoundControl = new FormControl();
@@ -103,6 +144,8 @@ export class FilterComponent {
   creditCardStatementIssuedControl = new FormControl();
   checkedControl = new FormControl();
   filterGroup = new FormGroup({
+    description: this.descriptionControl,
+    tags: this.tagsControl,
     dateLowerBound: this.dateLowerBoundControl,
     dateUpperBound: this.dateUpperBoundControl,
     amountLowerBound: this.amountLowerBoundControl,
@@ -115,6 +158,10 @@ export class FilterComponent {
   @Output()
   filtersSelected = new EventEmitter<Filters>();
 
+  tags$ = this.tagFacade.tags$;
+
+  constructor(private readonly tagFacade: TagFacade) {}
+
   applyFilters(): void {
     this.filtersSelected.emit(this.filterGroup.value);
   }
@@ -122,5 +169,9 @@ export class FilterComponent {
   resetFilters(): void {
     this.filterGroup.reset();
     this.applyFilters();
+  }
+
+  fetchTags(tagQuery: string): void {
+    this.tagFacade.fetchTags(tagQuery);
   }
 }

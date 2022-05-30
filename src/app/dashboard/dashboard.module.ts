@@ -20,6 +20,7 @@ import { TagNgrxModule } from '../store/tag/tag.module';
 import { AccordionModule } from 'primeng/accordion';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { FilterComponent } from './filter.component';
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { FilterComponent } from './filter.component';
     CheckboxModule,
     AccordionModule,
     TriStateCheckboxModule,
+    InputTextModule,
   ],
 })
 export class DashboardModule {}

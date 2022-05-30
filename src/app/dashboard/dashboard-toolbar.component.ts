@@ -8,7 +8,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ExpenseFacade } from '../store/expense/expense.facade';
-import { FormControl, FormGroup } from '@angular/forms';
 import { DATE_FORMAT } from '../shared/shared.constants';
 
 @Component({
@@ -48,7 +47,6 @@ import { DATE_FORMAT } from '../shared/shared.constants';
           [loading]="pendingWriteRequest$ | async"
         ></button>
       </div>
-      <het-filter></het-filter>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

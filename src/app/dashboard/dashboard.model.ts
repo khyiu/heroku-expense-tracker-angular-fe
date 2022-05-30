@@ -6,4 +6,6 @@ export interface Filters {
   paidWithCreditCard?: boolean;
   creditCardStatementIssued?: boolean;
   checked?: boolean;
+  tags?: [{ id: string }];
+  description?: string;
 }

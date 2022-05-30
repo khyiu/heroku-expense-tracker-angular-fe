@@ -18,6 +18,7 @@ import { BalanceFacade } from '../store/balance/balance.facade';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
+import { Filters } from './dashboard.model';
 
 @Component({
   selector: 'het-dashboard',
@@ -48,9 +49,12 @@ import { ExpenseModalFormComponent } from './expense-modal-form.component';
 
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
-      <het-dashboard-toolbar
-        [selectedExpenseIds]="selectedExpenseIds$ | async"
-      ></het-dashboard-toolbar>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+        <het-dashboard-toolbar
+          [selectedExpenseIds]="selectedExpenseIds$ | async"
+        ></het-dashboard-toolbar>
+        <het-filter (filtersSelected)="applyFilters($event)"></het-filter>
+      </div>
       <p-table
         [responsive]="true"
         [responsiveLayout]="'stack'"
@@ -364,5 +368,9 @@ export class DashboardComponent implements OnInit {
   clearSelection(): void {
     this.selectedExpenses = [];
     this.updateSelection();
+  }
+
+  applyFilters(filters: Filters): void {
+    // todo kyiu: implement
   }
 }
