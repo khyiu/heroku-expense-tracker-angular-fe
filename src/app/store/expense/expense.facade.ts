@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ExpenseQuery, State } from './expense.reducers';
+import {
+  ExpenseFilteringQuery,
+  ExpensePaginationQuery,
+  State,
+} from './expense.reducers';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions from './expense.actions';
 import {
+  selectCurrentExpenseFilteringQuery,
   selectCurrentExpensePage,
-  selectCurrentExpensePageQuery,
+  selectCurrentExpensePaginationQuery,
   selectPendingImportRequest,
   selectPendingReadRequest,
   selectPendingWriteRequest,
@@ -18,16 +23,23 @@ export class ExpenseFacade {
   currentExpensePage$ = this.store$.select(selectCurrentExpensePage);
   pendingReadRequest$ = this.store$.select(selectPendingReadRequest);
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
-  currentPageQuery$ = this.store$.select(selectCurrentExpensePageQuery);
+  currentPaginationQuery = this.store$.select(
+    selectCurrentExpensePaginationQuery
+  );
+  currentFilterQuery = this.store$.select(selectCurrentExpenseFilteringQuery);
   pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
   pendingWriteRequest$ = this.store$.select(selectPendingWriteRequest);
 
   constructor(private readonly store$: Store<State>) {}
 
-  loadExpensePage(query: ExpenseQuery): void {
+  loadExpensePage(
+    paginationQuery: ExpensePaginationQuery,
+    filteringQuery?: ExpenseFilteringQuery
+  ): void {
     this.store$.dispatch(
       ExpenseActions.fetchExpensePage({
-        query,
+        paginationQuery,
+        filteringQuery,
       })
     );
   }

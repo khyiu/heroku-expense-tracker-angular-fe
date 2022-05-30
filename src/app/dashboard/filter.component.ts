@@ -54,7 +54,7 @@ import { TagFacade } from '../store/tag/tag.facade';
             </div>
           </div>
           <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign=" center">
-            <label>{{ 'OperationDateBetween' | translate }}</label>
+            <label fxFlex="15">{{ 'OperationDateBetween' | translate }}</label>
             <p-calendar
               [formControl]="dateLowerBoundControl"
               [dateFormat]="dateFormat"
@@ -74,7 +74,9 @@ import { TagFacade } from '../store/tag/tag.facade';
             ></p-calendar>
           </div>
           <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign=" center">
-            <label>{{ 'OperationAmountBetween' | translate }}</label>
+            <label fxFlex="15">{{
+              'OperationAmountBetween' | translate
+            }}</label>
             <p-inputNumber
               [formControl]="amountLowerBoundControl"
               [minFractionDigits]="2"

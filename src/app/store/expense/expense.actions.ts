@@ -1,5 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { ExpenseQuery } from './expense.reducers';
+import {
+  ExpenseFilteringQuery,
+  ExpensePaginationQuery,
+} from './expense.reducers';
 import {
   ExpenseRequest,
   ExpenseResponse,
@@ -9,7 +12,8 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 export const fetchExpensePage = createAction(
   '[Expense] Fetch page',
   props<{
-    query: ExpenseQuery;
+    paginationQuery: ExpensePaginationQuery;
+    filteringQuery?: ExpenseFilteringQuery;
   }>()
 );
 

@@ -8,7 +8,7 @@ import { ExpenseFacade } from '../store/expense/expense.facade';
 import { DATE_FORMAT } from '../shared/shared.constants';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
-  ExpenseQuery,
+  ExpensePaginationQuery,
   SortAttribute,
   SortDirection,
 } from '../store/expense/expense.reducers';
@@ -209,7 +209,7 @@ import { Filters } from './dashboard.model';
 export class DashboardComponent implements OnInit {
   readonly dateFormat = DATE_FORMAT;
   readonly paginatorPageSizes = [10, 15, 25];
-  readonly defaultExpenseQuery: ExpenseQuery = {
+  readonly defaultExpensePaginationQuery: ExpensePaginationQuery = {
     pageSize: this.paginatorPageSizes[0],
     pageNumber: 1,
     sortDirection: 'DESC',
@@ -282,9 +282,9 @@ export class DashboardComponent implements OnInit {
       : defaultSortAttribute;
   }
 
-  private static convertLazyLoadEventToExpenseQuery(
+  private static convertLazyLoadEventToExpensePaginationQuery(
     event: LazyLoadEvent
-  ): ExpenseQuery {
+  ): ExpensePaginationQuery {
     return {
       pageSize: event.rows!,
       pageNumber: event.first! / event.rows! + 1,
@@ -294,7 +294,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const expenseQuery = this.extractExpenseQueryFromRoute();
+    const expenseQuery = this.extractExpensePaginationQueryFromRoute();
     this.initPaginatorInfo(expenseQuery);
 
     this.balanceFacade.loadBalance();
@@ -302,7 +302,7 @@ export class DashboardComponent implements OnInit {
 
   loadExpensePage(event: LazyLoadEvent): void {
     const expenseQuery =
-      DashboardComponent.convertLazyLoadEventToExpenseQuery(event);
+      DashboardComponent.convertLazyLoadEventToExpensePaginationQuery(event);
     this.expenseFacade.loadExpensePage(expenseQuery);
 
     this.router.navigate(['.'], {
@@ -311,7 +311,7 @@ export class DashboardComponent implements OnInit {
         pageSize: event.rows,
         sortDirection: event.sortField! === '0' ? 'ASC' : 'DESC',
         sortBy: 'DATE',
-      } as ExpenseQuery,
+      } as ExpensePaginationQuery,
     });
   }
 
@@ -329,32 +329,32 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private initPaginatorInfo(expenseQuery: ExpenseQuery): void {
+  private initPaginatorInfo(expenseQuery: ExpensePaginationQuery): void {
     this.pageSize = expenseQuery.pageSize;
     this.currentPageFirstItemIdx =
       (expenseQuery.pageNumber - 1) * expenseQuery.pageSize;
   }
 
-  private extractExpenseQueryFromRoute(): ExpenseQuery {
+  private extractExpensePaginationQueryFromRoute(): ExpensePaginationQuery {
     const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
     return {
       pageSize: DashboardComponent.extractPageSizeParamFromRoute(
         queryParamMap,
-        this.defaultExpenseQuery.pageSize
+        this.defaultExpensePaginationQuery.pageSize
       ),
       pageNumber: DashboardComponent.extractPageNumberParamFromRoute(
         queryParamMap,
-        this.defaultExpenseQuery.pageNumber
+        this.defaultExpensePaginationQuery.pageNumber
       ),
 
       sortDirection: DashboardComponent.extractSortDirectionParamFromRoute(
         queryParamMap,
-        this.defaultExpenseQuery.sortDirection
+        this.defaultExpensePaginationQuery.sortDirection
       ),
 
       sortBy: DashboardComponent.extractSortAttributeParamFromRoute(
         queryParamMap,
-        this.defaultExpenseQuery.sortBy
+        this.defaultExpensePaginationQuery.sortBy
       ),
     };
   }
@@ -372,5 +372,6 @@ export class DashboardComponent implements OnInit {
 
   applyFilters(filters: Filters): void {
     // todo kyiu: implement
+    console.log(filters);
   }
 }

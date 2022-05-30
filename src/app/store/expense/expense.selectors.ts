@@ -29,7 +29,12 @@ export const selectTotalNumberOfExpenses = createSelector(
   (state) => state.totalNumberOfItems
 );
 
-export const selectCurrentExpensePageQuery = createSelector(
+export const selectCurrentExpensePaginationQuery = createSelector(
   selectFeature,
-  (state) => state.query
+  (state) => state.paginationQuery
+);
+
+export const selectCurrentExpenseFilteringQuery = createSelector(
+  selectFeature,
+  (state) => state.filteringQuery
 );

@@ -6,11 +6,14 @@ import * as ExpenseActions from './expense.actions';
 export type SortDirection = 'ASC' | 'DESC';
 export type SortAttribute = 'DATE' | 'AMOUNT';
 
-export interface ExpenseQuery {
+export interface ExpensePaginationQuery {
   pageSize: number;
   pageNumber: number;
   sortDirection: SortDirection;
   sortBy: SortAttribute;
+}
+
+export interface ExpenseFilteringQuery {
   tagFilters?: Array<string>;
   descriptionFilters?: Array<string>;
   paidWithCreditCardFilter?: boolean;
@@ -18,13 +21,16 @@ export interface ExpenseQuery {
   checked?: boolean;
   inclusiveDateLowerBound?: string;
   inclusiveDateUpperBound?: string;
+  inclusiveAmountLowerBound?: number;
+  inclusiveAmountUpperBound?: number;
 }
 
 export interface State extends EntityState<ExpenseResponse> {
   pendingReadRequest: boolean;
   pendingWriteRequest: boolean;
   pendingImportRequest: boolean;
-  query: ExpenseQuery | null;
+  paginationQuery: ExpensePaginationQuery | null;
+  filteringQuery: ExpenseFilteringQuery | null;
   totalNumberOfItems: number | null;
 }
 
@@ -36,7 +42,8 @@ export const initialState: State = expenseResponseEntityAdapter.getInitialState(
     pendingReadRequest: false,
     pendingWriteRequest: false,
     pendingImportRequest: false,
-    query: null,
+    paginationQuery: null,
+    filteringQuery: null,
     totalNumberOfItems: null,
     entities: expenseResponseEntityAdapter.getInitialState(),
   }
@@ -47,7 +54,8 @@ export const expenseReducer = createReducer(
   on(ExpenseActions.fetchExpensePage, (state, action) => ({
     ...state,
     pendingReadRequest: true,
-    query: action.query,
+    paginationQuery: action.paginationQuery,
+    filteringQuery: action.filteringQuery
   })),
   on(
     ExpenseActions.expensePageFetched,

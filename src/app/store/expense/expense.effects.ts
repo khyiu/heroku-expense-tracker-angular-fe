@@ -26,17 +26,19 @@ export class ExpenseEffects {
       mergeMap((action: ReturnType<typeof ExpenseActions.fetchExpensePage>) =>
         this.expensesService
           .getExpenses(
-            action.query.pageSize,
-            action.query.pageNumber,
-            action.query.sortDirection,
-            action.query.sortBy,
-            action.query.tagFilters,
-            action.query.descriptionFilters,
-            action.query.paidWithCreditCardFilter,
-            action.query.creditCardStatementIssuedFilter,
-            action.query.inclusiveDateLowerBound,
-            action.query.inclusiveDateUpperBound,
-            action.query.checked
+            action.paginationQuery.pageSize,
+            action.paginationQuery.pageNumber,
+            action.paginationQuery.sortDirection,
+            action.paginationQuery.sortBy,
+            action.filteringQuery?.tagFilters,
+            action.filteringQuery?.descriptionFilters,
+            action.filteringQuery?.paidWithCreditCardFilter,
+            action.filteringQuery?.creditCardStatementIssuedFilter,
+            action.filteringQuery?.inclusiveDateLowerBound,
+            action.filteringQuery?.inclusiveDateUpperBound,
+            action.filteringQuery?.checked,
+            action.filteringQuery?.inclusiveAmountLowerBound,
+            action.filteringQuery?.inclusiveAmountUpperBound
           )
           .pipe(
             map((response) =>
@@ -86,21 +88,24 @@ export class ExpenseEffects {
   refreshExpensePage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ExpenseActions.refreshCurrentPage),
-      withLatestFrom(this.expenseFacade.currentPageQuery$),
-      mergeMap(([_action, currentPageQuery]) =>
+      withLatestFrom(
+        this.expenseFacade.currentPaginationQuery,
+        this.expenseFacade.currentFilterQuery
+      ),
+      mergeMap(([_action, currentPageQuery, currentFilterQuery]) =>
         this.expensesService
           .getExpenses(
             currentPageQuery.pageSize,
             currentPageQuery.pageNumber,
             currentPageQuery.sortDirection,
             currentPageQuery.sortBy,
-            currentPageQuery.tagFilters,
-            currentPageQuery.descriptionFilters,
-            currentPageQuery.paidWithCreditCardFilter,
-            currentPageQuery.creditCardStatementIssuedFilter,
-            currentPageQuery.inclusiveDateLowerBound,
-            currentPageQuery.inclusiveDateUpperBound,
-            currentPageQuery.checked
+            currentFilterQuery?.tagFilters,
+            currentFilterQuery?.descriptionFilters,
+            currentFilterQuery?.paidWithCreditCardFilter,
+            currentFilterQuery?.creditCardStatementIssuedFilter,
+            currentFilterQuery?.inclusiveDateLowerBound,
+            currentFilterQuery?.inclusiveDateUpperBound,
+            currentFilterQuery?.checked
           )
           .pipe(
             map((response) =>
