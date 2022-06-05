@@ -23,12 +23,12 @@ import { TagFacade } from '../store/tag/tag.facade';
               fxFlex="48"
             >
               <label for="tags">{{ 'Description' | translate }}</label>
-              <input
-                type="text"
-                pInputText
-                fxFlex="1 1 auto"
-                [formControl]="descriptionControl"
-              />
+              <div class="p-fluid" fxFlex="1 1 auto">
+                <p-chips
+                  [formControl]="descriptionsControl"
+                  [showClear]="true"
+                ></p-chips>
+              </div>
             </div>
             <div
               fxLayout="row"
@@ -136,7 +136,7 @@ import { TagFacade } from '../store/tag/tag.facade';
 export class FilterComponent {
   readonly dateFormat = CALENDAR_DATE_FORMAT;
 
-  descriptionControl = new FormControl();
+  descriptionsControl = new FormControl();
   tagsControl = new FormControl();
   dateLowerBoundControl = new FormControl();
   dateUpperBoundControl = new FormControl();
@@ -146,7 +146,7 @@ export class FilterComponent {
   creditCardStatementIssuedControl = new FormControl();
   checkedControl = new FormControl();
   filterGroup = new FormGroup({
-    description: this.descriptionControl,
+    descriptions: this.descriptionsControl,
     tags: this.tagsControl,
     dateLowerBound: this.dateLowerBoundControl,
     dateUpperBound: this.dateUpperBoundControl,
@@ -154,7 +154,7 @@ export class FilterComponent {
     amountUpperBound: this.amountUpperBoundControl,
     paidWithCreditCard: this.paidWithCreditCardControl,
     creditCardStatementIssued: this.creditCardStatementIssuedControl,
-    checkedForm: this.checkedControl,
+    checked: this.checkedControl,
   });
 
   @Output()

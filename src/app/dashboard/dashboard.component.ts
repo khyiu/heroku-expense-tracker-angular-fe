@@ -8,6 +8,7 @@ import { ExpenseFacade } from '../store/expense/expense.facade';
 import { DATE_FORMAT } from '../shared/shared.constants';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
+  ExpenseFilteringQuery,
   ExpensePaginationQuery,
   SortAttribute,
   SortDirection,
@@ -49,122 +50,135 @@ import { Filters } from './dashboard.model';
 
     <div id="container" fxFlex="100">
       <h2>{{ 'Balance' | translate }} : {{ balance$ | async | euroAmount }}</h2>
-      <div fxLayout="column" fxLayoutGap="0.5rem">
+      <div
+        fxLayout="column"
+        fxLayoutGap="0.5rem"
+        *ngrxLet="currentPaginationQuery$; let currentPaginationQuery"
+      >
         <het-dashboard-toolbar
           [selectedExpenseIds]="selectedExpenseIds$ | async"
         ></het-dashboard-toolbar>
-        <het-filter (filtersSelected)="applyFilters($event)"></het-filter>
+        <het-filter
+          (filtersSelected)="applyFilters($event, currentPaginationQuery)"
+        ></het-filter>
       </div>
-      <p-table
-        [responsive]="true"
-        [responsiveLayout]="'stack'"
-        [lazy]="true"
-        [value]="(expenses$ | async) || []"
-        [rowHover]="true"
-        [paginator]="true"
-        [loading]="(loading$ | async) || false"
-        [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="paginatorPageSizes"
-        (onLazyLoad)="loadExpensePage($event)"
-        [(first)]="currentPageFirstItemIdx"
-        [(rows)]="pageSize"
-        [totalRecords]="(totalNumberOfExpenses$ | async) || 0"
-        [(selection)]="selectedExpenses"
-        [selectionPageOnly]="true"
-        (selectionChange)="updateSelection()"
-        currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
-        styleClass="p-datatable-striped"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 3rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th id="colDate" style="width: 10%">{{ 'Date' | translate }}</th>
-            <th id="colAmount" style="width: 12%">
-              {{ 'Amount' | translate }}
-            </th>
-            <th id="colDescription" style="width: 40%">
-              {{ 'Description' | translate }}
-            </th>
-            <th id="colTags" style="width: 20%">{{ 'Tags' | translate }}</th>
-            <th id="colStatus" style="width: 9%">{{ 'Status' | translate }}</th>
-            <th id="colActionsStatus" style="width: 9%">
-              {{ 'Actions' | translate }}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-expense>
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="expense"></p-tableCheckbox>
-            </td>
-            <td>
-              {{ expense.date | date: dateFormat }}
-            </td>
-            <td
-              [ngClass]="{
-                income: expense.amount > 0,
-                outcome: expense.amount < 0
-              }"
-            >
-              {{ expense.amount | euroAmount }}
-            </td>
-            <td>
-              {{ expense.description }}
-            </td>
-            <td>
-              <div fxLayout="row" fxLayoutGap="1em">
-                <p-tag
-                  *ngFor="let tag of expense.tags"
-                  [value]="tag.value"
-                  severity="info"
-                ></p-tag>
-              </div>
-            </td>
-            <td>
-              <div fxLayout="row" fxLayoutGap="1em">
-                <i
-                  class="pi pi-check-circle"
-                  [ngClass]="{ ready: !expense.checked, done: expense.checked }"
-                ></i>
-                <i
-                  class="pi pi-credit-card ready"
-                  *ngIf="
-                    expense.paidWithCreditCard &&
-                    !expense.creditCardStatementIssued
-                  "
-                ></i>
-                <i
-                  class="pi pi-credit-card done"
-                  *ngIf="
-                    expense.paidWithCreditCard &&
-                    expense.creditCardStatementIssued
-                  "
-                ></i>
-              </div>
-            </td>
-            <td>
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-times"
-                class="p-button-rounded p-button-danger p-button-text"
-                (click)="triggerExpenseDeletion(expense.id)"
-              ></button>
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-pencil"
-                class="p-button-rounded p-button-info p-button-text"
-                (click)="editExpense(expense)"
-              ></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+      <ng-container *ngrxLet="currentFilterQuery$; let currentFilterQuery">
+        <p-table
+          [responsive]="true"
+          [responsiveLayout]="'stack'"
+          [lazy]="true"
+          [value]="(expenses$ | async) || []"
+          [rowHover]="true"
+          [paginator]="true"
+          [loading]="(loading$ | async) || false"
+          [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="paginatorPageSizes"
+          (onLazyLoad)="loadExpensePage($event, currentFilterQuery)"
+          [(first)]="currentPageFirstItemIdx"
+          [(rows)]="pageSize"
+          [totalRecords]="(totalNumberOfExpenses$ | async) || 0"
+          [(selection)]="selectedExpenses"
+          [selectionPageOnly]="true"
+          (selectionChange)="updateSelection()"
+          currentPageReportTemplate="{{ 'PaginatorSummary' | translate }}"
+          styleClass="p-datatable-striped"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th id="colDate" style="width: 10%">{{ 'Date' | translate }}</th>
+              <th id="colAmount" style="width: 12%">
+                {{ 'Amount' | translate }}
+              </th>
+              <th id="colDescription" style="width: 40%">
+                {{ 'Description' | translate }}
+              </th>
+              <th id="colTags" style="width: 20%">{{ 'Tags' | translate }}</th>
+              <th id="colStatus" style="width: 9%">
+                {{ 'Status' | translate }}
+              </th>
+              <th id="colActionsStatus" style="width: 9%">
+                {{ 'Actions' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-expense>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+              </td>
+              <td>
+                {{ expense.date | date: dateFormat }}
+              </td>
+              <td
+                [ngClass]="{
+                  income: expense.amount > 0,
+                  outcome: expense.amount < 0
+                }"
+              >
+                {{ expense.amount | euroAmount }}
+              </td>
+              <td>
+                {{ expense.description }}
+              </td>
+              <td>
+                <div fxLayout="row" fxLayoutGap="1em">
+                  <p-tag
+                    *ngFor="let tag of expense.tags"
+                    [value]="tag.value"
+                    severity="info"
+                  ></p-tag>
+                </div>
+              </td>
+              <td>
+                <div fxLayout="row" fxLayoutGap="1em">
+                  <i
+                    class="pi pi-check-circle"
+                    [ngClass]="{
+                      ready: !expense.checked,
+                      done: expense.checked
+                    }"
+                  ></i>
+                  <i
+                    class="pi pi-credit-card ready"
+                    *ngIf="
+                      expense.paidWithCreditCard &&
+                      !expense.creditCardStatementIssued
+                    "
+                  ></i>
+                  <i
+                    class="pi pi-credit-card done"
+                    *ngIf="
+                      expense.paidWithCreditCard &&
+                      expense.creditCardStatementIssued
+                    "
+                  ></i>
+                </div>
+              </td>
+              <td>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-times"
+                  class="p-button-rounded p-button-danger p-button-text"
+                  (click)="triggerExpenseDeletion(expense.id)"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-info p-button-text"
+                  (click)="editExpense(expense)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-container>
     </div>
   `,
   styles: [
@@ -230,6 +244,9 @@ export class DashboardComponent implements OnInit {
   pageSize = this.paginatorPageSizes[0];
   selectedExpenses: ExpenseResponse[] = [];
   selectedExpenseIds$: BehaviorSubject<string[]> = new BehaviorSubject([]);
+
+  currentFilterQuery$ = this.expenseFacade.currentFilterQuery$;
+  currentPaginationQuery$ = this.expenseFacade.currentPaginationQuery$;
 
   private ref: DynamicDialogRef;
 
@@ -300,10 +317,13 @@ export class DashboardComponent implements OnInit {
     this.balanceFacade.loadBalance();
   }
 
-  loadExpensePage(event: LazyLoadEvent): void {
+  loadExpensePage(
+    event: LazyLoadEvent,
+    currentFilteringQuery?: ExpenseFilteringQuery
+  ): void {
     const expenseQuery =
       DashboardComponent.convertLazyLoadEventToExpensePaginationQuery(event);
-    this.expenseFacade.loadExpensePage(expenseQuery);
+    this.expenseFacade.loadExpensePage(expenseQuery, currentFilteringQuery);
 
     this.router.navigate(['.'], {
       queryParams: {
@@ -370,8 +390,34 @@ export class DashboardComponent implements OnInit {
     this.updateSelection();
   }
 
-  applyFilters(filters: Filters): void {
+  applyFilters(
+    filters: Filters,
+    currentPaginationQuery: ExpensePaginationQuery
+  ): void {
     // todo kyiu: implement
-    console.log(filters);
+    let filterQuery = this.convertToFilterQuery(filters);
+    this.expenseFacade.loadExpensePage(currentPaginationQuery, filterQuery);
+  }
+
+  private convertToFilterQuery(
+    filters?: Filters
+  ): ExpenseFilteringQuery | null {
+    return filters
+      ? {
+          descriptionFilters: filters?.descriptions,
+          tagFilters: filters?.tags?.map((tag) => tag.id),
+          paidWithCreditCardFilter: filters?.paidWithCreditCard,
+          creditCardStatementIssuedFilter: filters?.creditCardStatementIssued,
+          checked: filters?.checked,
+          inclusiveAmountLowerBound: filters?.amountLowerBound,
+          inclusiveAmountUpperBound: filters?.amountUpperBound,
+          inclusiveDateLowerBound: filters?.dateLowerBound
+            ?.toISOString()
+            .substr(0, 10),
+          inclusiveDateUpperBound: filters?.dateUpperBound
+            ?.toISOString()
+            .substr(0, 10),
+        }
+      : null;
   }
 }
