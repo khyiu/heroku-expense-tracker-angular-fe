@@ -2,13 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Filters } from './dashboard.model';
 import { TagFacade } from '../store/tag/tag.facade';
+import { ExpenseFilteringQuery } from '../store/expense/expense.reducers';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { filter, take, tap } from 'rxjs';
+import { Tag } from '../generated-sources/expense-api';
 
+@UntilDestroy()
 @Component({
   selector: 'het-filter',
   template: `
@@ -133,7 +141,7 @@ import { TagFacade } from '../store/tag/tag.facade';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent {
+export class FilterComponent implements OnChanges {
   readonly dateFormat = CALENDAR_DATE_FORMAT;
 
   descriptionsControl = new FormControl();
@@ -157,12 +165,56 @@ export class FilterComponent {
     checked: this.checkedControl,
   });
 
+  @Input()
+  currentFilter: ExpenseFilteringQuery | null;
+
   @Output()
   filtersSelected = new EventEmitter<Filters>();
 
   tags$ = this.tagFacade.tags$;
 
   constructor(private readonly tagFacade: TagFacade) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.currentFilter) {
+      const currentFilteringQuery = changes.currentFilter
+        .currentValue as ExpenseFilteringQuery;
+
+      this.tagFacade.fetchTags();
+      this.tagFacade.tags$
+        .pipe(
+          untilDestroyed(this),
+          filter((tags: Tag[]) => !!tags.length),
+          take(1),
+          tap((tags: Tag[]) =>
+            this.tagsControl.patchValue(
+              tags.filter((tag) =>
+                currentFilteringQuery.tagFilters.some(
+                  (tagFilter) => tag.id === tagFilter
+                )
+              )
+            )
+          )
+        )
+        .subscribe();
+
+      this.filterGroup.patchValue({
+        descriptions: currentFilteringQuery.descriptionFilters,
+        dateLowerBound:
+          currentFilteringQuery.inclusiveDateLowerBound &&
+          new Date(currentFilteringQuery.inclusiveDateLowerBound),
+        dateUpperBound:
+          currentFilteringQuery.inclusiveDateUpperBound &&
+          new Date(currentFilteringQuery.inclusiveDateUpperBound),
+        amountLowerBound: currentFilteringQuery.inclusiveAmountLowerBound,
+        amountUpperBound: currentFilteringQuery.inclusiveAmountUpperBound,
+        paidWithCreditCard: currentFilteringQuery.paidWithCreditCardFilter,
+        creditCardStatementIssued:
+          currentFilteringQuery.creditCardStatementIssuedFilter,
+        checked: currentFilteringQuery.checked,
+      });
+    }
+  }
 
   applyFilters(): void {
     this.filtersSelected.emit(this.filterGroup.value);

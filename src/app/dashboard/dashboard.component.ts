@@ -59,6 +59,7 @@ import { Filters } from './dashboard.model';
           [selectedExpenseIds]="selectedExpenseIds$ | async"
         ></het-dashboard-toolbar>
         <het-filter
+          [currentFilter]="currentFilterQuery$ | async"
           (filtersSelected)="applyFilters($event, currentPaginationQuery)"
         ></het-filter>
       </div>
@@ -312,8 +313,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     const expenseQuery = this.extractExpensePaginationQueryFromRoute();
+    const filteringQuery = this.extractExpenseFilteringQueryFromRoute();
     this.initPaginatorInfo(expenseQuery);
 
+    this.expenseFacade.loadExpensePage(expenseQuery, filteringQuery);
     this.balanceFacade.loadBalance();
   }
 
@@ -331,6 +334,7 @@ export class DashboardComponent implements OnInit {
         pageSize: event.rows,
         sortDirection: event.sortField! === '0' ? 'ASC' : 'DESC',
         sortBy: 'DATE',
+        ...currentFilteringQuery,
       } as ExpensePaginationQuery,
     });
   }
@@ -379,6 +383,29 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  private extractExpenseFilteringQueryFromRoute(): ExpenseFilteringQuery | null {
+    const queryParamMap = this.activatedRoute.snapshot.queryParamMap;
+    return {
+      tagFilters: queryParamMap.getAll('tagFilters'),
+      descriptionFilters: queryParamMap.getAll('descriptionFilters'),
+      paidWithCreditCardFilter: JSON.parse(
+        queryParamMap.get('paidWithCreditCardFilter')
+      ),
+      creditCardStatementIssuedFilter: JSON.parse(
+        queryParamMap.get('creditCardStatementIssuedFilter')
+      ),
+      checked: JSON.parse(queryParamMap.get('checked')),
+      inclusiveDateLowerBound: queryParamMap.get('inclusiveDateLowerBound'),
+      inclusiveDateUpperBound: queryParamMap.get('inclusiveDateUpperBound'),
+      inclusiveAmountLowerBound: JSON.parse(
+        queryParamMap.get('inclusiveAmountLowerBound')
+      ),
+      inclusiveAmountUpperBound: JSON.parse(
+        queryParamMap.get('inclusiveAmountUpperBound')
+      ),
+    };
+  }
+
   updateSelection(): void {
     this.selectedExpenseIds$.next(
       this.selectedExpenses.map((expense) => expense.id)
@@ -394,9 +421,23 @@ export class DashboardComponent implements OnInit {
     filters: Filters,
     currentPaginationQuery: ExpensePaginationQuery
   ): void {
-    // todo kyiu: implement
     let filterQuery = this.convertToFilterQuery(filters);
-    this.expenseFacade.loadExpensePage(currentPaginationQuery, filterQuery);
+    const paginationQueryResetToFirstPage = {
+      ...currentPaginationQuery,
+      pageNumber: 1,
+    };
+    this.initPaginatorInfo(paginationQueryResetToFirstPage);
+
+    this.expenseFacade.loadExpensePage(
+      paginationQueryResetToFirstPage,
+      filterQuery
+    );
+    this.router.navigate(['.'], {
+      queryParams: {
+        ...paginationQueryResetToFirstPage,
+        ...filterQuery,
+      } as ExpensePaginationQuery,
+    });
   }
 
   private convertToFilterQuery(

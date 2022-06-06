@@ -1,3 +1,5 @@
+import { Tag } from '../generated-sources/expense-api';
+
 export interface Filters {
   dateLowerBound?: Date;
   dateUpperBound?: Date;
@@ -6,6 +8,6 @@ export interface Filters {
   paidWithCreditCard?: boolean;
   creditCardStatementIssued?: boolean;
   checked?: boolean;
-  tags?: [{ id: string }];
+  tags?: Tag[];
   descriptions?: string[];
 }
