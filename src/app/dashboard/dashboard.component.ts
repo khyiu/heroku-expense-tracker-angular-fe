@@ -223,7 +223,7 @@ import { Filters } from './dashboard.model';
 })
 export class DashboardComponent implements OnInit {
   readonly dateFormat = DATE_FORMAT;
-  readonly paginatorPageSizes = [10, 15, 25];
+  readonly paginatorPageSizes = [10, 15, 25, 100];
   readonly defaultExpensePaginationQuery: ExpensePaginationQuery = {
     pageSize: this.paginatorPageSizes[0],
     pageNumber: 1,
