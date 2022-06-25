@@ -10,6 +10,7 @@ import {
   selectCurrentExpenseFilteringQuery,
   selectCurrentExpensePage,
   selectCurrentExpensePaginationQuery,
+  selectPendingExportRequest,
   selectPendingImportRequest,
   selectPendingReadRequest,
   selectPendingWriteRequest,
@@ -29,6 +30,7 @@ export class ExpenseFacade {
   currentFilterQuery$ = this.store$.select(selectCurrentExpenseFilteringQuery);
   pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
   pendingWriteRequest$ = this.store$.select(selectPendingWriteRequest);
+  pendingExportRequest$ = this.store$.select(selectPendingExportRequest);
 
   constructor(private readonly store$: Store<State>) {}
 

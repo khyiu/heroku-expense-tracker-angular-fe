@@ -88,6 +88,8 @@ export const expensesImported = createAction('[Expense] File imported');
 
 export const exportExpenses = createAction('[Expense] Export');
 
+export const expensesExported = createAction('[Expense] Exported');
+
 export const updateExpensesStatus = createAction(
   '[Expense] Update status',
   props<{

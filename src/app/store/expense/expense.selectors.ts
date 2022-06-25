@@ -38,3 +38,8 @@ export const selectCurrentExpenseFilteringQuery = createSelector(
   selectFeature,
   (state) => state.filteringQuery
 );
+
+export const selectPendingExportRequest = createSelector(
+  selectFeature,
+  (state) => state.pendingExportRequest
+);

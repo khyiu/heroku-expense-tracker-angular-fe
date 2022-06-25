@@ -29,6 +29,7 @@ export interface State extends EntityState<ExpenseResponse> {
   pendingReadRequest: boolean;
   pendingWriteRequest: boolean;
   pendingImportRequest: boolean;
+  pendingExportRequest: boolean;
   paginationQuery: ExpensePaginationQuery | null;
   filteringQuery: ExpenseFilteringQuery | null;
   totalNumberOfItems: number | null;
@@ -42,6 +43,7 @@ export const initialState: State = expenseResponseEntityAdapter.getInitialState(
     pendingReadRequest: false,
     pendingWriteRequest: false,
     pendingImportRequest: false,
+    pendingExportRequest: false,
     paginationQuery: null,
     filteringQuery: null,
     totalNumberOfItems: null,
@@ -55,7 +57,7 @@ export const expenseReducer = createReducer(
     ...state,
     pendingReadRequest: true,
     paginationQuery: action.paginationQuery,
-    filteringQuery: action.filteringQuery
+    filteringQuery: action.filteringQuery,
   })),
   on(
     ExpenseActions.expensePageFetched,
@@ -104,5 +106,13 @@ export const expenseReducer = createReducer(
       ...state,
       pendingWriteRequest: false,
     })
-  )
+  ),
+  on(ExpenseActions.exportExpenses, (state) => ({
+    ...state,
+    pendingExportRequest: true,
+  })),
+  on(ExpenseActions.expensesExported, (state) => ({
+    ...state,
+    pendingExportRequest: false,
+  }))
 );

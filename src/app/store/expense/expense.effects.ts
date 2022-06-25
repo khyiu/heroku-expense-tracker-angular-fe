@@ -206,35 +206,31 @@ export class ExpenseEffects {
     { dispatch: false }
   );
 
-  exportExpense$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ExpenseActions.exportExpenses),
-        tap(() =>
-          this.expensesService
-            .exportExpenses('response')
-            .pipe(
-              tap((response) => {
-                const contentDispositionValue = response.headers.get(
-                  'content-disposition'
-                );
-                const attachmentFilenameRegexp =
-                  /^attachment; filename="(?<default_filename>.*)"$/;
+  exportExpense$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExpenseActions.exportExpenses),
+      mergeMap(() =>
+        this.expensesService.exportExpenses('response').pipe(
+          tap((response) => {
+            const contentDispositionValue = response.headers.get(
+              'content-disposition'
+            );
+            const attachmentFilenameRegexp =
+              /^attachment; filename="(?<default_filename>.*)"$/;
 
-                const a = document.createElement('a');
-                const url = window.URL.createObjectURL(response.body);
-                a.href = url;
-                a.download = contentDispositionValue.match(
-                  attachmentFilenameRegexp
-                ).groups['default_filename'];
-                a.click();
-                window.URL.revokeObjectURL(url);
-              })
-            )
-            .subscribe()
+            const a = document.createElement('a');
+            const url = window.URL.createObjectURL(response.body);
+            a.href = url;
+            a.download = contentDispositionValue.match(
+              attachmentFilenameRegexp
+            ).groups['default_filename'];
+            a.click();
+            window.URL.revokeObjectURL(url);
+          }),
+          map(() => ExpenseActions.expensesExported())
         )
-      ),
-    { dispatch: false }
+      )
+    )
   );
 
   updateExpensesStatus$ = createEffect(() =>

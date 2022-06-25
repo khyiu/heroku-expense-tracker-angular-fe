@@ -26,6 +26,7 @@ import { FileUpload } from 'primeng/fileupload';
             label="{{ 'Export' | translate }}"
             icon="pi pi-download"
             (click)="exportExpenses()"
+            [loading]="pendingExportRequest$ | async"
           ></p-button>
         </div>
         <p-progressBar
@@ -47,6 +48,7 @@ import { FileUpload } from 'primeng/fileupload';
 })
 export class AdminViewComponent {
   pendingImportRequest$ = this.expenseFacade.pendingImportRequest$;
+  pendingExportRequest$ = this.expenseFacade.pendingExportRequest$;
 
   constructor(private readonly expenseFacade: ExpenseFacade) {}
 
