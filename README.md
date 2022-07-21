@@ -232,3 +232,12 @@ Here are the steps I went through:
 To handle i18n dynamically (user could change the language within the app at any time, without having to actually reload the app), we'll be using `npm install @`ngx-translate`.
 
 For more details about setup, refer to [https://github.com/ngx-translate/core](https://github.com/ngx-translate/core)
+
+### 11. Upgrade Angular 13 -> 14
+
+```bash
+ng update @angular/flex-layout @angular/cli @angular/core @angular-eslint/schematics keycloak-angular keycloak-js
+```
+
+For some reason, the previous command didn't update `@angular/cdk`, `@angular/core` and `@angular/flex-layout`.  
+Those dependencies had to be upgraded by manually changing their version in `package.json`
