@@ -15,6 +15,7 @@ import { ExpenseFilteringQuery } from '../store/expense/expense.reducers';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, take, tap } from 'rxjs';
 import { Tag } from '../generated-sources/expense-api';
+import { FilterForm } from './model';
 
 @UntilDestroy()
 @Component({
@@ -144,16 +145,16 @@ import { Tag } from '../generated-sources/expense-api';
 export class FilterComponent implements OnChanges {
   readonly dateFormat = CALENDAR_DATE_FORMAT;
 
-  descriptionsControl = new FormControl();
-  tagsControl = new FormControl();
-  dateLowerBoundControl = new FormControl();
-  dateUpperBoundControl = new FormControl();
-  amountLowerBoundControl = new FormControl();
-  amountUpperBoundControl = new FormControl();
-  paidWithCreditCardControl = new FormControl();
-  creditCardStatementIssuedControl = new FormControl();
-  checkedControl = new FormControl();
-  filterGroup = new FormGroup({
+  descriptionsControl = new FormControl<string[]>(null);
+  tagsControl = new FormControl<Tag[]>(null);
+  dateLowerBoundControl = new FormControl<Date>(null);
+  dateUpperBoundControl = new FormControl<Date>(null);
+  amountLowerBoundControl = new FormControl<number>(null);
+  amountUpperBoundControl = new FormControl<number>(null);
+  paidWithCreditCardControl = new FormControl<boolean>(null);
+  creditCardStatementIssuedControl = new FormControl<boolean>(null);
+  checkedControl = new FormControl<boolean>(null);
+  filterGroup = new FormGroup<FilterForm>({
     descriptions: this.descriptionsControl,
     tags: this.tagsControl,
     dateLowerBound: this.dateLowerBoundControl,

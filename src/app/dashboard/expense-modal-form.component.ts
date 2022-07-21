@@ -13,6 +13,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TagFacade } from '../store/tag/tag.facade';
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
+import { ExpenseForm } from './model';
 
 @UntilDestroy()
 @Component({
@@ -168,13 +169,19 @@ export class ExpenseModalFormComponent implements OnInit {
   readonly currentDate = new Date();
   readonly labelWidth = 20;
 
-  dateControl = new FormControl(this.currentDate, Validators.required);
-  amountControl = new FormControl(null, Validators.pattern(this.amountPattern));
-  tagsControl = new FormControl(null, Validators.required);
-  descriptionControl = new FormControl(null, Validators.maxLength(1024));
-  creditCardControl = new FormControl();
-  creditCardStatementControl = new FormControl();
-  expenseForm = new FormGroup({
+  dateControl = new FormControl<Date>(this.currentDate, Validators.required);
+  amountControl = new FormControl<number>(
+    null,
+    Validators.pattern(this.amountPattern)
+  );
+  tagsControl = new FormControl<Tag[]>(null, Validators.required);
+  descriptionControl = new FormControl<string>(
+    null,
+    Validators.maxLength(1024)
+  );
+  creditCardControl = new FormControl<boolean>(null);
+  creditCardStatementControl = new FormControl<boolean>(null);
+  expenseForm = new FormGroup<ExpenseForm>({
     date: this.dateControl,
     amount: this.amountControl,
     tags: this.tagsControl,
