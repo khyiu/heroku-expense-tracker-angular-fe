@@ -20,7 +20,7 @@ const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
     keycloak.init({
       config: {
-        url: 'https://lemur-4.cloud-iam.com/auth',
+        url: 'https://lemur-18.cloud-iam.com/auth',
         realm: 'kuritsu',
         clientId: 'expense-tracker',
       },
