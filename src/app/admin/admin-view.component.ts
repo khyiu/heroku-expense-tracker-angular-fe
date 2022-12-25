@@ -15,7 +15,7 @@ import { FileUpload } from 'primeng/fileupload';
             mode="basic"
             chooseLabel="{{ 'ImportFile' | translate }}"
             chooseIcon="pi-upload"
-            [maxFileSize]="256000"
+            [maxFileSize]="512000"
             [auto]="true"
             [customUpload]="true"
             [fileLimit]="1"
