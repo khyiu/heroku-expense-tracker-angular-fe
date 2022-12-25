@@ -519,10 +519,11 @@ export class ExpensesService implements ExpensesServiceInterface {
     }
 
     let localVarFormParams: { append(param: string, value: any): any };
-    let localVarUseForm = false;
+    let localVarUseForm = true;
     let localVarConvertFormParamsToString = false;
     if (localVarUseForm) {
       localVarFormParams = new FormData();
+      localVarFormParams.append('file', file);
     } else {
       localVarFormParams = new HttpParams({ encoder: this.encoder });
     }
