@@ -56,7 +56,7 @@ import { ExpenseForm } from './model';
               [minFractionDigits]="2"
               [maxFractionDigits]="2"
               [useGrouping]="false"
-              suffix=" €"
+              prefix="€ "
               inputId="expenseAmount"
               [ngClass]="{
                 'ng-invalid ng-dirty':

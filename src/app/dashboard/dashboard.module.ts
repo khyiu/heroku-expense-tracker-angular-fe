@@ -21,7 +21,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { FilterComponent } from './filter.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
@@ -49,7 +49,7 @@ import { ChipsModule } from 'primeng/chips';
     AccordionModule,
     TriStateCheckboxModule,
     InputTextModule,
-    ReactiveComponentModule,
+    LetModule, PushModule,
     ChipsModule,
   ],
 })
