@@ -91,7 +91,7 @@ import { FilterForm } from './model';
               [minFractionDigits]="2"
               [maxFractionDigits]="2"
               [useGrouping]="false"
-              suffix=" €"
+              prefix="€ "
             ></p-inputNumber>
             <label>{{ 'And' | translate | lowercase }}</label>
             <p-inputNumber
@@ -99,7 +99,7 @@ import { FilterForm } from './model';
               [minFractionDigits]="2"
               [maxFractionDigits]="2"
               [useGrouping]="false"
-              suffix=" €"
+              prefix="€ "
             ></p-inputNumber>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">

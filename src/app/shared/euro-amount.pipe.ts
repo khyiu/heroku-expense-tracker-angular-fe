@@ -11,7 +11,7 @@ export class EuroAmountPipe implements PipeTransform {
     } else {
       const stringRepresentation = value.toFixed(numberOfDecimals);
       const stringTokens = stringRepresentation.split('.');
-      return `${value > 0 ? '+' : ''}${stringTokens[0]}.${stringTokens[1]} €`;
+      return `€ ${value > 0 ? '+' : ''}${stringTokens[0]}.${stringTokens[1]}`;
     }
   }
 }
