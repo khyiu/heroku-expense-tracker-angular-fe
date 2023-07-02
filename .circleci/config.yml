@@ -55,5 +55,4 @@ workflows:
     jobs:
       - build:
           post-steps:
-            - jira/notify:
-                token_name: JIRA_TOKEN
+            - jira/notify
