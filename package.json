@@ -66,7 +66,7 @@
     "keycloak-angular": "^13.0.0",
     "keycloak-js": "^20.0.5",
     "primeicons": "^6.0.1",
-    "primeng": "^15.2.1",
+    "primeng": "16.9.2-lts",
     "typescript": "^4.9.5"
   }
 }
