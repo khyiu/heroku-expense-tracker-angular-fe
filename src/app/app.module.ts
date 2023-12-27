@@ -15,6 +15,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import {NavigationMenuComponent} from './sidebar-menu/navigation-menu.component';
 
 const initializeKeycloak = (keycloak: KeycloakService): Function => {
   return () =>
@@ -58,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       logOnly: environment.production,
     }),
     ToastModule,
+    NavigationMenuComponent,
   ],
   providers: [
     {

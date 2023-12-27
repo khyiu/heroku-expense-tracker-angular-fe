@@ -1,9 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { KeycloakService } from 'keycloak-angular';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {ImageModule} from 'primeng/image';
+import {DividerModule} from 'primeng/divider';
+import {LanguageSwitcherComponent} from './language-switcher.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'het-navigation-menu',
+  standalone: true,
   styles: [
     `
       i {
@@ -64,6 +71,15 @@ import { KeycloakService } from 'keycloak-angular';
     </nav>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FlexLayoutModule,
+    RouterLink,
+    ImageModule,
+    DividerModule,
+    LanguageSwitcherComponent,
+    TranslateModule,
+    RouterLinkActive,
+  ],
 })
 export class NavigationMenuComponent {
   constructor(private readonly keycloakService: KeycloakService) {}

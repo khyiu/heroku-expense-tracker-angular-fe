@@ -5,13 +5,18 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ExpenseFacade } from '../store/expense/expense.facade';
 import { DATE_FORMAT } from '../shared/shared.constants';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'het-dashboard-toolbar',
+  standalone: true,
   template: `
     <div fxLayout="column" fxLayoutGap="0.5rem">
       <div fxLayout="row" fxLayoutGap="1rem">
@@ -51,6 +56,13 @@ import { DATE_FORMAT } from '../shared/shared.constants';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
+  imports: [
+    FlexLayoutModule,
+    ButtonModule,
+    RippleModule,
+    TranslateModule,
+    AsyncPipe,
+  ],
 })
 export class DashboardToolbarComponent implements OnDestroy {
   private ref: DynamicDialogRef;

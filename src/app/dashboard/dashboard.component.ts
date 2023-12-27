@@ -14,15 +14,26 @@ import {
   SortDirection,
 } from '../store/expense/expense.reducers';
 import { DASHBOARD_PARAMS } from '../routing.constants';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { BalanceFacade } from '../store/balance/balance.facade';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { Filters } from './dashboard.model';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AsyncPipe } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
+import { FilterComponent } from './filter.component';
+import { TagModule } from 'primeng/tag';
+import { RippleModule } from 'primeng/ripple';
+import { DashboardToolbarComponent } from './dashboard-toolbar.component';
+import {LetDirective} from '@ngrx/component';
 
 @Component({
   selector: 'het-dashboard',
+  standalone: true,
   template: `
     <p-confirmDialog
       #cd
@@ -65,7 +76,6 @@ import { Filters } from './dashboard.model';
       </div>
       <ng-container *ngrxLet="currentFilterQuery$; let currentFilterQuery">
         <p-table
-          [responsive]="true"
           [responsiveLayout]="'stack'"
           [lazy]="true"
           [value]="(expenses$ | async) || []"
@@ -220,6 +230,19 @@ import { Filters } from './dashboard.model';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ConfirmDialogModule,
+    TranslateModule,
+    FlexLayoutModule,
+    AsyncPipe,
+    SharedModule,
+    FilterComponent,
+    TableModule,
+    TagModule,
+    RippleModule,
+    DashboardToolbarComponent,
+    LetDirective,
+  ],
 })
 export class DashboardComponent implements OnInit {
   readonly dateFormat = DATE_FORMAT;
@@ -301,7 +324,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private static convertLazyLoadEventToExpensePaginationQuery(
-    event: LazyLoadEvent
+    event: TableLazyLoadEvent
   ): ExpensePaginationQuery {
     return {
       pageSize: event.rows!,
@@ -321,7 +344,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadExpensePage(
-    event: LazyLoadEvent,
+    event: TableLazyLoadEvent,
     currentFilteringQuery?: ExpenseFilteringQuery
   ): void {
     const expenseQuery =

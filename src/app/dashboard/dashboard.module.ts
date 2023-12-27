@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -8,7 +7,6 @@ import { TagModule } from 'primeng/tag';
 import { environment } from '../../environments/environment';
 import { BalanceNgRxModule } from '../store/balance/balance.module';
 import { RippleModule } from 'primeng/ripple';
-import { DashboardToolbarComponent } from './dashboard-toolbar.component';
 import { ExpenseModalFormComponent } from './expense-modal-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
@@ -19,18 +17,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TagNgrxModule } from '../store/tag/tag.module';
 import { AccordionModule } from 'primeng/accordion';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
-import { FilterComponent } from './filter.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { LetModule, PushModule } from '@ngrx/component';
 import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    DashboardToolbarComponent,
-    ExpenseModalFormComponent,
-    FilterComponent,
-  ],
+  declarations: [],
   imports: [
     DashboardRoutingModule,
     TableModule,
@@ -49,8 +41,11 @@ import { ChipsModule } from 'primeng/chips';
     AccordionModule,
     TriStateCheckboxModule,
     InputTextModule,
-    LetModule, PushModule,
+    LetModule,
+    PushModule,
     ChipsModule,
+    ExpenseModalFormComponent,
   ],
+  exports: [],
 })
 export class DashboardModule {}

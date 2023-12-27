@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { ExpenseFacade } from '../store/expense/expense.facade';
-import { FileUpload } from 'primeng/fileupload';
+import {FileUpload, FileUploadModule} from 'primeng/fileupload';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {TranslateModule} from '@ngx-translate/core';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'het-admin.view',
+  standalone: true,
   template: `
     <div id="container" fxFlex="100">
       <h2>{{ 'Actions' | translate }}</h2>
@@ -45,6 +49,7 @@ import { FileUpload } from 'primeng/fileupload';
       }
     `,
   ],
+  imports: [FlexLayoutModule, TranslateModule, FileUploadModule, AsyncPipe],
 })
 export class AdminViewComponent {
   pendingImportRequest$ = this.expenseFacade.pendingImportRequest$;

@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { filter, map, Observable, of, take, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ExpenseFacade } from '../store/expense/expense.facade';
@@ -14,10 +24,20 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TagFacade } from '../store/tag/tag.facade';
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
 import { ExpenseForm } from './model';
+import { FlexModule } from '@angular/flex-layout';
+import { CalendarModule } from 'primeng/calendar';
+import { SharedModule } from '../shared/shared.module';
+import { PaginatorModule } from 'primeng/paginator';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import {RippleModule} from 'primeng/ripple';
+import {FormFieldErrorComponent} from '../shared/form-field-error/form-field-error.component';
 
 @UntilDestroy()
 @Component({
   selector: 'het-expense-form',
+  standalone: true,
   template: `
     <form [formGroup]="expenseForm" autocomplete="off">
       <div fxLayout="column" fxLayoutGap="1.5rem">
@@ -162,8 +182,23 @@ import { ExpenseForm } from './model';
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    FlexModule,
+    TranslateModule,
+    CalendarModule,
+    SharedModule,
+    PaginatorModule,
+    AutoCompleteModule,
+    InputTextareaModule,
+    CheckboxModule,
+    RippleModule,
+    FormFieldErrorComponent,
+  ],
 })
 export class ExpenseModalFormComponent implements OnInit {
+  private readonly tagFacade = inject(TagFacade);
+
   readonly amountPattern = '^[+-]?\\d+(\\.\\d{1,2})?$';
   readonly dateFormat = CALENDAR_DATE_FORMAT;
   readonly currentDate = new Date();
@@ -199,8 +234,7 @@ export class ExpenseModalFormComponent implements OnInit {
     private readonly translateService: TranslateService,
     private readonly expenseFacade: ExpenseFacade,
     private readonly dialogRef: DynamicDialogRef,
-    private readonly dialogConfig: DynamicDialogConfig,
-    private readonly tagFacade: TagFacade
+    private readonly dialogConfig: DynamicDialogConfig
   ) {
     this.initCalendarLanguage();
     this.initCreditCardControlSubscriptions();

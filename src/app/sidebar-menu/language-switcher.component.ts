@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ButtonModule} from 'primeng/button';
+import {RippleModule} from 'primeng/ripple';
+import {NgForOf} from '@angular/common';
 
 type AppLanguage = 'EN' | 'FR' | 'NL';
 
 @Component({
   selector: 'het-language-switcher',
+  standalone: true,
   template: `
     <div fxLayout="row" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutGap="1em">
@@ -43,6 +48,7 @@ type AppLanguage = 'EN' | 'FR' | 'NL';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FlexLayoutModule, ButtonModule, RippleModule, NgForOf],
 })
 export class LanguageSwitcherComponent implements OnInit {
   readonly supportedLanguages: AppLanguage[] = ['EN', 'FR', 'NL'];
