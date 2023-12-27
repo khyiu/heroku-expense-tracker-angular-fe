@@ -5,7 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgForOf } from '@angular/common';
 
 interface FormFieldError {
   i18nKey: string;
@@ -14,6 +15,7 @@ interface FormFieldError {
 
 @Component({
   selector: 'het-form-field-error',
+  standalone: true,
   template: `
     <small class="error" *ngFor="let fieldError of fieldErrors">
       {{ fieldError.i18nKey | translate: fieldError.i18nArgument }}
@@ -27,14 +29,13 @@ interface FormFieldError {
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgForOf, TranslateModule],
 })
 export class FormFieldErrorComponent implements OnInit {
   @Input()
   errors: ValidationErrors | null;
 
   fieldErrors: FormFieldError[];
-
-  constructor(private readonly translateService: TranslateService) {}
 
   ngOnInit(): void {
     if (this.errors) {

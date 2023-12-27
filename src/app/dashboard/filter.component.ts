@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
-import { FormControl, FormGroup } from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { Filters } from './dashboard.model';
 import { TagFacade } from '../store/tag/tag.facade';
 import { ExpenseFilteringQuery } from '../store/expense/expense.reducers';
@@ -16,10 +16,21 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, take, tap } from 'rxjs';
 import { Tag } from '../generated-sources/expense-api';
 import { FilterForm } from './model';
+import {AutoCompleteCompleteEvent, AutoCompleteModule} from 'primeng/autocomplete';
+import {AccordionModule} from 'primeng/accordion';
+import {TranslateModule} from '@ngx-translate/core';
+import {ChipsModule} from 'primeng/chips';
+import {AsyncPipe, LowerCasePipe, NgClass} from '@angular/common';
+import {CalendarModule} from 'primeng/calendar';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {PaginatorModule} from 'primeng/paginator';
+import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
+import {RippleModule} from 'primeng/ripple';
 
 @UntilDestroy()
 @Component({
   selector: 'het-filter',
+  standalone: true,
   template: `
     <p-accordion>
       <p-accordionTab header="{{ 'Filters' | translate }}">
@@ -141,6 +152,21 @@ import { FilterForm } from './model';
     </p-accordion>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AccordionModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    ChipsModule,
+    AutoCompleteModule,
+    AsyncPipe,
+    NgClass,
+    CalendarModule,
+    FlexLayoutModule,
+    LowerCasePipe,
+    PaginatorModule,
+    TriStateCheckboxModule,
+    RippleModule,
+  ],
 })
 export class FilterComponent implements OnChanges {
   readonly dateFormat = CALENDAR_DATE_FORMAT;
@@ -226,7 +252,7 @@ export class FilterComponent implements OnChanges {
     this.applyFilters();
   }
 
-  fetchTags(tagQuery: string): void {
-    this.tagFacade.fetchTags(tagQuery);
+  fetchTags(autoCompleteEvent: AutoCompleteCompleteEvent): void {
+    this.tagFacade.fetchTags(autoCompleteEvent.query);
   }
 }
