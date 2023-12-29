@@ -13,7 +13,6 @@ import {
   SortAttribute,
   SortDirection,
 } from '../store/expense/expense.reducers';
-import { DASHBOARD_PARAMS } from '../routing.constants';
 import { ConfirmationService } from 'primeng/api';
 import { BalanceFacade } from '../store/balance/balance.facade';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,13 +22,14 @@ import { Filters } from './dashboard.model';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AsyncPipe } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
+import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import { FilterComponent } from './filter.component';
 import { TagModule } from 'primeng/tag';
 import { RippleModule } from 'primeng/ripple';
 import { DashboardToolbarComponent } from './dashboard-toolbar.component';
-import {LetDirective} from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
+import { DASHBOARD_PARAMS } from '../routes';
+import { EuroAmountPipe } from '../shared/euro-amount.pipe';
 
 @Component({
   selector: 'het-dashboard',
@@ -235,14 +235,18 @@ import {LetDirective} from '@ngrx/component';
     TranslateModule,
     FlexLayoutModule,
     AsyncPipe,
-    SharedModule,
     FilterComponent,
     TableModule,
     TagModule,
     RippleModule,
     DashboardToolbarComponent,
     LetDirective,
+    EuroAmountPipe,
+    DatePipe,
+    NgIf,
+    NgForOf,
   ],
+  providers: [ConfirmationService, DialogService],
 })
 export class DashboardComponent implements OnInit {
   readonly dateFormat = DATE_FORMAT;
