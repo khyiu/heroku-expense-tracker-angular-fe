@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'euroAmount',
   pure: true,
+  standalone: true
 })
 export class EuroAmountPipe implements PipeTransform {
   transform(value: number | null, numberOfDecimals = 2): string | null {

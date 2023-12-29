@@ -26,13 +26,14 @@ import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
 import { ExpenseForm } from './model';
 import { FlexModule } from '@angular/flex-layout';
 import { CalendarModule } from 'primeng/calendar';
-import { SharedModule } from '../shared/shared.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import {RippleModule} from 'primeng/ripple';
 import {FormFieldErrorComponent} from '../shared/form-field-error/form-field-error.component';
+import {RequiredIndicatorPipe} from '../shared/required-indicator.pipe';
+import {AsyncPipe, NgClass, NgIf} from '@angular/common';
 
 @UntilDestroy()
 @Component({
@@ -187,13 +188,16 @@ import {FormFieldErrorComponent} from '../shared/form-field-error/form-field-err
     FlexModule,
     TranslateModule,
     CalendarModule,
-    SharedModule,
     PaginatorModule,
     AutoCompleteModule,
     InputTextareaModule,
     CheckboxModule,
     RippleModule,
     FormFieldErrorComponent,
+    RequiredIndicatorPipe,
+    AsyncPipe,
+    NgClass,
+    NgIf,
   ],
 })
 export class ExpenseModalFormComponent implements OnInit {
