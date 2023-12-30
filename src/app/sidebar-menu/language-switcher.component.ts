@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {ButtonModule} from 'primeng/button';
-import {RippleModule} from 'primeng/ripple';
-import {NgForOf} from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { NgForOf } from '@angular/common';
 
 type AppLanguage = 'EN' | 'FR' | 'NL';
 

@@ -4,7 +4,7 @@ import * as TagActions from './tag.actions';
 import { State } from './tag.reducers';
 import { selectTags } from './tag.selectors';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class TagFacade {
   tags$ = this.store$.select(selectTags);
 

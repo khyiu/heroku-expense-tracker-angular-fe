@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {ToastModule} from 'primeng/toast';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {NavigationMenuComponent} from './sidebar-menu/navigation-menu.component';
-import {RouterOutlet} from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NavigationMenuComponent } from './sidebar-menu/navigation-menu.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'het-root',

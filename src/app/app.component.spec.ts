@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import {KeycloakService} from 'keycloak-angular';
+import { KeycloakService } from 'keycloak-angular';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
