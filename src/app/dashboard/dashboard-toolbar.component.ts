@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, inject,
   Input,
   OnDestroy,
 } from '@angular/core';
@@ -65,6 +65,10 @@ import { AsyncPipe } from '@angular/common';
   ],
 })
 export class DashboardToolbarComponent implements OnDestroy {
+  private readonly dialogService = inject(DialogService);
+  private readonly translateService = inject(TranslateService);
+  private readonly expenseFacade = inject(ExpenseFacade);
+
   private ref: DynamicDialogRef;
   readonly dateFormat = DATE_FORMAT;
 
@@ -72,12 +76,6 @@ export class DashboardToolbarComponent implements OnDestroy {
 
   @Input()
   selectedExpenseIds: string[] = [];
-
-  constructor(
-    private readonly dialogService: DialogService,
-    private readonly translateService: TranslateService,
-    private readonly expenseFacade: ExpenseFacade
-  ) {}
 
   ngOnDestroy(): void {
     this.ref?.close();

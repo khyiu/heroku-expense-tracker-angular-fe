@@ -14,7 +14,6 @@ import {
 import {
   HttpClient,
   provideHttpClient,
-  withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { MessageService } from 'primeng/api';

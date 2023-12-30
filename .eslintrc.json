@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["projects/**/*", "**/generated-sources/*"],
-  "plugins": ["unused-imports", "rxjs"],
+  "plugins": ["unused-imports", "rxjs", "@stylistic/ts"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -30,7 +30,7 @@
             "style": "kebab-case"
           }
         ],
-        "@typescript-eslint/quotes": [
+        "@stylistic/ts/quotes": [
           "error",
           "single",
           {
