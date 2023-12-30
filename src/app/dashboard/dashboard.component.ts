@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
 import {
-  ExpenseResponse,
-  ExpensesService,
-} from '../generated-sources/expense-api';
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { ExpenseResponse } from '../generated-sources/expense-api';
 import { ExpenseFacade } from '../store/expense/expense.facade';
 import { DATE_FORMAT } from '../shared/shared.constants';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -22,7 +24,7 @@ import { Filters } from './dashboard.model';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
+import { AsyncPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { FilterComponent } from './filter.component';
 import { TagModule } from 'primeng/tag';
 import { RippleModule } from 'primeng/ripple';
@@ -249,6 +251,14 @@ import { EuroAmountPipe } from '../shared/euro-amount.pipe';
   providers: [ConfirmationService, DialogService],
 })
 export class DashboardComponent implements OnInit {
+  private readonly expenseFacade = inject(ExpenseFacade);
+  private readonly balanceFacade = inject(BalanceFacade);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly translateService = inject(TranslateService);
+  private readonly dialogService = inject(DialogService);
+
   readonly dateFormat = DATE_FORMAT;
   readonly paginatorPageSizes = [10, 15, 25, 100];
   readonly defaultExpensePaginationQuery: ExpensePaginationQuery = {
@@ -277,17 +287,6 @@ export class DashboardComponent implements OnInit {
   currentPaginationQuery$ = this.expenseFacade.currentPaginationQuery$;
 
   private ref: DynamicDialogRef;
-
-  constructor(
-    private readonly expensesApiService: ExpensesService,
-    private readonly expenseFacade: ExpenseFacade,
-    private readonly balanceFacade: BalanceFacade,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router,
-    private readonly confirmationService: ConfirmationService,
-    private readonly translateService: TranslateService,
-    private readonly dialogService: DialogService
-  ) {}
 
   private static extractPageSizeParamFromRoute(
     paramMap: ParamMap,

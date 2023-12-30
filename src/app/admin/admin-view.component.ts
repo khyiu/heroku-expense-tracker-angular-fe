@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ExpenseFacade } from '../store/expense/expense.facade';
-import {FileUpload, FileUploadModule} from 'primeng/fileupload';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {TranslateModule} from '@ngx-translate/core';
-import {AsyncPipe} from '@angular/common';
+import { FileUpload, FileUploadModule } from 'primeng/fileupload';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'het-admin.view',
@@ -52,10 +52,10 @@ import {AsyncPipe} from '@angular/common';
   imports: [FlexLayoutModule, TranslateModule, FileUploadModule, AsyncPipe],
 })
 export class AdminViewComponent {
+  private readonly expenseFacade = inject(ExpenseFacade);
+
   pendingImportRequest$ = this.expenseFacade.pendingImportRequest$;
   pendingExportRequest$ = this.expenseFacade.pendingExportRequest$;
-
-  constructor(private readonly expenseFacade: ExpenseFacade) {}
 
   uploadFile($event: { files: File[] }, fileUploader: FileUpload): void {
     this.expenseFacade.importExpenses($event.files[0]);

@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminViewComponent } from './admin/admin-view.component';
-import { ExpenseFacade } from './store/expense/expense.facade';
 import { BalanceFacade } from './store/balance/balance.facade';
 import { importProvidersFrom } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
