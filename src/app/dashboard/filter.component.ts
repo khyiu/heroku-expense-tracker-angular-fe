@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CALENDAR_DATE_FORMAT } from '../shared/shared.constants';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Filters } from './dashboard.model';
 import { TagFacade } from '../store/tag/tag.facade';
 import { ExpenseFilteringQuery } from '../store/expense/expense.reducers';
@@ -16,16 +16,19 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, take, tap } from 'rxjs';
 import { Tag } from '../generated-sources/expense-api';
 import { FilterForm } from './model';
-import {AutoCompleteCompleteEvent, AutoCompleteModule} from 'primeng/autocomplete';
-import {AccordionModule} from 'primeng/accordion';
-import {TranslateModule} from '@ngx-translate/core';
-import {ChipsModule} from 'primeng/chips';
-import {AsyncPipe, LowerCasePipe, NgClass} from '@angular/common';
-import {CalendarModule} from 'primeng/calendar';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {PaginatorModule} from 'primeng/paginator';
-import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
-import {RippleModule} from 'primeng/ripple';
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from 'primeng/autocomplete';
+import { AccordionModule } from 'primeng/accordion';
+import { TranslateModule } from '@ngx-translate/core';
+import { ChipsModule } from 'primeng/chips';
+import { AsyncPipe, LowerCasePipe, NgClass } from '@angular/common';
+import { CalendarModule } from 'primeng/calendar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PaginatorModule } from 'primeng/paginator';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { RippleModule } from 'primeng/ripple';
 
 @UntilDestroy()
 @Component({
@@ -115,18 +118,31 @@ import {RippleModule} from 'primeng/ripple';
           </div>
           <div fxLayout="row" fxLayoutAlign="space-between">
             <div fxLayout="row" fxLayoutGap="1rem">
-              <p-triStateCheckbox
-                label="{{ 'PaidWithCreditCard' | translate }}"
-                [formControl]="paidWithCreditCardControl"
-              ></p-triStateCheckbox>
-              <p-triStateCheckbox
-                label="{{ 'CreditCardStatementIssued' | translate }}"
-                [formControl]="creditCardStatementIssuedControl"
-              ></p-triStateCheckbox>
-              <p-triStateCheckbox
-                label="{{ 'Checked' | translate }}"
-                [formControl]="checkedControl"
-              ></p-triStateCheckbox>
+              <div fxLayout="row" fxLayoutGap="0.5rem">
+                <p-triStateCheckbox
+                  inputId="paidWithCreditCard"
+                  [formControl]="paidWithCreditCardControl"
+                ></p-triStateCheckbox>
+                <label for="paidWithCreditCard">{{
+                  'PaidWithCreditCard' | translate
+                }}</label>
+              </div>
+              <div fxLayout="row" fxLayoutGap="0.5rem">
+                <p-triStateCheckbox
+                  inputId="creditCardStatementIssued"
+                  [formControl]="creditCardStatementIssuedControl"
+                ></p-triStateCheckbox>
+                <label for="creditCardStatementIssued">{{
+                  'CreditCardStatementIssued' | translate
+                }}</label>
+              </div>
+              <div fxLayout="row" fxLayoutGap="0.5rem">
+                <p-triStateCheckbox
+                  inputId="expenseChecked"
+                  [formControl]="checkedControl"
+                ></p-triStateCheckbox>
+                <label for="expenseChecked">{{ 'Checked' | translate }}</label>
+              </div>
             </div>
             <div fxLayout="row" fxLayoutGap="1rem">
               <button

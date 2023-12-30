@@ -30,10 +30,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
-import {RippleModule} from 'primeng/ripple';
-import {FormFieldErrorComponent} from '../shared/form-field-error/form-field-error.component';
-import {RequiredIndicatorPipe} from '../shared/required-indicator.pipe';
-import {AsyncPipe, NgClass, NgIf} from '@angular/common';
+import { RippleModule } from 'primeng/ripple';
+import { FormFieldErrorComponent } from '../shared/form-field-error/form-field-error.component';
+import { RequiredIndicatorPipe } from '../shared/required-indicator.pipe';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 
 @UntilDestroy()
 @Component({
