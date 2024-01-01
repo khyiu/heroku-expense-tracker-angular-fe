@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ButtonModule } from 'primeng/button';
@@ -51,12 +51,12 @@ type AppLanguage = 'EN' | 'FR' | 'NL';
   imports: [FlexLayoutModule, ButtonModule, RippleModule, NgForOf],
 })
 export class LanguageSwitcherComponent implements OnInit {
+  private readonly translateService = inject(TranslateService);
+
   readonly supportedLanguages: AppLanguage[] = ['EN', 'FR', 'NL'];
   readonly localStorageKey = 'EXPENSE_TRACKER_APP_LANGUAGE' as const;
 
   selectedLanguage: AppLanguage = 'EN';
-
-  constructor(private readonly translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.selectedLanguage =
