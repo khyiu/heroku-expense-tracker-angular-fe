@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  EventEmitter, inject,
   Input,
   OnChanges,
   Output,
@@ -185,6 +185,8 @@ import { RippleModule } from 'primeng/ripple';
   ],
 })
 export class FilterComponent implements OnChanges {
+  private readonly tagFacade = inject(TagFacade);
+
   readonly dateFormat = CALENDAR_DATE_FORMAT;
 
   descriptionsControl = new FormControl<string[]>(null);
@@ -215,8 +217,6 @@ export class FilterComponent implements OnChanges {
   filtersSelected = new EventEmitter<Filters>();
 
   tags$ = this.tagFacade.tags$;
-
-  constructor(private readonly tagFacade: TagFacade) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.currentFilter) {

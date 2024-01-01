@@ -201,6 +201,11 @@ import { AsyncPipe, NgClass, NgIf } from '@angular/common';
   ],
 })
 export class ExpenseModalFormComponent implements OnInit {
+  private readonly config = inject(PrimeNGConfig);
+  private readonly translateService = inject(TranslateService);
+  private readonly expenseFacade = inject(ExpenseFacade);
+  private readonly dialogRef = inject(DynamicDialogRef);
+  private readonly dialogConfig = inject(DynamicDialogConfig);
   private readonly tagFacade = inject(TagFacade);
 
   readonly amountPattern = '^[+-]?\\d+(\\.\\d{1,2})?$';
@@ -233,13 +238,7 @@ export class ExpenseModalFormComponent implements OnInit {
 
   private existingExpenseId: string;
 
-  constructor(
-    private readonly config: PrimeNGConfig,
-    private readonly translateService: TranslateService,
-    private readonly expenseFacade: ExpenseFacade,
-    private readonly dialogRef: DynamicDialogRef,
-    private readonly dialogConfig: DynamicDialogConfig
-  ) {
+  constructor() {
     this.initCalendarLanguage();
     this.initCreditCardControlSubscriptions();
   }

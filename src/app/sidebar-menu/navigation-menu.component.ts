@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { environment } from '../../environments/environment';
 import { KeycloakService } from 'keycloak-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -82,7 +82,7 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
 })
 export class NavigationMenuComponent {
-  constructor(private readonly keycloakService: KeycloakService) {}
+  private readonly keycloakService = inject(KeycloakService);
 
   public logout(): void {
     this.keycloakService.logout(environment.logoutRedirectUrl);

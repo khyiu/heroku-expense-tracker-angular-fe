@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ExpenseFilteringQuery,
   ExpensePaginationQuery,
-  State,
 } from './expense.reducers';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions from './expense.actions';
@@ -21,6 +20,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Injectable()
 export class ExpenseFacade {
+  private readonly store$ = inject(Store);
   currentExpensePage$ = this.store$.select(selectCurrentExpensePage);
   pendingReadRequest$ = this.store$.select(selectPendingReadRequest);
   totalNumberOfExpenses$ = this.store$.select(selectTotalNumberOfExpenses);
@@ -31,8 +31,6 @@ export class ExpenseFacade {
   pendingImportRequest$ = this.store$.select(selectPendingImportRequest);
   pendingWriteRequest$ = this.store$.select(selectPendingWriteRequest);
   pendingExportRequest$ = this.store$.select(selectPendingExportRequest);
-
-  constructor(private readonly store$: Store<State>) {}
 
   loadExpensePage(
     paginationQuery: ExpensePaginationQuery,

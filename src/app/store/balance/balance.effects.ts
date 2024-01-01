@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { BalanceService } from '../../generated-sources/expense-api';
 import * as BalanceActions from './balance.actions';
@@ -7,6 +7,9 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
 export class BalanceEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly balanceService = inject(BalanceService);
+
   fetchBalance$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BalanceActions.fetchBalance),
@@ -39,9 +42,4 @@ export class BalanceEffects {
       map(() => BalanceActions.fetchBalance())
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private balanceService: BalanceService
-  ) {}
 }

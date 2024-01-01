@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   ExpenseService,
@@ -20,6 +20,13 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ExpenseEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly expensesService = inject(ExpensesService);
+  private readonly expenseService = inject(ExpenseService);
+  private readonly messageService = inject(MessageService);
+  private readonly expenseFacade = inject(ExpenseFacade);
+  private readonly translateService = inject(TranslateService);
+
   fetchExpensePage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ExpenseActions.fetchExpensePage),
@@ -92,7 +99,7 @@ export class ExpenseEffects {
         this.expenseFacade.currentPaginationQuery$,
         this.expenseFacade.currentFilterQuery$
       ),
-      mergeMap(([_action, currentPageQuery, currentFilterQuery]) =>
+      mergeMap(([, currentPageQuery, currentFilterQuery]) =>
         this.expensesService
           .getExpenses(
             currentPageQuery.pageSize,
@@ -254,13 +261,4 @@ export class ExpenseEffects {
       )
     )
   );
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly expensesService: ExpensesService,
-    private readonly expenseService: ExpenseService,
-    private readonly messageService: MessageService,
-    private readonly expenseFacade: ExpenseFacade,
-    private readonly translateService: TranslateService
-  ) {}
 }
