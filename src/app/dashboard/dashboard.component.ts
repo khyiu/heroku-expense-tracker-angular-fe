@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  LOCALE_ID,
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -24,7 +25,13 @@ import { Filters } from './dashboard.model';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AsyncPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import {
+  AsyncPipe,
+  DatePipe,
+  formatDate,
+  NgForOf,
+  NgIf,
+} from '@angular/common';
 import { FilterComponent } from './filter.component';
 import { TagModule } from 'primeng/tag';
 import { RippleModule } from 'primeng/ripple';
@@ -258,6 +265,7 @@ export class DashboardComponent implements OnInit {
   private readonly confirmationService = inject(ConfirmationService);
   private readonly translateService = inject(TranslateService);
   private readonly dialogService = inject(DialogService);
+  private readonly localeID = inject(LOCALE_ID);
 
   readonly dateFormat = DATE_FORMAT;
   readonly paginatorPageSizes = [10, 15, 25, 100];
@@ -479,11 +487,11 @@ export class DashboardComponent implements OnInit {
           inclusiveAmountLowerBound: filters?.amountLowerBound,
           inclusiveAmountUpperBound: filters?.amountUpperBound,
           inclusiveDateLowerBound: filters?.dateLowerBound
-            ?.toISOString()
-            .substr(0, 10),
+            ? formatDate(filters.dateLowerBound, 'yyyy-MM-dd', this.localeID)
+            : null,
           inclusiveDateUpperBound: filters?.dateUpperBound
-            ?.toISOString()
-            .substr(0, 10),
+            ? formatDate(filters.dateUpperBound, 'yyyy-MM-dd', this.localeID)
+            : null,
         }
       : null;
   }
