@@ -39,6 +39,7 @@ import { DashboardToolbarComponent } from './dashboard-toolbar.component';
 import { LetDirective } from '@ngrx/component';
 import { DASHBOARD_PARAMS } from '../routes';
 import { EuroAmountPipe } from '../shared/euro-amount.pipe';
+import {DateService} from '../shared/date.service';
 
 @Component({
   selector: 'het-dashboard',
@@ -265,7 +266,7 @@ export class DashboardComponent implements OnInit {
   private readonly confirmationService = inject(ConfirmationService);
   private readonly translateService = inject(TranslateService);
   private readonly dialogService = inject(DialogService);
-  private readonly localeID = inject(LOCALE_ID);
+  private readonly dateService = inject(DateService);
 
   readonly dateFormat = DATE_FORMAT;
   readonly paginatorPageSizes = [10, 15, 25, 100];
@@ -487,10 +488,10 @@ export class DashboardComponent implements OnInit {
           inclusiveAmountLowerBound: filters?.amountLowerBound,
           inclusiveAmountUpperBound: filters?.amountUpperBound,
           inclusiveDateLowerBound: filters?.dateLowerBound
-            ? formatDate(filters.dateLowerBound, 'yyyy-MM-dd', this.localeID)
+            ? this.dateService.toISOString(filters.dateLowerBound)
             : null,
           inclusiveDateUpperBound: filters?.dateUpperBound
-            ? formatDate(filters.dateUpperBound, 'yyyy-MM-dd', this.localeID)
+            ? this.dateService.toISOString(filters.dateUpperBound)
             : null,
         }
       : null;

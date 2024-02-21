@@ -11,7 +11,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional } from '@angular/core';
+import { inject, Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
   HttpContext,
@@ -34,11 +34,13 @@ import {
 import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 import { ExpensesServiceInterface } from './expenses.serviceInterface';
+import { DateService } from '../../../shared/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpensesService implements ExpensesServiceInterface {
+  private readonly dateService = inject(DateService);
   protected basePath = 'https://heroku-expense-tracker-back.herokuapp.com';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
@@ -107,7 +109,7 @@ export class ExpensesService implements ExpensesServiceInterface {
         if (key != null) {
           httpParams = httpParams.append(
             key,
-            (value as Date).toISOString().substr(0, 10)
+            this.dateService.toISOString(value as Date)
           );
         } else {
           throw Error('key may not be null if value is Date');
