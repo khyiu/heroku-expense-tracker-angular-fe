@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  LOCALE_ID,
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -28,7 +27,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   AsyncPipe,
   DatePipe,
-  formatDate,
   NgForOf,
   NgIf,
 } from '@angular/common';
