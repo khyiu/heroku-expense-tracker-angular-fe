@@ -30,7 +30,7 @@ jobs:
             - node_modules
 
       - browser-tools/install-browser-tools:
-          chrome-version: latest
+          chrome-version: 122.0.6261.57
 
       - run:
           name: Linting
