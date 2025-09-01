@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiBasePath: 'https://heroku-expense-tracker-back.herokuapp.com',
-  logoutRedirectUrl: 'https://heroku-expense-tracker-fe.herokuapp.com/',
+  apiBasePath: 'http://localhost:8080',
+  logoutRedirectUrl: 'http://localhost/expense-tracker-front',
 };
