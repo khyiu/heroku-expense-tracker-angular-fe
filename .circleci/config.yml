@@ -1,16 +1,16 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.4.7
+  browser-tools: circleci/browser-tools@2.3.1
   jira: circleci/jira@1.3.1
+  docker: circleci/docker@3.0.0
 
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: cimg/node:21.4.0
     steps:
       - checkout
-
       - restore_cache:
           keys:
             # Find a cache corresponding to this specific package-lock.json checksum
@@ -18,35 +18,80 @@ jobs:
             - v1-npm-deps-{{ checksum "package-lock.json" }}
             # Find the most recently generated cache used from any branch
             - v1-npm-deps-
-
       - run:
           name: Install NPM dependencies
           command: npm install
-
       - save_cache:
           # Cache local dependencies if they don't exist
           key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-
-      - browser-tools/install-browser-tools:
-          chrome-version: 120.0.6099.216
-
+      - browser-tools/install_chrome
       - run:
           name: Linting
           command: npm run lint
-
       - run:
           name: Testing
           command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
+      - run:
+          name: Extract package version
+          command: |
+            # Extract version from package.json using jq
+            VERSION=$(jq -r '.version' package.json)
 
+            # Save version to a file for workspace sharing
+            echo $VERSION > /tmp/package-version.txt
+
+            echo "Package version: $VERSION"
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - package-version.txt
       - run:
           name: Building distribution
           command: npm run build -- --aot=true --configuration=production --progress=true
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
+            - Dockerfile
+  build-docker-image:
+    executor: docker/docker
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Read package version extracted in "build-and-test" job
+          command: |
+            # Read version from workspace file
+            PACKAGE_VERSION=$(cat /tmp/package-version.txt)
+            echo "export PACKAGE_VERSION=$PACKAGE_VERSION" >> $BASH_ENV
+            source $BASH_ENV
+
+            echo "Using package version: $PACKAGE_VERSION"
+            # Use the version in your build/deploy commands
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - attach_workspace:
+          at: .
+      - docker/build:
+          image: kyiu/expense-tracker-frontend
+          tag: ${PACKAGE_VERSION},latest
+      - run:
+          name: Login and push to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin &&
+            docker push kyiu/expense-tracker-frontend:${PACKAGE_VERSION}
 
 workflows:
   build-frontend:
     jobs:
-      - build:
+      - build-and-test:
           post-steps:
             - jira/notify
+      - build-docker-image:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: main
