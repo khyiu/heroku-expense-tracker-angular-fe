@@ -11,7 +11,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import {inject, Inject, Injectable, Optional} from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
   HttpContext,
@@ -29,13 +29,11 @@ import { Tag } from '../model/models';
 import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 import { TagsServiceInterface } from './tags.serviceInterface';
-import {DateService} from '../../../shared/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagsService implements TagsServiceInterface {
-  private readonly dateService = inject(DateService);
   protected basePath = 'https://heroku-expense-tracker-back.herokuapp.com';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
@@ -44,7 +42,7 @@ export class TagsService implements TagsServiceInterface {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
+    @Optional() configuration: Configuration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -58,11 +56,7 @@ export class TagsService implements TagsServiceInterface {
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -71,11 +65,7 @@ export class TagsService implements TagsServiceInterface {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
@@ -83,15 +73,11 @@ export class TagsService implements TagsServiceInterface {
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
-          (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+          (elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            this.dateService.toISOString(value as Date)
-          );
+          httpParams = httpParams.append(key, value.toISOString());
         } else {
           throw Error('key may not be null if value is Date');
         }
@@ -101,8 +87,8 @@ export class TagsService implements TagsServiceInterface {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -124,77 +110,61 @@ export class TagsService implements TagsServiceInterface {
     query?: string,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<Array<Tag>>;
   public getTags(
     query?: string,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpResponse<Array<Tag>>>;
   public getTags(
     query?: string,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpEvent<Array<Tag>>>;
   public getTags(
     query?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<any> {
     let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
     if (query !== undefined && query !== null) {
-      localVarQueryParameters = this.addToHttpParams(
-        localVarQueryParameters,
-        <any>query,
-        'query'
-      );
+      localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>query, 'query');
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<Array<Tag>>(
-      `${this.configuration.basePath}/tags`,
-      {
-        context: localVarHttpContext,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        reportProgress: reportProgress,
-      }
-    );
+    return this.httpClient.get<Array<Tag>>(`${this.configuration.basePath}/tags`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
   }
 }

@@ -11,7 +11,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import {inject, Inject, Injectable, Optional} from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
   HttpContext,
@@ -27,14 +27,12 @@ import { Observable } from 'rxjs';
 import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 import { BalanceServiceInterface } from './balance.serviceInterface';
-import {DateService} from '../../../shared/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BalanceService implements BalanceServiceInterface {
   protected basePath = 'https://heroku-expense-tracker-back.herokuapp.com';
-  private readonly dateService = inject(DateService);
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -42,7 +40,7 @@ export class BalanceService implements BalanceServiceInterface {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
+    @Optional() configuration: Configuration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -56,11 +54,7 @@ export class BalanceService implements BalanceServiceInterface {
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -69,11 +63,7 @@ export class BalanceService implements BalanceServiceInterface {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
@@ -81,15 +71,11 @@ export class BalanceService implements BalanceServiceInterface {
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
-          (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+          (elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            this.dateService.toISOString(value as Date)
-          );
+          httpParams = httpParams.append(key, value.toISOString());
         } else {
           throw Error('key may not be null if value is Date');
         }
@@ -99,8 +85,8 @@ export class BalanceService implements BalanceServiceInterface {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -120,64 +106,52 @@ export class BalanceService implements BalanceServiceInterface {
   public getBalance(
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<number>;
   public getBalance(
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpResponse<number>>;
   public getBalance(
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpEvent<number>>;
   public getBalance(
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<any> {
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<number>(
-      `${this.configuration.basePath}/balance`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        reportProgress: reportProgress,
-      }
-    );
+    return this.httpClient.get<number>(`${this.configuration.basePath}/balance`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
   }
 }

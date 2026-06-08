@@ -11,7 +11,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import {inject, Inject, Injectable, Optional} from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
   HttpContext,
@@ -29,13 +29,11 @@ import { ExpenseRequest, ExpenseResponse } from '../model/models';
 import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 import { ExpenseServiceInterface } from './expense.serviceInterface';
-import {DateService} from '../../../shared/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService implements ExpenseServiceInterface {
-  private readonly dateService = inject(DateService);
   protected basePath = 'https://heroku-expense-tracker-back.herokuapp.com';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
@@ -44,7 +42,7 @@ export class ExpenseService implements ExpenseServiceInterface {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
+    @Optional() configuration: Configuration,
   ) {
     if (configuration) {
       this.configuration = configuration;
@@ -58,11 +56,7 @@ export class ExpenseService implements ExpenseServiceInterface {
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -71,11 +65,7 @@ export class ExpenseService implements ExpenseServiceInterface {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
@@ -83,15 +73,11 @@ export class ExpenseService implements ExpenseServiceInterface {
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
         (value as any[]).forEach(
-          (elem) =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+          (elem) => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)),
         );
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            this.dateService.toISOString(value as Date)
-          );
+          httpParams = httpParams.append(key, value.toISOString());
         } else {
           throw Error('key may not be null if value is Date');
         }
@@ -101,8 +87,8 @@ export class ExpenseService implements ExpenseServiceInterface {
             (httpParams = this.addToHttpParamsRecursive(
               httpParams,
               value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+              key != null ? `${key}.${k}` : k,
+            )),
         );
       }
     } else if (key != null) {
@@ -124,67 +110,54 @@ export class ExpenseService implements ExpenseServiceInterface {
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: undefined; context?: HttpContext }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext },
   ): Observable<any>;
   public deleteExpense(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: undefined; context?: HttpContext }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext },
   ): Observable<HttpResponse<any>>;
   public deleteExpense(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: undefined; context?: HttpContext }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext },
   ): Observable<HttpEvent<any>>;
   public deleteExpense(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: undefined; context?: HttpContext }
+    options?: { httpHeaderAccept?: undefined; context?: HttpContext },
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling deleteExpense.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling deleteExpense.');
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
     return this.httpClient.delete<any>(
-      `${this.configuration.basePath}/expense/${encodeURIComponent(
-        String(id)
-      )}`,
+      `${this.configuration.basePath}/expense/${encodeURIComponent(String(id))}`,
       {
         context: localVarHttpContext,
         responseType: <any>responseType_,
@@ -192,7 +165,7 @@ export class ExpenseService implements ExpenseServiceInterface {
         headers: localVarHeaders,
         observe: observe,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -207,67 +180,54 @@ export class ExpenseService implements ExpenseServiceInterface {
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<ExpenseResponse>;
   public getExpense(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpResponse<ExpenseResponse>>;
   public getExpense(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpEvent<ExpenseResponse>>;
   public getExpense(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getExpense.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getExpense.');
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
     return this.httpClient.get<ExpenseResponse>(
-      `${this.configuration.basePath}/expense/${encodeURIComponent(
-        String(id)
-      )}`,
+      `${this.configuration.basePath}/expense/${encodeURIComponent(String(id))}`,
       {
         context: localVarHttpContext,
         responseType: <any>responseType_,
@@ -275,7 +235,7 @@ export class ExpenseService implements ExpenseServiceInterface {
         headers: localVarHeaders,
         observe: observe,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 
@@ -292,59 +252,51 @@ export class ExpenseService implements ExpenseServiceInterface {
     expenseRequest: ExpenseRequest,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<ExpenseResponse>;
   public updateExpense(
     id: string,
     expenseRequest: ExpenseRequest,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpResponse<ExpenseResponse>>;
   public updateExpense(
     id: string,
     expenseRequest: ExpenseRequest,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<HttpEvent<ExpenseResponse>>;
   public updateExpense(
     id: string,
     expenseRequest: ExpenseRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
+    options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext },
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling updateExpense.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling updateExpense.');
     }
     if (expenseRequest === null || expenseRequest === undefined) {
       throw new Error(
-        'Required parameter expenseRequest was null or undefined when calling updateExpense.'
+        'Required parameter expenseRequest was null or undefined when calling updateExpense.',
       );
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
@@ -354,24 +306,16 @@ export class ExpenseService implements ExpenseServiceInterface {
     const httpContentTypeSelected: string | undefined =
       this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Content-Type',
-        httpContentTypeSelected
-      );
+      localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
     return this.httpClient.put<ExpenseResponse>(
-      `${this.configuration.basePath}/expense/${encodeURIComponent(
-        String(id)
-      )}`,
+      `${this.configuration.basePath}/expense/${encodeURIComponent(String(id))}`,
       expenseRequest,
       {
         context: localVarHttpContext,
@@ -380,7 +324,7 @@ export class ExpenseService implements ExpenseServiceInterface {
         headers: localVarHeaders,
         observe: observe,
         reportProgress: reportProgress,
-      }
+      },
     );
   }
 }
