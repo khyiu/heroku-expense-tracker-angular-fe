@@ -241,3 +241,13 @@ ng update @angular/flex-layout @angular/cli @angular/core @angular-eslint/schema
 
 For some reason, the previous command didn't update `@angular/cdk`, `@angular/core` and `@angular/flex-layout`.  
 Those dependencies had to be upgraded by manually changing their version in `package.json`
+
+
+## 12. Reboot project using latest Angular version and switch to Angular Material components
+
+Due to overwhelming difficulties to upgrade the project to the latest Angular version, while upgrading PrimeNG to a compatible version,
+I decided to reboot the project altogether and switch to Angular Material components.
+
+### 1 Internationalisation
+
+Given Angular went natively zone-less since Angular 21, I decided to switch from `ngx-translate` to `@jsverse/transloco`.
