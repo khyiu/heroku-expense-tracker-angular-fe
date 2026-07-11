@@ -2,6 +2,26 @@
   "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "5.3.0"
+    "version": "7.23.0",
+    "generators": {
+      "expense-tracker-client": {
+        "generatorName": "typescript-angular",
+        "output": "src/app/generated-sources/expense-tracker-client",
+        "inputSpec": "https://raw.githubusercontent.com/khyiu/heroku-expense-tracker-api/master/src/main/resources/heroku-expense-tracker-api.yaml",
+        "additionalProperties": {
+          "ngVersion": "22.0.0",
+          "npmName": "@kuritsu/expense-tracker-client",
+          "npmVersion": "11.6.0",
+          "supportsES6": true,
+          "providedInRoot": true,
+          "withInterfaces": true,
+          "enumPropertyNaming": "UPPERCASE",
+          "serviceSuffix": "Service",
+          "fileNaming": "kebab-case",
+          "stringEnums": true,
+          "useSingleRequestParameter": true
+        }
+      }
+    }
   }
 }
