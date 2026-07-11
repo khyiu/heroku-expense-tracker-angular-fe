@@ -3,3 +3,5 @@ node_modules
 typings
 dist
 /.idea/runConfigurations/lint.xml
+/.angular/cache/22.0.6/heroku-expense-tracker/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json
+/.angular/cache/22.0.6/heroku-expense-tracker/.tsbuildinfo
