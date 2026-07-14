@@ -32,7 +32,7 @@ jobs:
           command: npm run lint
       - run:
           name: Testing
-          command: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
+          command: npm run test -- --watch=false --no-progress --browsers=ChromiumHeadless
       - run:
           name: Extract package version
           command: |
