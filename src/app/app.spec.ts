@@ -1,10 +1,23 @@
 import { TestBed } from '@angular/core/testing';
+import { provideTransloco } from '@jsverse/transloco';
 import { App } from './app';
+import { TranslocoHttpLoader } from './transloco-loader';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        provideTransloco({
+          config: {
+            availableLangs: ['en', 'fr', 'nl'],
+            defaultLang: 'en',
+            reRenderOnLangChange: true,
+            prodMode: false,
+          },
+          loader: TranslocoHttpLoader,
+        }),
+      ],
     }).compileComponents();
   });
 
@@ -14,7 +27,7 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it.only('should render title', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;

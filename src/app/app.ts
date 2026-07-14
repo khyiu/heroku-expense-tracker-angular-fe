@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
+import {Component, signal} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'het-root',
-  imports: [RouterOutlet, TranslocoPipe],
+  imports: [RouterOutlet],
   template: `
-    <div>It's me, it's Mario {{ 'hello' | transloco }}</div>
+    <h1>{{'Hello, ' + title()}}</h1>
     <router-outlet />
   `,
 })
