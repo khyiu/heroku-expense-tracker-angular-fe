@@ -1,29 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use 'theme-tokens';
 
-@import "primeicons/primeicons.css";
-@import "primeng/resources/primeng.min.css";
-@import "primeng/resources/themes/vela-blue/theme.css";
-
-html, body {
-  height: 100%;
-  border-color: var(--surface-a);
+html {
+  @include mat.theme((
+    color: mat.$violet-palette,
+    typography: Roboto,
+    density: 0,
+  ));
 }
 
-body {
-  margin: 0;
-  background-color: var(--surface-a);
-  font-family: var(--font-family);
-  color: var(--text-color);
+:root, :host {
+  color-scheme: light;
 }
-
-.hoverable {
-  cursor: pointer;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.selected {
-  text-decoration: underline;
+.dark {
+  color-scheme: dark;
 }
